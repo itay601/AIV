@@ -13,32 +13,15 @@ namespace PacketsSniffer
         // List to store captured packets
         private static List<string> capturedPackets = new List<string>();
 
-        static void Main(string[] args)
+        public static void LiveCaptureOption()
         {
-            Console.WriteLine("Packet Sniffer Menu:");
-            Console.WriteLine("1. Live Packet Capture");
-            Console.WriteLine("2. Packet Snapshot");
-            Console.Write("Choose an option (1/2): ");
-            string choice = Console.ReadLine();
-
-            switch (choice)
-            {
-                case "1":
-                    LiveCapture();
-                    break;
-                case "2":
-                    SnapshotCapture();
-                    break;
-                default:
-                    Console.WriteLine("Invalid option selected.");
-                    return;
-            }
+            LiveCapture();
         }
-
-        static void LiveCapture()
+        private static void LiveCapture()
         {
             // List all network interfaces
-            var devices = CaptureDeviceList.Instance;
+            var devices = CaptureDeviceList.Instance; //getting devices for sniffing
+
             if (devices.Count < 1)
             {
                 Console.WriteLine("No devices found. Make sure you have the necessary permissions.");
@@ -73,8 +56,11 @@ namespace PacketsSniffer
             device.StopCapture();
             device.Close();
         }
-
-        static void SnapshotCapture()
+        public static void SnapshotCaptureOption()
+        {
+            SnapshotCapture();
+        }
+        private static void SnapshotCapture()
         {
             // List all network interfaces
             var devices = CaptureDeviceList.Instance;
@@ -149,7 +135,6 @@ namespace PacketsSniffer
         {
             ProcessPacket(e);
         }
-
         private static void ProcessPacket(PacketCapture e)
         {
             try
@@ -160,39 +145,99 @@ namespace PacketsSniffer
                 var packet = Packet.ParsePacket(rawPacket.LinkLayerType, rawPacket.Data);
                 if (packet == null) return;
 
-                // Create a detailed packet description
-                StringBuilder packetInfo = new StringBuilder();
+                var packetInfo = new StringBuilder();
 
-                // IP Packet
+                // Ethernet Frame Details
+                var ethernetPacket = packet.Extract<EthernetPacket>();
+                if (ethernetPacket != null)
+                {
+                    packetInfo.AppendLine($"Ethernet: {ethernetPacket.SourceHardwareAddress} -> {ethernetPacket.DestinationHardwareAddress}");
+                    packetInfo.AppendLine($"Ethernet Type: {ethernetPacket.Type}");
+                }
+
+                // IP Packet Analysis
                 var ipPacket = packet.Extract<IPPacket>();
                 if (ipPacket != null)
                 {
                     packetInfo.AppendLine($"IP Packet: {ipPacket.SourceAddress} -> {ipPacket.DestinationAddress}");
+                    packetInfo.AppendLine($"IP Protocol: {ipPacket.Protocol}");
+                    packetInfo.AppendLine($"IP Time to Live: {ipPacket.TimeToLive}");
                 }
 
-                // TCP Packet
+                // TCP Packet Detailed Analysis
                 var tcpPacket = packet.Extract<TcpPacket>();
                 if (tcpPacket != null)
                 {
-                    packetInfo.AppendLine($"TCP Packet: Source Port {tcpPacket.SourcePort}, Destination Port {tcpPacket.DestinationPort}");
+                    packetInfo.AppendLine($"TCP Packet: {tcpPacket.SourcePort} -> {tcpPacket.DestinationPort}");
+
+                    // SSH Detection
+                    bool isPossibleSSH = DetectSSH(tcpPacket);
+                    if (isPossibleSSH)
+                    {
+                        packetInfo.AppendLine("POTENTIAL SSH CONNECTION DETECTED!");
+                    }
+
+                    // TCP Flags Analysis
+                    packetInfo.AppendLine($"TCP Flags: {GetTcpFlagDescription(tcpPacket)}");
+                    packetInfo.AppendLine($"Sequence Number: {tcpPacket.SequenceNumber}");
+                    packetInfo.AppendLine($"Acknowledgement Number: {tcpPacket.AcknowledgmentNumber}");
                 }
 
-                // UDP Packet
+                // UDP Packet Analysis
                 var udpPacket = packet.Extract<UdpPacket>();
                 if (udpPacket != null)
                 {
-                    packetInfo.AppendLine($"UDP Packet: Source Port {udpPacket.SourcePort}, Destination Port {udpPacket.DestinationPort}");
+                    packetInfo.AppendLine($"UDP Packet: {udpPacket.SourcePort} -> {udpPacket.DestinationPort}");
                 }
 
-                // Add additional packet details
+                // ICMP Packet Analysis
+                var icmpPacket = packet.Extract<IcmpV4Packet>();
+                if (icmpPacket != null)
+                {
+                    packetInfo.AppendLine($"ICMP Packet Type: {icmpPacket.GetType()}");
+                    packetInfo.AppendLine($"ICMP Code: {icmpPacket.TypeCode}");
+                }
+                // DHCP Packet Detailed Analysis
+                var dhcpPacket = packet.Extract<DhcpV4Packet>();
+                if (dhcpPacket != null)
+                {
+                    packetInfo.AppendLine($"DHCP Packet Details:");
+                    packetInfo.AppendLine($"Operation: {dhcpPacket.Operation}");
+                    packetInfo.AppendLine($"Client IP Address: {dhcpPacket.ClientAddress}");
+                    packetInfo.AppendLine($"Your IP Address: {dhcpPacket.YourAddress}");
+                    packetInfo.AppendLine($"Server IP Address: {dhcpPacket.ServerAddress}");
+                    packetInfo.AppendLine($"Gateway IP Address: {dhcpPacket.GatewayAddress}");
+                    packetInfo.AppendLine($"DHCP Message Type: {dhcpPacket.MessageType}");
+                    packetInfo.AppendLine($"Transaction ID: {dhcpPacket.TransactionId:X8}");
+
+                    // Optional: Detailed DHCP Options
+                    foreach (var option in dhcpPacket.GetOptions())
+                    {
+                        packetInfo.AppendLine($"Option {option.OptionType}: {option.Data}");
+                    }
+                }
+
+                // Payload Analysis
+                var payloadPacket = packet.Extract<IPv4Packet>();
+                if (payloadPacket != null)
+                {
+                    string payloadHex = BitConverter.ToString(payloadPacket.Bytes).Replace("-", " ");
+                    string payloadAscii = System.Text.Encoding.ASCII.GetString(
+                        payloadPacket.Bytes.Where(b => b >= 32 && b < 127).ToArray()
+                    );
+
+                    packetInfo.AppendLine($"Payload Length: {payloadPacket.Bytes.Length} bytes");
+                    packetInfo.AppendLine($"Payload (Hex): {payloadHex}");
+                    packetInfo.AppendLine($"Payload (ASCII): {payloadAscii}");
+                }
+
+                // General Packet Metadata
                 packetInfo.AppendLine($"Packet Timestamp: {rawPacket.Timeval.Date}");
                 packetInfo.AppendLine($"Packet Length: {rawPacket.Data.Length} bytes");
                 packetInfo.AppendLine("---");
 
-                // For live capture, print immediately
+                // Output and Store
                 Console.WriteLine(packetInfo.ToString());
-
-                // Store packet for snapshot
                 capturedPackets.Add(packetInfo.ToString());
             }
             catch (Exception ex)
@@ -200,5 +245,45 @@ namespace PacketsSniffer
                 Console.WriteLine($"Error processing packet: {ex.Message}");
             }
         }
+
+        // Helper method to detect potential SSH connections
+        private static bool DetectSSH(TcpPacket tcpPacket)
+        {
+            // SSH typically uses port 22
+            bool isSSHPort = tcpPacket.SourcePort == 22 || tcpPacket.DestinationPort == 22;
+
+            // Check for SSH protocol signature
+            bool hasSSHSignature = false;
+            try
+            {
+                var payloadBytes = tcpPacket.PayloadData;
+                if (payloadBytes != null && payloadBytes.Length > 4)
+                {
+                    // SSH protocol typically starts with "SSH-"
+                    string payloadStart = System.Text.Encoding.ASCII.GetString(payloadBytes.Take(4).ToArray());
+                    hasSSHSignature = payloadStart.StartsWith("SSH-");
+                }
+            }
+            catch { }
+
+            return isSSHPort || hasSSHSignature;
+        }
+
+        // Helper method to describe TCP flags
+        private static string GetTcpFlagDescription(TcpPacket tcpPacket)
+        {
+            var flags = new List<string>();
+
+            if (tcpPacket.Synchronize) flags.Add("SYN");
+            if (tcpPacket.Acknowledgment) flags.Add("ACK");
+            if (tcpPacket.Finished) flags.Add("FIN");
+            if (tcpPacket.Reset) flags.Add("RST");
+            if (tcpPacket.Push) flags.Add("PSH");
+            if (tcpPacket.Urgent) flags.Add("URG");
+
+            return string.Join(", ", flags);
+        } 
+    
+       
     }
 }

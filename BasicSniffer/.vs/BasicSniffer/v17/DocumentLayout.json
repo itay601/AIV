@@ -1,10 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\MyProjects\\BasicSniffer\\",
+  "WorkspaceRootPath": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\PacketsSniffer.csproj|c:\\myprojects\\basicsniffer\\packetssniffer\\packetsniffer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\PacketsSniffer.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\packetsniffer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\PacketsSniffer.csproj|solutionrelative:packetssniffer\\packetsniffer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\PacketsSniffer.csproj|C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\packetssniffer\\consoleterminal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\PacketsSniffer.csproj|solutionrelative:packetssniffer\\consoleterminal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\PacketsSniffer.csproj|C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\packetssniffer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\PacketsSniffer.csproj|solutionrelative:packetssniffer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,13 +34,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ConsoleTerminal.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\ConsoleTerminal.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\ConsoleTerminal.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\ConsoleTerminal.cs",
+              "RelativeToolTip": "PacketsSniffer\\ConsoleTerminal.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAAcwBcAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-01T14:50:25.844Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Program.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\Program.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Program.cs",
+              "RelativeToolTip": "PacketsSniffer\\Program.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAwAAAAPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-01T14:48:27.2Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "PacketSniffer.cs",
-              "DocumentMoniker": "C:\\MyProjects\\BasicSniffer\\PacketsSniffer\\PacketSniffer.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\PacketSniffer.cs",
               "RelativeDocumentMoniker": "PacketsSniffer\\PacketSniffer.cs",
-              "ToolTip": "C:\\MyProjects\\BasicSniffer\\PacketsSniffer\\PacketSniffer.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\PacketSniffer.cs",
               "RelativeToolTip": "PacketsSniffer\\PacketSniffer.cs",
-              "ViewState": "AQIAAMsAAAAAAAAAAAAAAMsAAAABAAAA",
+              "ViewState": "AQIAAIcAAAAAAAAAAAAYwIoAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-30T16:53:54.684Z",
               "EditorCaption": ""

@@ -37,7 +37,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleTerminal.cs" />
     <Compile Include="PacketSniffer.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PacketDotNet, Version=1.4.8.0, Culture=neutral, PublicKeyToken=451414c7667b2a58, processorArchitecture=MSIL">
