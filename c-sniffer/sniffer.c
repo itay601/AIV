@@ -25,7 +25,7 @@ struct sockaddr_in source,dest;
 //sock_raw = socket(AF_INET , SOCK_RAW , IPPROTO_UDP);
 //sock_raw = socket(AF_INET , SOCK_RAW , IPPROTO_ICMP);
 
-
+/**/
 int main()
 {
 	int saddr_size , data_size;
