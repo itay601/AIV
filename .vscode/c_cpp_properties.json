@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "WSL",
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "cStandard": "c23",
+            "cppStandard": "c++23",
+            "compilerPath": "/usr/bin/gcc"
+        }
+    ],
+    "version": 4,
+    "enableConfigurationSquiggles": true
+}
