@@ -37,7 +37,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Database\SamplesSignitures\Architecture.cs" />
+    <Compile Include="Core\Database\SamplesSignitures\SignituresDataClasses.cs" />
+    <Compile Include="Core\Detection\FileDetection.cs" />
     <Compile Include="UI\ConsoleTerminal.cs" />
     <Compile Include="Core\Utilities\PacketSniffer.cs" />
     <Compile Include="Program.cs" />
@@ -73,7 +74,6 @@
   <ItemGroup>
     <Folder Include="AI\DataPreprocessing\" />
     <Folder Include="AI\MachineLearning\" />
-    <Folder Include="Core\Detection\" />
     <Folder Include="Core\Models\" />
     <Folder Include="Core\Scanners\" />
     <Folder Include="Monitoring\" />
