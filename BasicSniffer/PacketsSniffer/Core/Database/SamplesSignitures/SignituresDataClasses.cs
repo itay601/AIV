@@ -6,10 +6,87 @@ using System.Threading.Tasks;
 
 namespace PacketsSniffer.Core.Database.SamplesSignitures
 {
-    class Architecture
+    public class Hashes
     {
+        public string Sha256 { get; set; }
+        public string Sha3_384 { get; set; }
+        public string Sha1 { get; set; }
+        public string Md5 { get; set; }
+        public string Humanhash { get; set; }
+    }
+    public class FileInfo
+    {
+        public string FileName { get; set; }
+        public long FileSize { get; set; }
+        public string FileType { get; set; }
+        public string MimeType { get; set; }
+        public string OriginCountry { get; set; }
+        public DateTime? FirstSeen { get; set; }
+        public DateTime? LastSeen { get; set; }
+        public List<string> DeliveryMethods { get; set; }
+    }
+    public class Classification
+    {
+        public string MalwareFamily { get; set; }
+        public int ThreatLevel { get; set; }
+        public int DetectionConfidence { get; set; }
+        public List<string> Tags { get; set; }
+    }
+    public class Behavior
+    {
+        public bool CpuChecks { get; set; }
+        public bool MemoryChecks { get; set; }
+        public bool RuntimeBroadcastReceiver { get; set; }
+        public bool TaskScheduling { get; set; }
+        public bool CryptoApiUsage { get; set; }
+        public bool SensorEnvironmentMonitoring { get; set; }
+        public bool MccQuery { get; set; }
+        public bool BatteryOptimizationRequest { get; set; }
+        public bool DroppedDexJar { get; set; }
+        public bool AccessibilityServiceUsage { get; set; }
+        public bool ClipboardDataAccess { get; set; }
+        public bool InstalledAppListQuery { get; set; }
+        public bool PhoneNumberQuery { get; set; }
+    }
+
+    public class Ioc
+    {
+        public List<string> C2Servers { get; set; }
+    }
+
+    public class VendorDetection
+    {
+        public string Vendor { get; set; }
+        public string Verdict { get; set; }
+        public double? ThreatLevel { get; set; }
+        public int? Confidence { get; set; }
+        public string Link { get; set; }
+        public int? Score { get; set; }
+        public string ThreatName { get; set; }
+        public string Family { get; set; }
+    }
+
+    public class YaraRule
+    {
+        public string RuleName { get; set; }
+        public string Author { get; set; }
+        public string Description { get; set; }
+    }
+
+    public class SignituresDataClasses
+    {
+        public Hashes Hashes { get; set; }
+        public FileInfo FileInfo { get; set; }
+        public Classification Classification { get; set; }
+        public Behavior Behavior { get; set; }
+        public Ioc Ioc { get; set; }
+        public List<VendorDetection> VendorDetections { get; set; }
+        public List<YaraRule> YaraRules { get; set; }
+
 
     }
+
+
 }
 /*
  {

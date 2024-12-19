@@ -3,11 +3,15 @@
   "WorkspaceRootPath": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\core\\database\\samplessignitures\\architecture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\core\\database\\samplessignitures\\architecture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\core\\detection\\filedetection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\core\\detection\\filedetection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\ui\\consoleterminal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\packetssniffer\\core\\database\\samplessignitures\\signituresdataclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\core\\database\\samplessignitures\\signituresdataclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\packetssniffer\\ui\\consoleterminal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\ui\\consoleterminal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -35,19 +39,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Architecture.cs",
-              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\Architecture.cs",
-              "RelativeDocumentMoniker": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\Architecture.cs",
-              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\Architecture.cs",
-              "RelativeToolTip": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\Architecture.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Title": "FileDetection.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Detection\\FileDetection.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\Core\\Detection\\FileDetection.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Detection\\FileDetection.cs",
+              "RelativeToolTip": "PacketsSniffer\\Core\\Detection\\FileDetection.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAuwBsAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T18:26:12.35Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SignituresDataClasses.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
+              "RelativeToolTip": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAxwFIAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-18T17:12:05.998Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ConsoleTerminal.cs",
               "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\UI\\ConsoleTerminal.cs",
               "RelativeDocumentMoniker": "PacketsSniffer\\UI\\ConsoleTerminal.cs",
@@ -55,12 +72,11 @@
               "RelativeToolTip": "PacketsSniffer\\UI\\ConsoleTerminal.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAUwBUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-17T15:50:39.438Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-17T15:50:39.438Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Program.cs",
               "RelativeDocumentMoniker": "PacketsSniffer\\Program.cs",
@@ -69,6 +85,10 @@
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-17T16:20:05.674Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
             }
           ]
         }
