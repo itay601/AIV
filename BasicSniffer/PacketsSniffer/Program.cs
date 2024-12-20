@@ -10,7 +10,8 @@ namespace PacketsSniffer
     {
         static void Main(string[] args)
         {
-            ConsoleTerminal.SnifferConsole();
+            ConsoleTerminal.MalwareDetector();
+           // ConsoleTerminal.SnifferConsole();
         }
     }
 }

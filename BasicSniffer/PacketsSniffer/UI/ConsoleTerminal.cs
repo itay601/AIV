@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PacketsSniffer.Core.Detection;
+
 
 namespace PacketsSniffer
 {
@@ -16,6 +18,25 @@ namespace PacketsSniffer
         //{
 
         //}
+        public static void MalwareDetector()
+        {
+            string connectionString = "your_sql_connection_string_here";
+            var detector = new FileDetection(connectionString);
+
+            // Check a single file
+            string filePath = "C:\\MyProjects\\a.dll";
+            if (detector.CheckFile(filePath))
+            {
+                Console.WriteLine("Malware detected!");
+            }
+            else
+            {
+                Console.WriteLine("File is clean.");
+            }
+
+            // Check all files on the computer
+            detector.CheckAllFiles();
+        }
 
 
         public static void SnifferConsole()
