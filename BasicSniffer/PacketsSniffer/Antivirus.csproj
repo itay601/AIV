@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Database\SamplesSignitures\SignituresDataClasses.cs" />
+    <None Include="Core\Database\sql\Dockerfile" />
     <Compile Include="Core\Detection\FileDetection.cs" />
     <Compile Include="UI\ConsoleTerminal.cs" />
     <Compile Include="Core\Utilities\PacketSniffer.cs" />
@@ -56,6 +57,10 @@
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlClient, Version=4.6.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.9.0\lib\net462\System.Data.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
@@ -80,6 +85,9 @@
     <Folder Include="Performance\" />
     <Folder Include="Service\" />
     <Folder Include="ThreatIntelligence\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Core\Database\sql\DB.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
