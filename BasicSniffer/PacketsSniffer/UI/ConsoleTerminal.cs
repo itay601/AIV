@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 using PacketsSniffer.Core.Detection;
 
 
@@ -20,11 +23,11 @@ namespace PacketsSniffer
         //}
         public static void MalwareDetector()
         {
-            string connectionString = "your_sql_connection_string_here";
+            string connectionString = "Server=127.0.0.1;port=3456;database=Samples;uid=root;pwd=my-secret-pw;";
             var detector = new FileDetection(connectionString);
 
-            // Check a single file
-            string filePath = "C:\\MyProjects\\a.dll";
+            // Check a single file"
+            string filePath = "C:\\MyProjects\\a.exe";
             if (detector.CheckFile(filePath))
             {
                 Console.WriteLine("Malware detected!");
@@ -35,7 +38,7 @@ namespace PacketsSniffer
             }
 
             // Check all files on the computer
-            detector.CheckAllFiles();
+            //detector.CheckAllFiles();
         }
 
 

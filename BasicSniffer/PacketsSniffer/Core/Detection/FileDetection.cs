@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using MySql.Data.MySqlClient;
 using PacketsSniffer.Core.Database.SamplesSignitures;
 
 
@@ -12,8 +13,7 @@ namespace PacketsSniffer.Core.Detection
 {
     class FileDetection
     {
-        private readonly string _connectionString = "Server=127.0.0.1;Port=3456;Database=YourDatabaseName;Uid=root;Pwd=my-secret-pw;";
-
+        private readonly string _connectionString = "Server=127.0.0.1;port=3456;database=Samples;uid=root;pwd=my-secret-pw;";//LOCAL IMAGE MYSQL
         public FileDetection(string connectionString)
         {
             _connectionString = connectionString;
@@ -23,12 +23,11 @@ namespace PacketsSniffer.Core.Detection
         private List<string> FetchMalwareHashes()
         {
             var hashes = new List<string>();
-
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
                 var query = "SELECT Sha256 FROM Hashes";
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new MySqlCommand(query, connection))
                 {
                     using (var reader = command.ExecuteReader())
                     {
@@ -65,19 +64,32 @@ namespace PacketsSniffer.Core.Detection
         {
             try
             {
+                if (!File.Exists(filePath))
+                {
+                    Console.WriteLine($"File does not exist: {filePath}");
+                    return false;
+                }
+
                 var fileHash = ComputeSha256Hash(filePath);
                 var malwareHashes = FetchMalwareHashes();
-
                 return malwareHashes.Contains(fileHash);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error checking file {filePath}: {ex.Message}");
-                return false;
+                // Log the full exception details
+                Console.WriteLine($"Error checking file {filePath}:");
+                Console.WriteLine($"Exception type: {ex.GetType().Name}");
+                Console.WriteLine($"Message: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                throw; // Re-throw to see the full error chain
             }
         }
 
         // Check all files on the computer
+        /// <summary>
+        /// check all files in system NOT IMPLIMENTED !!!!!!!!!!!!
+        /// </summary>
+        /// <param name="rootDirectory"></param>
         public void CheckAllFiles(string rootDirectory = "C:\\")
         {
             try
