@@ -16,17 +16,18 @@ namespace PacketsSniffer
         /// <summary>
         /// Options of the console
         /// </summary>
-        /// 
-        //public static void AllOptionsConsole()
-        //{
-
-        //}
-        public static void MalwareDetector()
-        {
-            string connectionString = "Server=127.0.0.1;port=3456;database=Samples;uid=root;pwd=my-secret-pw;";
-            var detector = new FileDetection(connectionString);
-
-            // Check a single file"
+        /// Mallware detector Section 
+       
+        public static void MalwareDetectorSingleFile()
+        {   
+            var detector = new FileDetection();
+            //enter file location
+            string fileLocation = null;
+            while (fileLocation != null) 
+            {
+                Console.WriteLine("Enter file location");
+                fileLocation = Console.ReadLine();
+            }
             string filePath = "C:\\MyProjects\\a.exe";
             if (detector.CheckFile(filePath))
             {
@@ -40,12 +41,46 @@ namespace PacketsSniffer
             // Check all files on the computer
             //detector.CheckAllFiles();
         }
+        public static void MalwareDetectorAllFiles()
+        {
+            var detector = new FileDetection();
+            detector.CheckAllFiles();
+        }
+        public static void MalwareDetectorConsole() 
+        {
+            string choice = "-1";
+            while (choice != "exit")
+            {
+                Console.WriteLine("Malware Detector Menu:");
+                Console.WriteLine("1. Single file");
+                Console.WriteLine("2. All Files");
+                Console.Write("Choose an option (1/2): ");
+                choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        MalwareDetectorSingleFile();
+                        break;
+                    case "2":
+                        MalwareDetectorAllFiles();
+                        break;
+                    case "exit":
+                        return;
+                    default:
+                        Console.WriteLine("Invalid option selected.");
+                        return;
+                }
+                Ex02.ConsoleUtils.Screen.Clear();
+            }
+        }
 
-
+        /// <summary>
+        /// Packets Sniffer Section
+        /// </summary>
         public static void SnifferConsole()
         {
             string choice = "-1";
-            while (choice != "ëxit")
+            while (choice != "exit")
             {
                 Console.WriteLine("Packet Sniffer Menu:");
                 Console.WriteLine("1. Live Packet Capture");
