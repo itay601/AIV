@@ -13,10 +13,10 @@ namespace PacketsSniffer.Core.Detection
 {
     class FileDetection
     {
-        private readonly string _connectionString = "Server=127.0.0.1;port=3456;database=Samples;uid=root;pwd=my-secret-pw;";//LOCAL IMAGE MYSQL
-        public FileDetection(string connectionString)
+        private readonly string _connectionString;//LOCAL IMAGE MYSQL
+        public FileDetection()
         {
-            _connectionString = connectionString;
+            _connectionString = "Server=127.0.0.1;port=3456;database=Samples;uid=root;pwd=my-secret-pw;";
         }
 
         // Fetch malware hashes from the database
