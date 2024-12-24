@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace PacketsSniffer.Core.Database.SamplesSignitures
 {
+    public class DNSQuery
+    {
+        public string Domain { get; set; }
+        public ushort Type { get; set; }
+    }
     public class Hashes
     {
         public string Sha256 { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PacketsSniffer.Core.Detection;
 
 namespace PacketsSniffer.UI
 {
@@ -26,6 +27,8 @@ namespace PacketsSniffer.UI
                         break;
                     case "2":
                         ConsoleTerminal.MalwareDetectorConsole();
+                        break;
+                    case "3":
                         break;
                     case "exit":
                         return;
