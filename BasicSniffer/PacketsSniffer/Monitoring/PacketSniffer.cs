@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpPcap;
 using PacketDotNet;
+using PacketsSniffer.Core.Detection;
 
 namespace PacketsSniffer
 {
@@ -282,8 +283,54 @@ namespace PacketsSniffer
             if (tcpPacket.Urgent) flags.Add("URG");
 
             return string.Join(", ", flags);
-        } 
-    
-       
+        }
+        public static void StartDisplayAnalayes()
+        {
+            // Initialize analyzer
+            var analyzer = new ThreatPacketsAnalyzer();
+
+            var devices = CaptureDeviceList.Instance; //getting devices for sniffing
+
+            if (devices.Count < 1)
+            {
+                Console.WriteLine("No devices found. Make sure you have the necessary permissions.");
+                return;
+            }
+
+            // Print available devices
+            Console.WriteLine("Available Network Interfaces:");
+            for (int i = 0; i < devices.Count; i++)
+            {
+                Console.WriteLine($"{i}. {devices[i].Description}");
+            }
+
+            // Select a device to sniff
+            Console.Write("Enter the number of the interface to sniff: ");
+            int deviceIndex = int.Parse(Console.ReadLine());
+            var device = devices[deviceIndex];
+
+            // Start capturing packets
+            device.OnPacketArrival += PacketArrivalEventHandler;
+
+            Console.WriteLine($"Starting capture on {device.Description}...");
+            // Open the device
+            device.Open(DeviceModes.Promiscuous);
+            Console.WriteLine($"Listening on {device.Description}");
+
+            // Start capture
+            device.OnPacketArrival += (sender, e) =>
+            {
+                var packet = Packet.ParsePacket(e.GetPacket().LinkLayerType, e.GetPacket().Data);
+                analyzer.AnalyzePacket(packet);
+            };
+
+            device.StartCapture();
+
+            Console.WriteLine("Press Enter to stop capturing...");
+            Console.ReadLine();
+
+            device.StopCapture();
+            device.Close();
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using PacketsSniffer.Core.Detection;
+using PacketsSniffer.UI;
 
 
 namespace PacketsSniffer
@@ -85,7 +86,8 @@ namespace PacketsSniffer
                 Console.WriteLine("Packet Sniffer Menu:");
                 Console.WriteLine("1. Live Packet Capture");
                 Console.WriteLine("2. Packet Snapshot");
-                Console.Write("Choose an option (1/2): ");
+                Console.WriteLine("3. Background Packets Analysis");
+                Console.Write("Choose an option (1/2/3): ");
                 choice = Console.ReadLine();
 
                 switch (choice)
@@ -95,6 +97,9 @@ namespace PacketsSniffer
                         break;
                     case "2":
                         PacketSniffer.SnapshotCaptureOption();
+                        break;
+                    case "3":
+                        BackgroundMonitoringConsole.DisplayPacketBackgroundCheck();
                         break;
                     case "exit":
                         return;
