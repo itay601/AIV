@@ -39,6 +39,8 @@
   <ItemGroup>
     <Compile Include="Core\Database\SamplesSignitures\MallwareSignituresDatabaseMaintain.cs" />
     <Compile Include="Core\Database\SamplesSignitures\SignituresDataClasses.cs" />
+    <Compile Include="Monitoring\DnsPacket.cs" />
+    <Compile Include="Monitoring\PacketExtensions.cs" />
     <Compile Include="Monitoring\SuspiciousPacketsAnalayzer.cs" />
     <Compile Include="UI\BackgroundMonitoringConsole.cs" />
     <Compile Include="UI\MainConsole.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PacketsSniffer.Core.Detection;
 
 namespace PacketsSniffer.Core.Database.SamplesSignitures
 {
@@ -10,6 +11,7 @@ namespace PacketsSniffer.Core.Database.SamplesSignitures
     {
         public string Domain { get; set; }
         public ushort Type { get; set; }
+        public ThreatPacketsAnalyzer.DnsRecordType RecordType { get; internal set; }
     }
     public class Hashes
     {
