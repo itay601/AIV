@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\packetssniffer\\monitoring\\suspiciouspacketsanalayzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\monitoring\\suspiciouspacketsanalayzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\monitoring\\dns\\dnspacketsanalayzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\monitoring\\dns\\dnspacketsanalayzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\monitoring\\dnspacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\monitoring\\dnspacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\monitoring\\packetsniffer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\monitoring\\packetsniffer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\ui\\backgroundmonitoringconsole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\ui\\backgroundmonitoringconsole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,21 +22,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DnsPacket.cs",
-              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\DnsPacket.cs",
-              "RelativeDocumentMoniker": "PacketsSniffer\\Monitoring\\DnsPacket.cs",
-              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\DnsPacket.cs",
-              "RelativeToolTip": "PacketsSniffer\\Monitoring\\DnsPacket.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAowCAAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T16:41:39.018Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
@@ -47,13 +38,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BackgroundMonitoringConsole.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\UI\\BackgroundMonitoringConsole.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\UI\\BackgroundMonitoringConsole.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\UI\\BackgroundMonitoringConsole.cs",
+              "RelativeToolTip": "PacketsSniffer\\UI\\BackgroundMonitoringConsole.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-26T14:27:27.37Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PacketSniffer.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\PacketSniffer.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\Monitoring\\PacketSniffer.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\PacketSniffer.cs",
+              "RelativeToolTip": "PacketsSniffer\\Monitoring\\PacketSniffer.cs",
+              "ViewState": "AgIAADUBAAAAAAAAAAAiwEgBAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-26T14:25:42.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SuspiciousPacketsAnalayzer.cs",
-              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\SuspiciousPacketsAnalayzer.cs",
-              "RelativeDocumentMoniker": "PacketsSniffer\\Monitoring\\SuspiciousPacketsAnalayzer.cs",
-              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\SuspiciousPacketsAnalayzer.cs",
-              "RelativeToolTip": "PacketsSniffer\\Monitoring\\SuspiciousPacketsAnalayzer.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAAwHQAAAAZAAAAAAAAAA==",
+              "Title": "DnsPacketsAnalayzer.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\DNS\\DnsPacketsAnalayzer.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\Monitoring\\DNS\\DnsPacketsAnalayzer.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\DNS\\DnsPacketsAnalayzer.cs",
+              "RelativeToolTip": "PacketsSniffer\\Monitoring\\DNS\\DnsPacketsAnalayzer.cs",
+              "ViewState": "AgIAAG8AAAAAAAAAAADgv4sAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-24T16:00:04.643Z",
               "EditorCaption": ""

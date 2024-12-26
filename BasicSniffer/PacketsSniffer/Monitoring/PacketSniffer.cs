@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SharpPcap;
 using PacketDotNet;
 using PacketsSniffer.Core.Detection;
-
+using DnsClient;
 namespace PacketsSniffer
 {
     class PacketSniffer
@@ -287,7 +287,7 @@ namespace PacketsSniffer
         public static void StartDisplayAnalayes()
         {
             // Initialize analyzer
-            var analyzer = new ThreatPacketsAnalyzer();
+            var analyzer = new DNSThreatPacketsAnalyzer();
 
             var devices = CaptureDeviceList.Instance; //getting devices for sniffing
 
@@ -321,7 +321,14 @@ namespace PacketsSniffer
             device.OnPacketArrival += (sender, e) =>
             {
                 var packet = Packet.ParsePacket(e.GetPacket().LinkLayerType, e.GetPacket().Data);
-                analyzer.AnalyzePacket(packet);
+                if (packet != null)
+                {
+                    
+
+                    //DNS all happendways 
+                    analyzer.DNSAnalyzePacket(packet);
+
+                }
             };
 
             device.StartCapture();
