@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PacketsSniffer.Core.Database.SamplesSignitures;
-using static PacketsSniffer.Core.Detection.ThreatPacketsAnalyzer;
+using static PacketsSniffer.Core.Detection.DNSThreatPacketsAnalyzer;
 using PacketsSniffer.Monitoring;
 using PacketsSniffer.Core.Detection;
 
@@ -41,7 +41,7 @@ namespace PacketsSniffer.Monitoring
 
                 // Check record type
                 var recordType = (DnsRecordType)queryType;
-                if (ThreatPacketsAnalyzer.IsUnusualRecordType(recordType))
+                if (DNSThreatPacketsAnalyzer.IsUnusualRecordType(recordType))
                 {
                     Console.WriteLine($"Unusual DNS record type detected: {recordType}");
                 }

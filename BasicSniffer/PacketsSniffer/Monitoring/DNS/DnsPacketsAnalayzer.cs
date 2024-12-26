@@ -8,12 +8,15 @@ using System.Collections.Generic;
 using System.Text;
 using PacketsSniffer.Core.Database.SamplesSignitures;
 using PacketsSniffer.Monitoring;
-
+using System.Threading.Tasks;
+using System.Linq;
+using DnsClient;
+//using DnsClient;
 
 namespace PacketsSniffer.Core.Detection
 {
     // Add these helper methods to ThreatAnalyzer class
-    public class ThreatPacketsAnalyzer
+    public class DNSThreatPacketsAnalyzer
     {
         private Dictionary<string, Queue<DateTime>> domainRequests = new Dictionary<string, Queue<DateTime>>();
         private Dictionary<string, HashSet<string>> fastFluxDomains = new Dictionary<string, HashSet<string>>();
@@ -35,7 +38,7 @@ namespace PacketsSniffer.Core.Detection
         }
         
 
-        private void CheckUserAgent(string payload)
+        public void CheckUserAgent(string payload)
         {
             string[] suspiciousPatterns = {
                 "curl", "wget", "python-requests", "nikto", "sqlmap"
@@ -78,7 +81,7 @@ namespace PacketsSniffer.Core.Detection
         }
 
 
-        public void AnalyzePacket(Packet packet)
+        public async void DNSAnalyzePacket(Packet packet)
         {
             try
             {
@@ -116,14 +119,10 @@ namespace PacketsSniffer.Core.Detection
                             EmitMetrics("suspicious_dns_queries", 1);
                         }
                     }
-
-                    //// Check for fast-flux DNS if there are answers
-                    //if (dnsPacket.Answers != null && dnsPacket.Answers.Any())
-                    //{
-                    //    CheckFastFlux(dnsPacket.Answers);
-                    //}
                 }
-
+                ///check FastFlux Domains
+                //need to be implemented automatic from the packets analyzer
+                CheckFlucDomain();
                 // Extract TCP/UDP packet
                 var tcpPacket = packet.Extract<TcpPacket>();
                 var udpPacket = packet.Extract<UdpPacket>();
@@ -215,42 +214,73 @@ namespace PacketsSniffer.Core.Detection
                 RaiseAlert($"Possible DNS tunneling detected: {domain}");
             }
         }
-       
 
-        ///// <summary>
-        ///// Checks for fast-flux domains in the provided DNS answers.
-        ///// </summary>
-        ///// <param name="answers">The DNS answers to check.</param>
-        //private void CheckFastFlux(DnsAnswerCollection answers)
-        //{
-        //    // Iterate over each answer in the collection
-        //    foreach (var answer in answers)
-        //    {
-        //        // Only consider A and AAAA record types
-        //        if (answer.RecordType != DnsRecordType.A && answer.RecordType != DnsRecordType.AAAA)
-        //        {
-        //            continue;
-        //        }
 
-        //        // Extract the domain from the answer and convert to lowercase
-        //        var domain = answer.Domain.ToLowerInvariant();
+        private readonly LookupClient _client;
 
-        //        // Add the domain to the fast-flux domains dictionary if it doesn't exist
-        //        if (!fastFluxDomains.TryGetValue(domain, out var addresses))
-        //        {
-        //            fastFluxDomains[domain] = addresses = new HashSet<string>();
-        //        }
+        public DNSThreatPacketsAnalyzer()
+        {
+            _client = new LookupClient();
+        }
 
-        //        // Add the answer's address to the set of addresses for the domain
-        //        addresses.Add(answer.Address.ToString());
+        public async void CheckFlucDomain()
+        {
+            var checker = new DNSThreatPacketsAnalyzer();
+            var result = await checker.CheckDomain("example.com");
 
-        //        // Check if the number of addresses for the domain exceeds the threshold
-        //        if (addresses.Count > 5)
-        //        {
-        //            // Raise an alert if the threshold is exceeded
-        //            RaiseAlert($"Possible fast-flux detected: {domain}");
-        //        }
-        //    }
-        //}
+            if (result.Error != null)
+            {
+                Console.WriteLine(result.Error);
+                return;
+            }
+
+            //Console.WriteLine($"Unique IPs found: {result.UniqueIPs}");
+            //System.Threading.Thread.Sleep(100);
+
+            //foreach (var ip in result.IpFrequency)
+            //{
+            //    Console.WriteLine($"IP: {ip.Key}, Frequency: {ip.Value}");
+            //}
+
+        }
+
+        public async Task<FluxCheckResult> CheckDomain(string domain, int queryCount = 10, int delayMs = 1000)
+        {
+            var ipFrequency = new Dictionary<string, int>();
+
+            for (int i = 0; i < queryCount; i++)
+            {
+                try
+                {
+                    var result = await _client.QueryAsync(domain, QueryType.A);
+                    var addresses = result.Answers
+                        .ARecords()
+                        .Select(r => r.Address.ToString());
+
+                    foreach (var ip in addresses)
+                    {
+                        if (!ipFrequency.ContainsKey(ip))
+                            ipFrequency[ip] = 0;
+                        ipFrequency[ip]++;
+                    }
+
+                    await Task.Delay(delayMs);
+                }
+                catch (DnsResponseException ex)
+                {
+                    return new FluxCheckResult
+                    {
+                        Error = $"DNS error for {domain}: {ex.Message}"
+                    };
+                }
+            }
+
+            return new FluxCheckResult
+            {
+                UniqueIPs = ipFrequency.Count,
+                TotalQueries = queryCount,
+                IpFrequency = ipFrequency
+            };
+        }
     } 
 }
