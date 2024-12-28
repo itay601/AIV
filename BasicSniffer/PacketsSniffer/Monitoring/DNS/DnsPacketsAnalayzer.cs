@@ -117,6 +117,7 @@ namespace PacketsSniffer.Core.Detection
                         {
                             RaiseAlert($"Suspicious DNS query detected: {query.Domain}");
                             EmitMetrics("suspicious_dns_queries", 1);
+                            Console.ReadLine(); //for stopping the program
                         }
                     }
                 }
@@ -222,15 +223,18 @@ namespace PacketsSniffer.Core.Detection
         {
             _client = new LookupClient();
         }
-
+        /// <summary>
+        /// /FIX THIS FUNCTION FOR PACKETS DOMAIN CHECK 
+        /// </summary>
         public async void CheckFlucDomain()
         {
             var checker = new DNSThreatPacketsAnalyzer();
-            var result = await checker.CheckDomain("example.com");
+            var result = await checker.CheckDomain("malicious-domain.com");
 
             if (result.Error != null)
             {
                 Console.WriteLine(result.Error);
+                RaiseAlert($"Possible DNS  detected: {result.Error}");
                 return;
             }
 

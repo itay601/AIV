@@ -7,7 +7,6 @@ using PacketDotNet;
 
 namespace PacketsSniffer.Monitoring
 {
-
     public static class PacketExtensions
     {
         public static DnsPacket Extract<T>(this Packet packet) where T : DnsPacket

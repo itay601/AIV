@@ -7,6 +7,8 @@ using SharpPcap;
 using PacketDotNet;
 using PacketsSniffer.Core.Detection;
 using DnsClient;
+using System.Net;
+using Org.BouncyCastle.Bcpg;
 namespace PacketsSniffer
 {
     class PacketSniffer
@@ -143,7 +145,7 @@ namespace PacketsSniffer
                 var rawPacket = e.GetPacket();
                 if (rawPacket == null) return;
 
-                var packet = Packet.ParsePacket(rawPacket.LinkLayerType, rawPacket.Data);
+                var packet = PacketDotNet.Packet.ParsePacket(rawPacket.LinkLayerType, rawPacket.Data);
                 if (packet == null) return;
 
                 var packetInfo = new StringBuilder();
@@ -182,6 +184,8 @@ namespace PacketsSniffer
                     packetInfo.AppendLine($"TCP Flags: {GetTcpFlagDescription(tcpPacket)}");
                     packetInfo.AppendLine($"Sequence Number: {tcpPacket.SequenceNumber}");
                     packetInfo.AppendLine($"Acknowledgement Number: {tcpPacket.AcknowledgmentNumber}");
+                    var analyzer = new DNSThreatPacketsAnalyzer();
+                    analyzer.DNSAnalyzePacket(tcpPacket);
                 }
 
                 // UDP Packet Analysis
@@ -189,6 +193,9 @@ namespace PacketsSniffer
                 if (udpPacket != null)
                 {
                     packetInfo.AppendLine($"UDP Packet: {udpPacket.SourcePort} -> {udpPacket.DestinationPort}");
+                    // Initialize analyzer
+                    var analyzer = new DNSThreatPacketsAnalyzer();
+                    analyzer.DNSAnalyzePacket(udpPacket);
                 }
 
                 // ICMP Packet Analysis
@@ -286,11 +293,7 @@ namespace PacketsSniffer
         }
         public static void StartDisplayAnalayes()
         {
-            // Initialize analyzer
-            var analyzer = new DNSThreatPacketsAnalyzer();
-
             var devices = CaptureDeviceList.Instance; //getting devices for sniffing
-
             if (devices.Count < 1)
             {
                 Console.WriteLine("No devices found. Make sure you have the necessary permissions.");
@@ -316,20 +319,6 @@ namespace PacketsSniffer
             // Open the device
             device.Open(DeviceModes.Promiscuous);
             Console.WriteLine($"Listening on {device.Description}");
-
-            // Start capture
-            device.OnPacketArrival += (sender, e) =>
-            {
-                var packet = Packet.ParsePacket(e.GetPacket().LinkLayerType, e.GetPacket().Data);
-                if (packet != null)
-                {
-                    
-
-                    //DNS all happendways 
-                    analyzer.DNSAnalyzePacket(packet);
-
-                }
-            };
 
             device.StartCapture();
 
