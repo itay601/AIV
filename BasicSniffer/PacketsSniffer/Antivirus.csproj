@@ -40,7 +40,7 @@
     <Compile Include="Core\Database\SamplesSignitures\MallwareSignituresDatabaseMaintain.cs" />
     <Compile Include="Core\Database\SamplesSignitures\SignituresDataClasses.cs" />
     <Compile Include="Monitoring\DNS\DnsPacket.cs" />
-    <Compile Include="Monitoring\HttpHttps.cs" />
+    <Compile Include="Monitoring\webPages\HttpHttps.cs" />
     <Compile Include="Monitoring\PacketExtensions.cs" />
     <Compile Include="Monitoring\DNS\DnsPacketsAnalayzer.cs" />
     <Compile Include="UI\BackgroundMonitoringConsole.cs" />
