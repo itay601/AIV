@@ -9,13 +9,13 @@ using PacketsSniffer.Core.Detection;
 using DnsClient;
 using System.Net;
 using Org.BouncyCastle.Bcpg;
+using PacketsSniffer.Monitoring.PacketAnalyzer;
 namespace PacketsSniffer
 {
     class PacketSniffer
     {
         // List to store captured packets
         private static List<string> capturedPackets = new List<string>();
-
         public static void LiveCaptureOption()
         {
             LiveCapture();
@@ -186,6 +186,11 @@ namespace PacketsSniffer
                     packetInfo.AppendLine($"Acknowledgement Number: {tcpPacket.AcknowledgmentNumber}");
                     var analyzer = new DNSThreatPacketsAnalyzer();
                     analyzer.DNSAnalyzePacket(tcpPacket);
+                    if (tcpPacket.DestinationPort == 80 || tcpPacket.SourcePort == 443)
+                    {
+                        var httpPacket = new HttpPacketAnalyzer();
+                        httpPacket.AnalyzePacketHTTP(tcpPacket);
+                    }
                 }
 
                 // UDP Packet Analysis
@@ -290,43 +295,6 @@ namespace PacketsSniffer
             if (tcpPacket.Urgent) flags.Add("URG");
 
             return string.Join(", ", flags);
-        }
-        public static void StartDisplayAnalayes()
-        {
-            var devices = CaptureDeviceList.Instance; //getting devices for sniffing
-            if (devices.Count < 1)
-            {
-                Console.WriteLine("No devices found. Make sure you have the necessary permissions.");
-                return;
-            }
-
-            // Print available devices
-            Console.WriteLine("Available Network Interfaces:");
-            for (int i = 0; i < devices.Count; i++)
-            {
-                Console.WriteLine($"{i}. {devices[i].Description}");
-            }
-
-            // Select a device to sniff
-            Console.Write("Enter the number of the interface to sniff: ");
-            int deviceIndex = int.Parse(Console.ReadLine());
-            var device = devices[deviceIndex];
-
-            // Start capturing packets
-            device.OnPacketArrival += PacketArrivalEventHandler;
-
-            Console.WriteLine($"Starting capture on {device.Description}...");
-            // Open the device
-            device.Open(DeviceModes.Promiscuous);
-            Console.WriteLine($"Listening on {device.Description}");
-
-            device.StartCapture();
-
-            Console.WriteLine("Press Enter to stop capturing...");
-            Console.ReadLine();
-
-            device.StopCapture();
-            device.Close();
         }
     }
 }
