@@ -13,7 +13,7 @@ namespace PacketsSniffer.UI
     {
        public static void DisplayPacketBackgroundCheck()
         {
-            PacketSniffer.StartDisplayAnalayes();
+            PacketSniffer.LiveCaptureOption();
         }
     }
 }
