@@ -16,11 +16,7 @@ namespace PacketsSniffer
     {
         // List to store captured packets
         private static List<string> capturedPackets = new List<string>();
-        public static void LiveCaptureOption()
-        {
-            LiveCapture();
-        }
-        private static void LiveCapture()
+        public static ILiveDevice SniffInstance()
         {
             // List all network interfaces
             var devices = CaptureDeviceList.Instance; //getting devices for sniffing
@@ -28,7 +24,7 @@ namespace PacketsSniffer
             if (devices.Count < 1)
             {
                 Console.WriteLine("No devices found. Make sure you have the necessary permissions.");
-                return;
+                return null;
             }
 
             // Print available devices
@@ -41,7 +37,17 @@ namespace PacketsSniffer
             // Select a device to sniff
             Console.Write("Enter the number of the interface to sniff: ");
             int deviceIndex = int.Parse(Console.ReadLine());
-            var device = devices[deviceIndex];
+            return devices[deviceIndex];
+        }
+
+        public static void LiveCaptureOption()
+        {
+            LiveCapture();
+        }
+        private static void LiveCapture()
+        {
+            //choose sniff instance
+            var device = SniffInstance();
 
             // Open the device
             device.Open(DeviceModes.Promiscuous);
@@ -57,6 +63,7 @@ namespace PacketsSniffer
 
             // Stop the capture
             device.StopCapture();
+            Console.ReadLine();
             device.Close();
         }
         public static void SnapshotCaptureOption()
@@ -65,25 +72,8 @@ namespace PacketsSniffer
         }
         private static void SnapshotCapture()
         {
-            // List all network interfaces
-            var devices = CaptureDeviceList.Instance;
-            if (devices.Count < 1)
-            {
-                Console.WriteLine("No devices found. Make sure you have the necessary permissions.");
-                return;
-            }
-
-            // Print available devices
-            Console.WriteLine("Available Network Interfaces:");
-            for (int i = 0; i < devices.Count; i++)
-            {
-                Console.WriteLine($"{i}. {devices[i].Description}");
-            }
-
-            // Select a device to sniff
-            Console.Write("Enter the number of the interface to sniff: ");
-            int deviceIndex = int.Parse(Console.ReadLine());
-            var device = devices[deviceIndex];
+            // choose sniff instance
+            var device = SniffInstance();
 
             // Open the device
             device.Open(DeviceModes.Promiscuous);
@@ -110,7 +100,6 @@ namespace PacketsSniffer
                     device.StopCapture();
                 }
             };
-
             // Start capturing packets
             device.OnPacketArrival += snapshotHandler;
 
@@ -133,7 +122,6 @@ namespace PacketsSniffer
             // Close the device
             device.Close();
         }
-
         private static void PacketArrivalEventHandler(object sender, PacketCapture e)
         {
             ProcessPacket(e);
@@ -149,7 +137,8 @@ namespace PacketsSniffer
                 if (packet == null) return;
 
                 var packetInfo = new StringBuilder();
-
+                packetInfo.AppendLine($"-------------------------------------------------------");
+                packetInfo.AppendLine($"\nLayer 2 - Data Link:");
                 // Ethernet Frame Details
                 var ethernetPacket = packet.Extract<EthernetPacket>();
                 if (ethernetPacket != null)
@@ -157,22 +146,39 @@ namespace PacketsSniffer
                     packetInfo.AppendLine($"Ethernet: {ethernetPacket.SourceHardwareAddress} -> {ethernetPacket.DestinationHardwareAddress}");
                     packetInfo.AppendLine($"Ethernet Type: {ethernetPacket.Type}");
                 }
-
+                
+                packetInfo.AppendLine($"\nLayer 3 - Network:");
                 // IP Packet Analysis
                 var ipPacket = packet.Extract<IPPacket>();
                 if (ipPacket != null)
                 {
                     packetInfo.AppendLine($"IP Packet: {ipPacket.SourceAddress} -> {ipPacket.DestinationAddress}");
                     packetInfo.AppendLine($"IP Protocol: {ipPacket.Protocol}");
-                    packetInfo.AppendLine($"IP Time to Live: {ipPacket.TimeToLive}");
+                    if (ipPacket is IPv4Packet ipv4)
+                    {
+                        packetInfo.AppendLine($"IP/IPv4Packet : Time to Live: {ipPacket.TimeToLive}");
+                    }
                 }
 
+                packetInfo.AppendLine($"\nLayer 4 - Transport:");
                 // TCP Packet Detailed Analysis
                 var tcpPacket = packet.Extract<TcpPacket>();
                 if (tcpPacket != null)
                 {
                     packetInfo.AppendLine($"TCP Packet: {tcpPacket.SourcePort} -> {tcpPacket.DestinationPort}");
+                    // TCP Flags Analysis
+                    packetInfo.AppendLine($"TCP Flags: {GetTcpFlagDescription(tcpPacket)}");
+                    packetInfo.AppendLine($"Sequence Number: {tcpPacket.SequenceNumber}");
+                    packetInfo.AppendLine($"Acknowledgement Number: {tcpPacket.AcknowledgmentNumber}");
+                    //layer 5  Detailes
+                    packetInfo.AppendLine($"\nLayer 5 - Session:");
+                    packetInfo.AppendLine("* Session information derived from TCP flags and sequence numbers");
+                    packetInfo.AppendLine($"* TCP State: {(tcpPacket.Synchronize ? "Connection establishment" : "Data transfer")}");
+                    
+                    
+                    
 
+                    // check all posibles Vulanrbilities
                     // SSH Detection
                     bool isPossibleSSH = DetectSSH(tcpPacket);
                     if (isPossibleSSH)
@@ -180,10 +186,7 @@ namespace PacketsSniffer
                         packetInfo.AppendLine("POTENTIAL SSH CONNECTION DETECTED!");
                     }
 
-                    // TCP Flags Analysis
-                    packetInfo.AppendLine($"TCP Flags: {GetTcpFlagDescription(tcpPacket)}");
-                    packetInfo.AppendLine($"Sequence Number: {tcpPacket.SequenceNumber}");
-                    packetInfo.AppendLine($"Acknowledgement Number: {tcpPacket.AcknowledgmentNumber}");
+                    
                     var analyzer = new DNSThreatPacketsAnalyzer();
                     analyzer.DNSAnalyzePacket(tcpPacket);
                     if (tcpPacket.DestinationPort == 80 || tcpPacket.SourcePort == 443)
