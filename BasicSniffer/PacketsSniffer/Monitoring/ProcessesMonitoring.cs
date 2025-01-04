@@ -79,6 +79,12 @@ namespace PacketsSniffer.Monitoring
                 processWatcher = new ManagementEventWatcher(scope, query);
                 processWatcher.EventArrived += ProcessStarted;
                 processWatcher.Start();
+                var processes  = Process.GetProcesses();
+                foreach (var process in processes) 
+                {
+                    Console.WriteLine($"id : {process.Id} , name : {process.ProcessName} , ### : {process.MachineName} ," +
+                        $"{process.SessionId}    ");
+                }
 
                 Console.WriteLine("Process monitoring started successfully.");
                 Console.WriteLine("Monitoring for suspicious activities...");
@@ -102,6 +108,7 @@ namespace PacketsSniffer.Monitoring
                 int processId = Convert.ToInt32(processInfo["ProcessID"]);
                 string processName = Convert.ToString(processInfo["ProcessName"]);
                 string processPath = Convert.ToString(processInfo["ExecutablePath"]);
+                
 
                 if (string.IsNullOrEmpty(processPath))
                     return;
@@ -193,7 +200,12 @@ namespace PacketsSniffer.Monitoring
                 return string.Empty;
             }
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="process"></param>
+        /// <param name="reason"></param>
         private void ReportSuspiciousProcess(Process process, string reason)
         {
             string report = $@"
@@ -206,11 +218,11 @@ Path: {process.MainModule?.FileName ?? "Unknown" }
 Command Line: { process.StartInfo.Arguments }
 ";
             Console.WriteLine(report);
+            /// <summary>
+            /// kill malicous process 
+            /// and connected files 
+            /// </summary>
 
-            // You could add additional actions here like:
-            // - Logging to a file
-            // - Sending alerts
-            // - Taking automatic action
         }
 
         public void Dispose()
