@@ -20,7 +20,7 @@ namespace PacketsSniffer.Core.Database.SamplesSignitures
         public ushort Type { get; set; }
         public DNSThreatPacketsAnalyzer.DnsRecordType RecordType { get; internal set; }
     }
-    public class Hashes
+    public class Hashes2
     {
         public string Sha256 { get; set; }
         public string Sha3_384 { get; set; }

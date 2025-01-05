@@ -84,6 +84,11 @@ namespace PacketsSniffer.Monitoring
                 {
                     Console.WriteLine($"id : {process.Id} , name : {process.ProcessName} , ### : {process.MachineName} ," +
                         $"{process.SessionId}    ");
+                    int processId = Convert.ToInt32(process.Id);
+                    string processName = Convert.ToString(process.ProcessName);
+                    //ring processPath = Convert.ToString(process
+                    var process2 = Process.GetProcessById(processId);
+                    AnalyzeProcess(process);
                 }
 
                 Console.WriteLine("Process monitoring started successfully.");
@@ -114,15 +119,18 @@ namespace PacketsSniffer.Monitoring
                     return;
 
                 var process = Process.GetProcessById(processId);
-                AnalyzeProcess(process, processPath);
+                AnalayzeNewProcess(process, processPath);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error analyzing process: {ex.Message}");
             }
         }
+        private void AnalyzeProcess(Process process) 
+        {
 
-        private void AnalyzeProcess(Process process, string processPath)
+        }
+        private void AnalayzeNewProcess(Process process, string processPath)
         {
             try
             {
