@@ -7,11 +7,11 @@
       "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\core\\database\\samplessignitures\\hashes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\core\\database\\samplessignitures\\signituresdataclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\packetssniffer\\core\\database\\samplessignitures\\signituresdataclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\core\\database\\samplessignitures\\signituresdataclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\monitoring\\processesmonitoring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\packetssniffer\\monitoring\\processesmonitoring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\monitoring\\processesmonitoring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -29,19 +29,6 @@
           "SelectedChildIndex": 4,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SignituresDataClasses.cs",
-              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
-              "RelativeDocumentMoniker": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
-              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
-              "RelativeToolTip": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBYAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-05T15:42:29.919Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
@@ -52,6 +39,18 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SignituresDataClasses.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
+              "RelativeToolTip": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBYAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-05T15:42:29.919Z"
             },
             {
               "$type": "Document",
@@ -88,8 +87,7 @@
               "RelativeToolTip": "PacketsSniffer\\Monitoring\\ProcessesMonitoring.cs",
               "ViewState": "AgIAAH0AAAAAAAAAAAAswIsAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T10:02:41.666Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-03T10:02:41.666Z"
             }
           ]
         }
