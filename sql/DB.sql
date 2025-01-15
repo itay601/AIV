@@ -2,7 +2,7 @@
 USE Samples;
 
 -- Table for Hashes
-CREATE TABLE Hashes (
+CREATE TABLE MalwareHashes (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Sha256 VARCHAR(64),
     Sha3_384 VARCHAR(96),
@@ -10,6 +10,50 @@ CREATE TABLE Hashes (
     Md5 VARCHAR(32),
     Humanhash TEXT
 );
+
+CREATE TABLE Packets (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    -- Layer 2: Data Link
+    Layer2_DataLink_SourceMAC VARCHAR(17),
+    Layer2_DataLink_DestinationMAC VARCHAR(17),
+    Layer2_DataLink_EthernetType VARCHAR(10),
+    -- Layer 3: Network
+    Layer3_Network_SourceIP VARCHAR(15),
+    Layer3_Network_DestinationIP VARCHAR(15),
+    Layer3_Network_Protocol VARCHAR(10),
+    Layer3_Network_TimeToLive TINYINT UNSIGNED,
+    -- Layer 4: Transport
+    Layer4_Transport_SourcePort INT UNSIGNED,
+    Layer4_Transport_DestinationPort INT UNSIGNED,
+    Layer4_Transport_TCPFlags VARCHAR(50),
+    Layer4_Transport_SequenceNumber BIGINT UNSIGNED,
+    Layer4_Transport_AcknowledgementNumber BIGINT UNSIGNED,
+    Layer4_Transport_UDP_SourcePort INT UNSIGNED,
+    Layer4_Transport_UDP_DestinationPort INT UNSIGNED,
+    -- Layer 5: Session
+    Layer5_Session_TCPState VARCHAR(50),
+    -- ICMP Details
+    Layer3_ICMP_TypeCode VARCHAR(10),
+    -- DHCP Details
+    Layer3_DHCP_Operation TINYINT UNSIGNED,
+    Layer3_DHCP_ClientAddress VARCHAR(15),
+    Layer3_DHCP_YourAddress VARCHAR(15),
+    Layer3_DHCP_ServerAddress VARCHAR(15),
+    Layer3_DHCP_GatewayAddress VARCHAR(15),
+    Layer3_DHCP_MessageType VARCHAR(50),
+    Layer3_DHCP_TransactionId VARCHAR(10),
+    Layer3_DHCP_Options TEXT,
+    -- Payload Details
+    Payload_Length INT UNSIGNED,
+    Payload_Hex TEXT,
+    Payload_ASCII TEXT,
+    -- Packet Metadata
+    Packet_Timestamp DATETIME,
+    Packet_Length INT UNSIGNED
+);
+
+
+
 
 -- Table for FileInfo
 CREATE TABLE FileInfo (
