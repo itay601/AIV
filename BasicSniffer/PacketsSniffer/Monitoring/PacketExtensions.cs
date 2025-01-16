@@ -18,5 +18,16 @@ namespace PacketsSniffer.Monitoring
             }
             return null;
         }
+        public static async Task MonitoringPackets()
+        {
+            // Create an instance
+            var processor = new PacketProcessor();
+
+            // Start monitoring with 60-second intervals
+            await processor.StartMonitoring(60);
+
+            // To stop monitoring
+            //await processor.StopMonitoring();
+        }
     }
 }

@@ -263,7 +263,7 @@ namespace PacketsSniffer
         }
 
         // Helper method to detect potential SSH connections
-        private static bool DetectSSH(TcpPacket tcpPacket)
+        public static bool DetectSSH(TcpPacket tcpPacket)
         {
             // SSH typically uses port 22
             bool isSSHPort = tcpPacket.SourcePort == 22 || tcpPacket.DestinationPort == 22;
@@ -286,7 +286,7 @@ namespace PacketsSniffer
         }
 
         // Helper method to describe TCP flags
-        private static string GetTcpFlagDescription(TcpPacket tcpPacket)
+        public static string GetTcpFlagDescription(TcpPacket tcpPacket)
         {
             var flags = new List<string>();
 

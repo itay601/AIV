@@ -4,13 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PacketsSniffer.Core.Detection;
+using PacketsSniffer.Monitoring;
 
 namespace PacketsSniffer.UI
 {
     internal class MainConsole
     {
-        public static void MainConsoleDisplay()
+        public static async void MainConsoleDisplay()
         {
+
+            // Start monitoring in background
+            // The _ discard operator tells the compiler we intentionally aren't awaiting the task
+            _ = Task.Run(async () => await PacketExtensions.MonitoringPackets());
+
             string choice = "-1";
             while (choice != "exit")
             {
