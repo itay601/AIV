@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\core\\database\\samplessignitures\\hashes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\core\\database\\samplessignitures\\hashes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\monitoring\\packetsprocessmonitoringsendtoserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\monitoring\\packetsprocessmonitoringsendtoserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\packetssniffer\\core\\database\\samplessignitures\\signituresdataclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\core\\database\\samplessignitures\\signituresdataclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\monitoring\\packetextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\monitoring\\packetextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\packetssniffer\\monitoring\\processesmonitoring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\monitoring\\processesmonitoring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\packetssniffer\\ui\\consoleterminal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\ui\\consoleterminal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|c:\\myprojects\\packet-sniffer\\basicsniffer\\packetssniffer\\monitoring\\packetsniffer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E05617C-70C8-4523-95AD-23F6A42EF197}|PacketsSniffer\\Antivirus.csproj|solutionrelative:packetssniffer\\monitoring\\packetsniffer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,51 +39,41 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "SignituresDataClasses.cs",
-              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
-              "RelativeDocumentMoniker": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
-              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
-              "RelativeToolTip": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\SignituresDataClasses.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBYAAAAYAAAAAAAAAA==",
+              "Title": "PacketExtensions.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\PacketExtensions.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\Monitoring\\PacketExtensions.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\PacketExtensions.cs",
+              "RelativeToolTip": "PacketsSniffer\\Monitoring\\PacketExtensions.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAuwB0AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-05T15:42:29.919Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Hashes.cs",
-              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\Hashes.cs",
-              "RelativeDocumentMoniker": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\Hashes.cs",
-              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Core\\Database\\SamplesSignitures\\Hashes.cs",
-              "RelativeToolTip": "PacketsSniffer\\Core\\Database\\SamplesSignitures\\Hashes.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-05T15:41:51.1Z",
+              "WhenOpened": "2025-01-16T17:13:28.505Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ConsoleTerminal.cs",
-              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\UI\\ConsoleTerminal.cs",
-              "RelativeDocumentMoniker": "PacketsSniffer\\UI\\ConsoleTerminal.cs",
-              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\UI\\ConsoleTerminal.cs",
-              "RelativeToolTip": "PacketsSniffer\\UI\\ConsoleTerminal.cs",
-              "ViewState": "AgIAAE8AAAAAAAAAAAAswGAAAAAdAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "PacketsProcessMonitoringSendToServer.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\PacketsProcessMonitoringSendToServer.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\Monitoring\\PacketsProcessMonitoringSendToServer.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\PacketsProcessMonitoringSendToServer.cs",
+              "RelativeToolTip": "PacketsSniffer\\Monitoring\\PacketsProcessMonitoringSendToServer.cs",
+              "ViewState": "AgIAAIUAAAAAAAAAAAA8wGUAAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T18:11:31.249Z"
+              "WhenOpened": "2025-01-16T14:56:07.242Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ProcessesMonitoring.cs",
-              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\ProcessesMonitoring.cs",
-              "RelativeDocumentMoniker": "PacketsSniffer\\Monitoring\\ProcessesMonitoring.cs",
-              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\ProcessesMonitoring.cs",
-              "RelativeToolTip": "PacketsSniffer\\Monitoring\\ProcessesMonitoring.cs",
-              "ViewState": "AgIAAH0AAAAAAAAAAAAswIsAAAARAAAAAAAAAA==",
+              "Title": "PacketSniffer.cs",
+              "DocumentMoniker": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\PacketSniffer.cs",
+              "RelativeDocumentMoniker": "PacketsSniffer\\Monitoring\\PacketSniffer.cs",
+              "ToolTip": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Monitoring\\PacketSniffer.cs",
+              "RelativeToolTip": "PacketsSniffer\\Monitoring\\PacketSniffer.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAcwFYAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T10:02:41.666Z"
+              "WhenOpened": "2025-01-16T14:31:54.179Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -47,3 +47,9 @@ C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.IO.Pip
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\DnsClient.dll
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\DnsClient.xml
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Text.Encodings.Web.dll
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Text.Json.dll
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.ValueTuple.dll
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Text.Encodings.Web.xml
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Text.Json.xml
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.ValueTuple.xml
