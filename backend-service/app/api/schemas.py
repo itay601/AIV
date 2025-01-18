@@ -1,3 +1,70 @@
-from pydantic import BaseModel
+#from typing import List
+from pydantic import BaseModel, Field, IPvAnyAddress, conint, constr
 from typing import Optional
-from typing import List
+import datetime 
+
+
+class PacketResponse(BaseModel):
+    success: bool
+    message: str
+    data: Optional[list['Packet']] = None
+
+    class Config:
+        from_attributes = True  # Previously known as orm_mode=True
+
+
+class Packet(BaseModel):
+    # Primary Key
+    Id: Optional[int]  # Auto-incremented in the database, might be None for new entries
+
+    # Layer 2: Data Link
+    Layer2_DataLink_SourceMAC: Optional[str] = None
+    Layer2_DataLink_DestinationMAC: Optional[str] = None
+    Layer2_DataLink_EthernetType: Optional[constr(max_length=10)] = None
+
+    # Layer 3: Network
+    Layer3_Network_SourceIP: Optional[IPvAnyAddress] = None
+    Layer3_Network_DestinationIP: Optional[IPvAnyAddress] = None
+    Layer3_Network_Protocol: Optional[constr(max_length=10)] = None
+    Layer3_Network_TimeToLive: Optional[conint(ge=0, le=255)] = None  # TINYINT UNSIGNED
+
+    # Layer 4: Transport
+    Layer4_Transport_SourcePort: Optional[conint(ge=0)] = None  # INT UNSIGNED
+    Layer4_Transport_DestinationPort: Optional[conint(ge=0)] = None  # INT UNSIGNED
+    Layer4_Transport_TCPFlags: Optional[constr(max_length=50)] = None
+    Layer4_Transport_SequenceNumber: Optional[conint(ge=0)] = None  # BIGINT UNSIGNED
+    Layer4_Transport_AcknowledgementNumber: Optional[conint(ge=0)] = None  # BIGINT UNSIGNED
+    Layer4_Transport_UDP_SourcePort: Optional[conint(ge=0)] = None  # INT UNSIGNED
+    Layer4_Transport_UDP_DestinationPort: Optional[conint(ge=0)] = None  # INT UNSIGNED
+
+    # Layer 5: Session
+    Layer5_Session_TCPState: Optional[constr(max_length=50)] = None
+
+    # ICMP Details
+    Layer3_ICMP_TypeCode: Optional[constr(max_length=10)] = None
+
+    # DHCP Details
+    Layer3_DHCP_Operation: Optional[conint(ge=0, le=255)] = None  # TINYINT UNSIGNED
+    Layer3_DHCP_ClientAddress: Optional[IPvAnyAddress] = None
+    Layer3_DHCP_YourAddress: Optional[IPvAnyAddress] = None
+    Layer3_DHCP_ServerAddress: Optional[IPvAnyAddress] = None
+    Layer3_DHCP_GatewayAddress: Optional[IPvAnyAddress] = None
+    Layer3_DHCP_MessageType: Optional[constr(max_length=50)] = None
+    Layer3_DHCP_TransactionId: Optional[str] = None
+    Layer3_DHCP_Options: Optional[str] = None  # TEXT
+
+    # Payload Details
+    Payload_Length: Optional[str] = None  # INT UNSIGNED
+    Payload_Hex: Optional[str] = None  # TEXT
+    Payload_ASCII: Optional[str] = None  # TEXT
+
+    # Packet Metadata
+    Packet_Timestamp: Optional[str] = None  # DATETIME, parsed as ISO 8601
+    Packet_Length: Optional[str] = None  # INT UNSIGNED
+
+    class Config:
+        from_attributes = True  # Enable ORM mode
+        json_encoders = {
+            datetime: lambda v: v.isoformat(),
+            bytes: lambda v: v.hex()
+        }

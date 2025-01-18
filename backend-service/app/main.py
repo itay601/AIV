@@ -1,11 +1,11 @@
 from fastapi import FastAPI, Response, APIRouter
 
-#from routers.users import router as users_router
+from api.routes.packet_sniffer import router as packets_router
 
 
-app = FastAPI()
+app = FastAPI(prefix="/v1/api")
 
-#app.include_router(users_router)
+app.include_router(packets_router)
 
 
 @app.get("/")
@@ -16,3 +16,8 @@ async def index():
 @app.get("/root")
 async def root():
     return {"message": "server is running"}
+
+
+
+
+
