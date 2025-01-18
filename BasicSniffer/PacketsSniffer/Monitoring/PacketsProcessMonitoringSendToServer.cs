@@ -12,6 +12,8 @@ using PacketsSniffer.Core.Database.Packets;
 using PacketsSniffer.Core.Detection;
 using PacketsSniffer.Monitoring.PacketAnalyzer;
 using ZstdSharp.Unsafe;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace PacketsSniffer.Monitoring
 {
@@ -26,7 +28,7 @@ namespace PacketsSniffer.Monitoring
         private CancellationTokenSource _cancellationTokenSource;
         private readonly object _bufferLock = new object();
 
-        public PacketProcessor(string apiEndpoint = "http://localhost:5000/api/packets")
+        public PacketProcessor(string apiEndpoint = "http://localhost:5000/v1/api/packets/packets-service")
         {
             _httpClient = new HttpClient();
             _apiEndpoint = apiEndpoint;
@@ -110,7 +112,16 @@ namespace PacketsSniffer.Monitoring
                 if (packet == null) return;
 
                 var packetData = CreatePacketData(packet, rawPacket);
-                
+
+                // Serialize the dictionary to JSON
+                string json = JsonConvert.SerializeObject(packetData, Formatting.Indented);
+
+                // Send 'json' to the backend
+                // Example: backend.Send(json);
+
+                // If you still need to store the text representation
+                _capturedPackets.Add(json);
+
             }
             catch (Exception ex)
             {
@@ -134,10 +145,10 @@ namespace PacketsSniffer.Monitoring
         private async Task SendPacketsToBackend(List<String> packets)
         {
             //Console.WriteLine(packets);
-            Console.WriteLine(JsonSerializer.Serialize(packets));
+            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(packets));
             try
             {
-                var json = JsonSerializer.Serialize(packets);
+                var json = System.Text.Json.JsonSerializer.Serialize(packets);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(_apiEndpoint, content);
 
@@ -152,132 +163,139 @@ namespace PacketsSniffer.Monitoring
                 Console.WriteLine($"Error sending packets to backend: {ex.Message}");
             }
         }
-        private StringBuilder CreatePacketData(Packet packet, RawCapture rawPacket)
+        
+        private Dictionary<string, object> CreatePacketData(Packet packet, RawCapture rawPacket)
         {
-            var packetInfo = new StringBuilder();
+            var packetData = new Dictionary<string, object>();
+
+            // Layer 2 - Ethernet
             var ethernetPacket = packet.Extract<EthernetPacket>();
             if (ethernetPacket != null)
             {
-                packetInfo.AppendLine($"Ethernet: {ethernetPacket.SourceHardwareAddress} -> {ethernetPacket.DestinationHardwareAddress}");
-                packetInfo.AppendLine($"Ethernet Type: {ethernetPacket.Type}");
+                packetData["Ethernet"] = new
+                {
+                    SourceHardwareAddress = ethernetPacket.SourceHardwareAddress.ToString(),
+                    DestinationHardwareAddress = ethernetPacket.DestinationHardwareAddress.ToString(),
+                    Type = ethernetPacket.Type.ToString()
+                };
             }
 
-            packetInfo.AppendLine($"\nLayer 3 - Network:");
-            // IP Packet Analysis
+            // Layer 3 - Network
+            packetData["Layer3"] = new Dictionary<string, object>();
             var ipPacket = packet.Extract<IPPacket>();
             if (ipPacket != null)
             {
-                packetInfo.AppendLine($"IP Packet: {ipPacket.SourceAddress} -> {ipPacket.DestinationAddress}");
-                packetInfo.AppendLine($"IP Protocol: {ipPacket.Protocol}");
-                if (ipPacket is IPv4Packet ipv4)
+                (packetData["Layer3"] as Dictionary<string, object>)["IPPacket"] = new
                 {
-                    packetInfo.AppendLine($"IP/IPv4Packet : Time to Live: {ipPacket.TimeToLive}");
-                }
+                    SourceAddress = ipPacket.SourceAddress.ToString(),
+                    DestinationAddress = ipPacket.DestinationAddress.ToString(),
+                    Protocol = ipPacket.Protocol.ToString(),
+                    TimeToLive = ipPacket.TimeToLive
+                };
             }
 
-            packetInfo.AppendLine($"\nLayer 4 - Transport:");
-            // TCP Packet Detailed Analysis
+            // Layer 4 - Transport
+            packetData["Layer4"] = new Dictionary<string, object>();
             var tcpPacket = packet.Extract<TcpPacket>();
             if (tcpPacket != null)
             {
-                packetInfo.AppendLine($"TCP Packet: {tcpPacket.SourcePort} -> {tcpPacket.DestinationPort}");
-                // TCP Flags Analysis
-                packetInfo.AppendLine($"TCP Flags: {PacketSniffer.GetTcpFlagDescription(tcpPacket)}");
-                packetInfo.AppendLine($"Sequence Number: {tcpPacket.SequenceNumber}");
-                packetInfo.AppendLine($"Acknowledgement Number: {tcpPacket.AcknowledgmentNumber}");
-                //layer 5  Detailes
-                packetInfo.AppendLine($"\nLayer 5 - Session:");
-                packetInfo.AppendLine("* Session information derived from TCP flags and sequence numbers");
-                packetInfo.AppendLine($"* TCP State: {(tcpPacket.Synchronize ? "Connection establishment" : "Data transfer")}");
-
-
-
-
-                // check all posibles Vulanrbilities
-                // SSH Detection
-                bool isPossibleSSH = PacketSniffer.DetectSSH(tcpPacket);
-                if (isPossibleSSH)
+                (packetData["Layer4"] as Dictionary<string, object>)["TCP"] = new
                 {
-                    packetInfo.AppendLine("POTENTIAL SSH CONNECTION DETECTED!");
+                    SourcePort = tcpPacket.SourcePort,
+                    DestinationPort = tcpPacket.DestinationPort,
+                    Flags = PacketSniffer.GetTcpFlagDescription(tcpPacket),
+                    SequenceNumber = tcpPacket.SequenceNumber,
+                    AcknowledgmentNumber = tcpPacket.AcknowledgmentNumber
+                };
+
+                // Layer 5 - Session
+                (packetData["Layer4"] as Dictionary<string, object>)["Session"] = new
+                {
+                    Information = "Session information derived from TCP flags and sequence numbers",
+                    TCPState = tcpPacket.Synchronize ? "Connection establishment" : "Data transfer"
+                };
+
+                // Vulnerabilities
+                if (PacketSniffer.DetectSSH(tcpPacket))
+                {
+                    (packetData["Layer4"] as Dictionary<string, object>)["PotentialSSHConnection"] = true;
                 }
 
+                var dnsAnalyzer = new DNSThreatPacketsAnalyzer();
+                dnsAnalyzer.DNSAnalyzePacket(tcpPacket);
 
-                var analyzer = new DNSThreatPacketsAnalyzer();
-                analyzer.DNSAnalyzePacket(tcpPacket);
                 if (tcpPacket.DestinationPort == 80 || tcpPacket.SourcePort == 443)
                 {
-                    var httpPacket = new HttpPacketAnalyzer();
-                    httpPacket.AnalyzePacketHTTP(tcpPacket);
+                    var httpAnalyzer = new HttpPacketAnalyzer();
+                    httpAnalyzer.AnalyzePacketHTTP(tcpPacket);
                 }
             }
 
-            // UDP Packet Analysis
             var udpPacket = packet.Extract<UdpPacket>();
             if (udpPacket != null)
             {
-                packetInfo.AppendLine($"UDP Packet: {udpPacket.SourcePort} -> {udpPacket.DestinationPort}");
-                // Initialize analyzer
-                var analyzer = new DNSThreatPacketsAnalyzer();
-                analyzer.DNSAnalyzePacket(udpPacket);
+                (packetData["Layer4"] as Dictionary<string, object>)["UDP"] = new
+                {
+                    SourcePort = udpPacket.SourcePort,
+                    DestinationPort = udpPacket.DestinationPort
+                };
+
+                var dnsAnalyzer = new DNSThreatPacketsAnalyzer();
+                dnsAnalyzer.DNSAnalyzePacket(udpPacket);
             }
 
-            // ICMP Packet Analysis
             var icmpPacket = packet.Extract<IcmpV4Packet>();
             if (icmpPacket != null)
             {
-                packetInfo.AppendLine($"ICMP Packet Type: {icmpPacket.GetType()}");
-                packetInfo.AppendLine($"ICMP Code: {icmpPacket.TypeCode}");
+                (packetData["Layer4"] as Dictionary<string, object>)["ICMP"] = new
+                {
+                    Type = icmpPacket.GetType().Name,
+                    Code = icmpPacket.TypeCode.ToString()
+                };
             }
+
             // DHCP Packet Detailed Analysis
             var dhcpPacket = packet.Extract<DhcpV4Packet>();
             if (dhcpPacket != null)
             {
-                packetInfo.AppendLine($"DHCP Packet Details:");
-                packetInfo.AppendLine($"Operation: {dhcpPacket.Operation}");
-                packetInfo.AppendLine($"Client IP Address: {dhcpPacket.ClientAddress}");
-                packetInfo.AppendLine($"Your IP Address: {dhcpPacket.YourAddress}");
-                packetInfo.AppendLine($"Server IP Address: {dhcpPacket.ServerAddress}");
-                packetInfo.AppendLine($"Gateway IP Address: {dhcpPacket.GatewayAddress}");
-                packetInfo.AppendLine($"DHCP Message Type: {dhcpPacket.MessageType}");
-                packetInfo.AppendLine($"Transaction ID: {dhcpPacket.TransactionId:X8}");
-
-                // Optional: Detailed DHCP Options
-                foreach (var option in dhcpPacket.GetOptions())
+                packetData["DHCP"] = new
                 {
-                    packetInfo.AppendLine($"Option {option.OptionType}: {option.Data}");
-                }
+                    Operation = dhcpPacket.Operation.ToString(),
+                    ClientIPAddress = dhcpPacket.ClientAddress.ToString(),
+                    YourIPAddress = dhcpPacket.YourAddress.ToString(),
+                    ServerIPAddress = dhcpPacket.ServerAddress.ToString(),
+                    GatewayIPAddress = dhcpPacket.GatewayAddress.ToString(),
+                    MessageType = dhcpPacket.MessageType.ToString(),
+                    TransactionID = dhcpPacket.TransactionId.ToString("X8"),
+                    Options = dhcpPacket.GetOptions().Select(option => new
+                    {
+                        OptionType = option.OptionType.ToString(),
+                        Data = option.Data.ToString()
+                    }).ToList()
+                };
             }
 
             // Payload Analysis
             var payloadPacket = packet.Extract<IPv4Packet>();
             if (payloadPacket != null)
             {
-                string payloadHex = BitConverter.ToString(payloadPacket.Bytes).Replace("-", " ");
-                string payloadAscii = System.Text.Encoding.ASCII.GetString(
-                    payloadPacket.Bytes.Where(b => b >= 32 && b < 127).ToArray()
-                );
-
-                packetInfo.AppendLine($"Payload Length: {payloadPacket.Bytes.Length} bytes");
-                packetInfo.AppendLine($"Payload (Hex): {payloadHex}");
-                packetInfo.AppendLine($"Payload (ASCII): {payloadAscii}");
+                packetData["Payload"] = new
+                {
+                    Length = payloadPacket.Bytes.Length,
+                    Hex = BitConverter.ToString(payloadPacket.Bytes).Replace("-", " "),
+                    ASCII = System.Text.Encoding.ASCII.GetString(payloadPacket.Bytes.Where(b => b >= 32 && b < 127).ToArray())
+                };
             }
 
             // General Packet Metadata
-            packetInfo.AppendLine($"Packet Timestamp: {rawPacket.Timeval.Date}");
-            packetInfo.AppendLine($"Packet Length: {rawPacket.Data.Length} bytes");
-            packetInfo.AppendLine("---");
+            packetData["Metadata"] = new
+            {
+                PacketTimestamp = rawPacket.Timeval.Date.ToString(),
+                PacketLength = rawPacket.Data.Length
+            };
 
-            // Output and Store
-            Console.WriteLine(packetInfo.ToString());
-            _capturedPackets.Add(packetInfo.ToString());
-            return packetInfo;
-            
+            return packetData;
         }
-
-
-
-
-
 
 
         private static string GetDhcpOptions(DhcpV4Packet dhcpPacket)

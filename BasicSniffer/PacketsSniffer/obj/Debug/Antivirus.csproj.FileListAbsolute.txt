@@ -53,3 +53,7 @@ C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.ValueT
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Text.Encodings.Web.xml
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Text.Json.xml
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.ValueTuple.xml
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\MongoDB.Bson.dll
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Newtonsoft.Json.dll
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\MongoDB.Bson.xml
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Newtonsoft.Json.xml
