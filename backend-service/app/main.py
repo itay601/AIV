@@ -16,8 +16,3 @@ async def index():
 @app.get("/root")
 async def root():
     return {"message": "server is running"}
-
-
-
-
-

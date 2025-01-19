@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using PacketsSniffer.Core.Detection;
 using PacketsSniffer.Monitoring;
@@ -15,7 +16,11 @@ namespace PacketsSniffer.UI
 
             // Start monitoring in background
             // The _ discard operator tells the compiler we intentionally aren't awaiting the task
-            _ = Task.Run(async () => await PacketExtensions.MonitoringPackets());
+            _ =  Task.Run(async () => await PacketExtensions.MonitoringPackets());
+            //Thread thread = new Thread(PacketExtensions.MonitorSchesuler);
+            //thread.IsBackground = true;
+            //thread.Start();
+            
 
             string choice = "-1";
             while (choice != "exit")

@@ -14,8 +14,8 @@ class PacketResponse(BaseModel):
 
 
 class Packet(BaseModel):
-    # Primary Key
-    Id: Optional[int]  # Auto-incremented in the database, might be None for new entries
+    # Primary Key 
+    #Id: Optional[int]  # Auto-incremented in the database, (might be miss from client)
 
     # Layer 2: Data Link
     Layer2_DataLink_SourceMAC: Optional[str] = None
@@ -39,7 +39,8 @@ class Packet(BaseModel):
 
     # Layer 5: Session
     Layer5_Session_TCPState: Optional[constr(max_length=50)] = None
-
+    # SSH Detected
+    SSHdetected : Optional[bool] = None
     # ICMP Details
     Layer3_ICMP_TypeCode: Optional[constr(max_length=10)] = None
 
