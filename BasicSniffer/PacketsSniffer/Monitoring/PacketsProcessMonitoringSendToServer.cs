@@ -14,21 +14,24 @@ using PacketsSniffer.Monitoring.PacketAnalyzer;
 using ZstdSharp.Unsafe;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using System.Net.Mail;
+using Quartz;
 
 namespace PacketsSniffer.Monitoring
 {
-    public class PacketProcessor : IDisposable
+    public class PacketProcessor : IDisposable , IJob
     {
-        private static List<string> _capturedPackets = new List<string>();
+        private static List<Packetss> _capturedPackets = new List<Packetss>();
         private readonly HttpClient _httpClient;
         private readonly string _apiEndpoint;
-        
+        private volatile bool _isMonitoring = false;
+
         private const int BATCH_SIZE = 1;
         private ILiveDevice _device;
         private CancellationTokenSource _cancellationTokenSource;
-        private readonly object _bufferLock = new object();
+       
 
-        public PacketProcessor(string apiEndpoint = "http://localhost:5000/v1/api/packets/packets-service")
+        public PacketProcessor(string apiEndpoint = "http://localhost:5000/packets/packets-service")
         {
             _httpClient = new HttpClient();
             _apiEndpoint = apiEndpoint;
@@ -46,37 +49,47 @@ namespace PacketsSniffer.Monitoring
             return devices[deviceIndex];
         }
 
+        //private possicle.....
         public async Task StartMonitoring(int intervalSeconds = 60)
         {
             try
             {
+                _isMonitoring = true;
                 _device = InitializeSniffDevice();
                 _device.Open(DeviceModes.Promiscuous);
-                // Temporary counter for packets
-                int currentPacketCount = 0;
-                // Event handler for snapshot
-                PacketArrivalEventHandler snapshotHandler = (sender, e) =>
-                {
-                    if (currentPacketCount < BATCH_SIZE)
-                    {
-                        PacketArrivalEventHandler(sender ,e);
-                        currentPacketCount++;
-                    }
-                    else
-                    {
-                        _device.StopCapture();
-                    }
-                };
-                // Start capturing packets
-                _device.OnPacketArrival += snapshotHandler;
-                _device.StartCapture();
+                
 
                 Console.WriteLine($"Starting capture on {_device.Description}...");
                 //await FlushPackets();
-                while (!_cancellationTokenSource.Token.IsCancellationRequested)
+                while (_isMonitoring == true)
                 {
+                    // Temporary counter for packets
+                    int currentPacketCount = 0;
+                    // Event handler for snapshot
+                    PacketArrivalEventHandler snapshotHandler = (sender, e) =>
+                    {
+                        if (currentPacketCount < BATCH_SIZE)
+                        {
+                            PacketArrivalEventHandler(sender, e);
+                            currentPacketCount++;
+                        }
+                        else
+                        {
+                            _device.StopCapture();
+                        }
+                    };
+                    // Start capturing packets
+                    _device.OnPacketArrival += snapshotHandler;
+              
+                    // Start capturing packets
+                    _device.StartCapture();
+
+                    // Wait for the interval to elapse
                     await Task.Delay(TimeSpan.FromSeconds(intervalSeconds), _cancellationTokenSource.Token);
+
+                    // Flush packets or perform your additional logic here
                     await FlushPackets();
+                    _device.StopCapture();
                 }
             }
             catch (OperationCanceledException)
@@ -88,6 +101,11 @@ namespace PacketsSniffer.Monitoring
                 Console.WriteLine($"Error in monitoring: {ex.Message}");
                 throw;
             }
+            finally
+            {
+                _device.OnPacketArrival -= PacketArrivalEventHandler;
+                _device.StopCapture();
+            }
         }
 
         public async Task StopMonitoring()
@@ -98,7 +116,6 @@ namespace PacketsSniffer.Monitoring
                 _device.StopCapture();
                 _device.Close();
             }
-            await FlushPackets();
         }
 
         private void PacketArrivalEventHandler(object sender, PacketCapture e)
@@ -111,16 +128,12 @@ namespace PacketsSniffer.Monitoring
                 var packet = Packet.ParsePacket(rawPacket.LinkLayerType, rawPacket.Data);
                 if (packet == null) return;
 
-                var packetData = CreatePacketData(packet, rawPacket);
+                var packetData = CreatePacket(packet, rawPacket);
 
-                // Serialize the dictionary to JSON
-                string json = JsonConvert.SerializeObject(packetData, Formatting.Indented);
-
-                // Send 'json' to the backend
-                // Example: backend.Send(json);
-
+                Console.WriteLine($"PacketArrival: {packetData}");
+                packetData.DisplayPacket();
                 // If you still need to store the text representation
-                _capturedPackets.Add(json);
+                _capturedPackets.Add(packetData);
 
             }
             catch (Exception ex)
@@ -137,15 +150,8 @@ namespace PacketsSniffer.Monitoring
                 _capturedPackets.Clear();
             }
         }
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="packets"></param>
-        /// <returns></returns>
-        private async Task SendPacketsToBackend(List<String> packets)
+        private async Task SendPacketsToBackend(List<Packetss> packets)
         {
-            //Console.WriteLine(packets);
-            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(packets));
             try
             {
                 var json = System.Text.Json.JsonSerializer.Serialize(packets);
@@ -157,147 +163,120 @@ namespace PacketsSniffer.Monitoring
                     Console.WriteLine($"Failed to send packets: {response.StatusCode}");
                     // Implement retry logic here if needed
                 }
+                else
+                {
+                    Console.WriteLine("sc: 200");
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error sending packets to backend: {ex.Message}");
             }
         }
-        
-        private Dictionary<string, object> CreatePacketData(Packet packet, RawCapture rawPacket)
+        private Packetss CreatePacket(Packet packet, RawCapture rawPacket)
         {
-            var packetData = new Dictionary<string, object>();
+            var packetss = new Packetss();
 
             // Layer 2 - Ethernet
             var ethernetPacket = packet.Extract<EthernetPacket>();
             if (ethernetPacket != null)
             {
-                packetData["Ethernet"] = new
-                {
-                    SourceHardwareAddress = ethernetPacket.SourceHardwareAddress.ToString(),
-                    DestinationHardwareAddress = ethernetPacket.DestinationHardwareAddress.ToString(),
-                    Type = ethernetPacket.Type.ToString()
-                };
+                packetss.Layer2_DataLink_SourceMAC = ethernetPacket.SourceHardwareAddress.ToString();
+                packetss.Layer2_DataLink_DestinationMAC = ethernetPacket.DestinationHardwareAddress.ToString();
+                packetss.Layer2_DataLink_EthernetType = ethernetPacket.Type.ToString();
             }
 
             // Layer 3 - Network
-            packetData["Layer3"] = new Dictionary<string, object>();
             var ipPacket = packet.Extract<IPPacket>();
             if (ipPacket != null)
             {
-                (packetData["Layer3"] as Dictionary<string, object>)["IPPacket"] = new
-                {
-                    SourceAddress = ipPacket.SourceAddress.ToString(),
-                    DestinationAddress = ipPacket.DestinationAddress.ToString(),
-                    Protocol = ipPacket.Protocol.ToString(),
-                    TimeToLive = ipPacket.TimeToLive
-                };
+                packetss.Layer3_Network_SourceIP = ipPacket.SourceAddress.ToString();
+                packetss.Layer3_Network_DestinationIP = ipPacket.DestinationAddress.ToString();
+                packetss.Layer3_Network_Protocol = ipPacket.Protocol.ToString();
+                packetss.Layer3_Network_TimeToLive = ipPacket.TimeToLive;
             }
 
-            // Layer 4 - Transport
-            packetData["Layer4"] = new Dictionary<string, object>();
+            // Layer 4 - Transport (TCP)
             var tcpPacket = packet.Extract<TcpPacket>();
             if (tcpPacket != null)
             {
-                (packetData["Layer4"] as Dictionary<string, object>)["TCP"] = new
-                {
-                    SourcePort = tcpPacket.SourcePort,
-                    DestinationPort = tcpPacket.DestinationPort,
-                    Flags = PacketSniffer.GetTcpFlagDescription(tcpPacket),
-                    SequenceNumber = tcpPacket.SequenceNumber,
-                    AcknowledgmentNumber = tcpPacket.AcknowledgmentNumber
-                };
+                packetss.Layer4_Transport_SourcePort = tcpPacket.SourcePort;
+                packetss.Layer4_Transport_DestinationPort = tcpPacket.DestinationPort;
+                packetss.Layer4_Transport_TCPFlags = PacketSniffer.GetTcpFlagDescription(tcpPacket);
+                packetss.Layer4_Transport_SequenceNumber = tcpPacket.SequenceNumber;
+                packetss.Layer4_Transport_AcknowledgementNumber = tcpPacket.AcknowledgmentNumber;
 
                 // Layer 5 - Session
-                (packetData["Layer4"] as Dictionary<string, object>)["Session"] = new
-                {
-                    Information = "Session information derived from TCP flags and sequence numbers",
-                    TCPState = tcpPacket.Synchronize ? "Connection establishment" : "Data transfer"
-                };
-
-                // Vulnerabilities
-                if (PacketSniffer.DetectSSH(tcpPacket))
-                {
-                    (packetData["Layer4"] as Dictionary<string, object>)["PotentialSSHConnection"] = true;
-                }
-
-                var dnsAnalyzer = new DNSThreatPacketsAnalyzer();
-                dnsAnalyzer.DNSAnalyzePacket(tcpPacket);
-
-                if (tcpPacket.DestinationPort == 80 || tcpPacket.SourcePort == 443)
-                {
-                    var httpAnalyzer = new HttpPacketAnalyzer();
-                    httpAnalyzer.AnalyzePacketHTTP(tcpPacket);
-                }
+                packetss.Layer5_Session_TCPState = tcpPacket.Synchronize ? "Connection establishment" : "Data transfer";
             }
 
+            // Layer 4 - Transport (UDP)
             var udpPacket = packet.Extract<UdpPacket>();
             if (udpPacket != null)
             {
-                (packetData["Layer4"] as Dictionary<string, object>)["UDP"] = new
-                {
-                    SourcePort = udpPacket.SourcePort,
-                    DestinationPort = udpPacket.DestinationPort
-                };
-
-                var dnsAnalyzer = new DNSThreatPacketsAnalyzer();
-                dnsAnalyzer.DNSAnalyzePacket(udpPacket);
+                packetss.Layer4_Transport_UDP_SourcePort = udpPacket.SourcePort;
+                packetss.Layer4_Transport_UDP_DestinationPort = udpPacket.DestinationPort;
+            }
+            // Vulnerabilities
+            if (PacketSniffer.DetectSSH(tcpPacket))
+            {
+                packetss.SSHdetected = true;
             }
 
+            var dnsAnalyzer = new DNSThreatPacketsAnalyzer();
+            dnsAnalyzer.DNSAnalyzePacket(tcpPacket);
+
+            if (tcpPacket.DestinationPort == 80 || tcpPacket.SourcePort == 443)
+            {
+                var httpAnalyzer = new HttpPacketAnalyzer();
+                httpAnalyzer.AnalyzePacketHTTP(tcpPacket);
+            }
+
+
+            // ICMP
             var icmpPacket = packet.Extract<IcmpV4Packet>();
             if (icmpPacket != null)
             {
-                (packetData["Layer4"] as Dictionary<string, object>)["ICMP"] = new
-                {
-                    Type = icmpPacket.GetType().Name,
-                    Code = icmpPacket.TypeCode.ToString()
-                };
+                packetss.Layer3_ICMP_TypeCode = icmpPacket.TypeCode.ToString();
             }
 
-            // DHCP Packet Detailed Analysis
+            // DHCP
             var dhcpPacket = packet.Extract<DhcpV4Packet>();
             if (dhcpPacket != null)
             {
-                packetData["DHCP"] = new
-                {
-                    Operation = dhcpPacket.Operation.ToString(),
-                    ClientIPAddress = dhcpPacket.ClientAddress.ToString(),
-                    YourIPAddress = dhcpPacket.YourAddress.ToString(),
-                    ServerIPAddress = dhcpPacket.ServerAddress.ToString(),
-                    GatewayIPAddress = dhcpPacket.GatewayAddress.ToString(),
-                    MessageType = dhcpPacket.MessageType.ToString(),
-                    TransactionID = dhcpPacket.TransactionId.ToString("X8"),
-                    Options = dhcpPacket.GetOptions().Select(option => new
-                    {
-                        OptionType = option.OptionType.ToString(),
-                        Data = option.Data.ToString()
-                    }).ToList()
-                };
+                packetss.Layer3_DHCP_Operation = (int)dhcpPacket.Operation;
+                packetss.Layer3_DHCP_ClientAddress = dhcpPacket.ClientAddress.ToString();
+                packetss.Layer3_DHCP_YourAddress = dhcpPacket.YourAddress.ToString();
+                packetss.Layer3_DHCP_ServerAddress = dhcpPacket.ServerAddress.ToString();
+                packetss.Layer3_DHCP_GatewayAddress = dhcpPacket.GatewayAddress.ToString();
+                packetss.Layer3_DHCP_MessageType = dhcpPacket.MessageType.ToString();
+                packetss.Layer3_DHCP_TransactionId = dhcpPacket.TransactionId.ToString("X8");
+                packetss.Layer3_DHCP_Options = string.Join(", ", dhcpPacket.GetOptions().Select(option =>
+                    $"{option.OptionType}: {option.Data}"));
             }
 
             // Payload Analysis
             var payloadPacket = packet.Extract<IPv4Packet>();
             if (payloadPacket != null)
             {
-                packetData["Payload"] = new
-                {
-                    Length = payloadPacket.Bytes.Length,
-                    Hex = BitConverter.ToString(payloadPacket.Bytes).Replace("-", " "),
-                    ASCII = System.Text.Encoding.ASCII.GetString(payloadPacket.Bytes.Where(b => b >= 32 && b < 127).ToArray())
-                };
+                packetss.Payload_Length = payloadPacket.Bytes.Length.ToString();
+                packetss.Payload_Hex = BitConverter.ToString(payloadPacket.Bytes).Replace("-", " ");
+                packetss.Payload_ASCII = System.Text.Encoding.ASCII.GetString(
+                    payloadPacket.Bytes.Where(b => b >= 32 && b < 127).ToArray());
             }
 
-            // General Packet Metadata
-            packetData["Metadata"] = new
-            {
-                PacketTimestamp = rawPacket.Timeval.Date.ToString(),
-                PacketLength = rawPacket.Data.Length
-            };
+            // Metadata
+            packetss.Packet_Timestamp = rawPacket.Timeval.Date.ToString();
+            packetss.Packet_Length = rawPacket.Data.Length.ToString();
 
-            return packetData;
+            return packetss;
         }
 
-
+        /// <summary>
+        /// make use or delete
+        /// </summary>
+        /// <param ></param>
+        /// <returns></returns>
         private static string GetDhcpOptions(DhcpV4Packet dhcpPacket)
         {
             if (dhcpPacket == null) return string.Empty;
@@ -339,6 +318,16 @@ namespace PacketsSniffer.Monitoring
             _device?.Close();
             _httpClient?.Dispose();
             _cancellationTokenSource?.Dispose();
+        }
+
+
+
+        ////////////////////////////
+        public Task Execute(IJobExecutionContext context)
+        {
+            StartMonitoring();
+            Console.WriteLine("Task executed at: " + DateTime.Now);
+            return Task.CompletedTask;
         }
     }
 }

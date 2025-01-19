@@ -57,3 +57,7 @@ C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\MongoDB.Bson.
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Newtonsoft.Json.dll
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\MongoDB.Bson.xml
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Newtonsoft.Json.xml
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Quartz.dll
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Quartz.xml

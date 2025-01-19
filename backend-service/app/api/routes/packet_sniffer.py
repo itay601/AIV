@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException ,APIRouter, Request
 from typing import Annotated, Optional
-from api.schemas import Packet ,PacketResponse
+from models.schemas import Packet ,PacketResponse
 
 
 router = APIRouter(prefix="/packets")
@@ -13,6 +13,11 @@ async def func(request: Request, input_data: Packet):
 # Must to List Of Packets!!!
 @router.post("/packets-service")
 async def process_packets(request: Request, packets: list[Packet]) -> PacketResponse: 
+    # TODO 
+    # - need to get the list of analyzed packets and mybe take another process on Data
+    # and send him for check to the VAE DL model service for handeling 
+
+    
     try:
         # Your processing logic here
         return PacketResponse(
