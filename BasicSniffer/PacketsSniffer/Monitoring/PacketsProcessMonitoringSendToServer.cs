@@ -16,6 +16,7 @@ using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using System.Net.Mail;
 using Quartz;
+using System.Diagnostics;
 
 namespace PacketsSniffer.Monitoring
 {
@@ -26,7 +27,7 @@ namespace PacketsSniffer.Monitoring
         private readonly string _apiEndpoint;
         private volatile bool _isMonitoring = false;
 
-        private const int BATCH_SIZE = 1;
+        private const int BATCH_SIZE = 10;
         private ILiveDevice _device;
         private CancellationTokenSource _cancellationTokenSource;
        
@@ -57,16 +58,13 @@ namespace PacketsSniffer.Monitoring
                 _isMonitoring = true;
                 _device = InitializeSniffDevice();
                 _device.Open(DeviceModes.Promiscuous);
-                
 
                 Console.WriteLine($"Starting capture on {_device.Description}...");
-                //await FlushPackets();
-                while (_isMonitoring == true)
+
+                while (_isMonitoring)
                 {
-                    // Temporary counter for packets
                     int currentPacketCount = 0;
-                    // Event handler for snapshot
-                    PacketArrivalEventHandler snapshotHandler = (sender, e) =>
+                    var snapshotHandler = new PacketArrivalEventHandler((sender, e) =>
                     {
                         if (currentPacketCount < BATCH_SIZE)
                         {
@@ -77,19 +75,29 @@ namespace PacketsSniffer.Monitoring
                         {
                             _device.StopCapture();
                         }
-                    };
-                    // Start capturing packets
+                    });
+
+                    // Add the handler
                     _device.OnPacketArrival += snapshotHandler;
-              
-                    // Start capturing packets
-                    _device.StartCapture();
 
-                    // Wait for the interval to elapse
-                    await Task.Delay(TimeSpan.FromSeconds(intervalSeconds), _cancellationTokenSource.Token);
+                    try
+                    {
+                        _device.StartCapture();
 
-                    // Flush packets or perform your additional logic here
-                    await FlushPackets();
-                    _device.StopCapture();
+                        // Wait for the interval or until BATCH_SIZE packets are captured
+                        await Task.Delay(TimeSpan.FromSeconds(intervalSeconds), _cancellationTokenSource.Token);
+
+                        // Stop capture for this interval
+                        _device.StopCapture();
+
+                        // Flush captured packets
+                        await FlushPackets();
+                    }
+                    finally
+                    {
+                        // Always remove the handler before the next iteration
+                        _device.OnPacketArrival -= snapshotHandler;
+                    }
                 }
             }
             catch (OperationCanceledException)
@@ -103,13 +111,15 @@ namespace PacketsSniffer.Monitoring
             }
             finally
             {
-                _device.OnPacketArrival -= PacketArrivalEventHandler;
                 _device.StopCapture();
+                _device?.Close();
+                await StopMonitoring();
             }
         }
 
         public async Task StopMonitoring()
         {
+            _isMonitoring = false;
             _cancellationTokenSource.Cancel();
             if (_device != null)
             {
@@ -127,9 +137,7 @@ namespace PacketsSniffer.Monitoring
 
                 var packet = Packet.ParsePacket(rawPacket.LinkLayerType, rawPacket.Data);
                 if (packet == null) return;
-
                 var packetData = CreatePacket(packet, rawPacket);
-
                 Console.WriteLine($"PacketArrival: {packetData}");
                 packetData.DisplayPacket();
                 // If you still need to store the text representation
@@ -139,6 +147,7 @@ namespace PacketsSniffer.Monitoring
             catch (Exception ex)
             {
                 Console.WriteLine($"Error processing packet: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
             }
         }
 
@@ -146,15 +155,15 @@ namespace PacketsSniffer.Monitoring
         {
             if (_capturedPackets.Any())
             {
-                await SendPacketsToBackend(_capturedPackets);
+                await SendPacketsToBackend();
                 _capturedPackets.Clear();
             }
         }
-        private async Task SendPacketsToBackend(List<Packetss> packets)
+        private async Task SendPacketsToBackend()
         {
             try
             {
-                var json = System.Text.Json.JsonSerializer.Serialize(packets);
+                var json = System.Text.Json.JsonSerializer.Serialize(_capturedPackets);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(_apiEndpoint, content);
 
@@ -162,6 +171,8 @@ namespace PacketsSniffer.Monitoring
                 {
                     Console.WriteLine($"Failed to send packets: {response.StatusCode}");
                     // Implement retry logic here if needed
+                    content = new StringContent(json, Encoding.UTF8, "application/json");
+                    response = await _httpClient.PostAsync(_apiEndpoint, content);
                 }
                 else
                 {
