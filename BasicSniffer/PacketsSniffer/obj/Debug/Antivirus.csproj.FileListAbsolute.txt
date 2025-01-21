@@ -61,3 +61,5 @@ C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Microsoft.Ext
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Quartz.dll
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\Quartz.xml
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Reactive.dll
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Reactive.xml

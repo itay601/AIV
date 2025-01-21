@@ -17,9 +17,6 @@ namespace PacketsSniffer.UI
             // Start monitoring in background
             // The _ discard operator tells the compiler we intentionally aren't awaiting the task
             _ =  Task.Run(async () => await PacketExtensions.MonitoringPackets());
-            //Thread thread = new Thread(PacketExtensions.MonitorSchesuler);
-            //thread.IsBackground = true;
-            //thread.Start();
             
 
             string choice = "-1";
