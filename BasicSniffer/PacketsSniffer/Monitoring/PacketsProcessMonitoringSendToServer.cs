@@ -27,18 +27,16 @@ namespace PacketsSniffer.Monitoring
         private readonly string _apiEndpoint;
         private volatile bool _isMonitoring = false;
 
-        private const int BATCH_SIZE = 10;
+        private const int BATCH_SIZE = 50;
         private ILiveDevice _device;
         private CancellationTokenSource _cancellationTokenSource;
        
-
         public PacketProcessor(string apiEndpoint = "http://localhost:5000/packets/packets-service")
         {
             _httpClient = new HttpClient();
             _apiEndpoint = apiEndpoint;
             _cancellationTokenSource = new CancellationTokenSource();
         }
-
         private ILiveDevice InitializeSniffDevice()
         {
             var devices = CaptureDeviceList.Instance;
@@ -49,56 +47,53 @@ namespace PacketsSniffer.Monitoring
             int deviceIndex = 4; // You might want to make this configurable
             return devices[deviceIndex];
         }
-
-        //private possicle.....
         public async Task StartMonitoring(int intervalSeconds = 60)
         {
             try
             {
-                _isMonitoring = true;
+                //_isMonitoring = true;
                 _device = InitializeSniffDevice();
                 _device.Open(DeviceModes.Promiscuous);
 
                 Console.WriteLine($"Starting capture on {_device.Description}...");
 
-                while (_isMonitoring)
+                int currentPacketCount = 0;
+                var snapshotHandler = new PacketArrivalEventHandler((sender, e) =>
                 {
-                    int currentPacketCount = 0;
-                    var snapshotHandler = new PacketArrivalEventHandler((sender, e) =>
+                    if (currentPacketCount < BATCH_SIZE)
                     {
-                        if (currentPacketCount < BATCH_SIZE)
-                        {
-                            PacketArrivalEventHandler(sender, e);
-                            currentPacketCount++;
-                        }
-                        else
-                        {
-                            _device.StopCapture();
-                        }
-                    });
-
-                    // Add the handler
-                    _device.OnPacketArrival += snapshotHandler;
-
-                    try
+                        PacketArrivalEventHandler(sender, e);
+                        currentPacketCount++;
+                    }
+                    else
                     {
-                        _device.StartCapture();
-
-                        // Wait for the interval or until BATCH_SIZE packets are captured
-                        await Task.Delay(TimeSpan.FromSeconds(intervalSeconds), _cancellationTokenSource.Token);
-
-                        // Stop capture for this interval
                         _device.StopCapture();
+                    }
+                });
 
-                        // Flush captured packets
-                        await FlushPackets();
-                    }
-                    finally
-                    {
-                        // Always remove the handler before the next iteration
-                        _device.OnPacketArrival -= snapshotHandler;
-                    }
+                // Add the handler
+                _device.OnPacketArrival += snapshotHandler;
+
+                try
+                {
+                    _device.StartCapture();
+                    
+
+                    // Wait for the interval or until BATCH_SIZE packets are captured
+                    await Task.Delay(TimeSpan.FromSeconds(intervalSeconds), _cancellationTokenSource.Token);
+
+                    // Stop capture for this interval
+                    _device.StopCapture();
+
+                    // Flush captured packets
+                    await FlushPackets();
                 }
+                finally
+                {
+                    // Always remove the handler before the next iteration
+                    _device.OnPacketArrival -= snapshotHandler;
+                }
+
             }
             catch (OperationCanceledException)
             {
@@ -111,9 +106,9 @@ namespace PacketsSniffer.Monitoring
             }
             finally
             {
-                _device.StopCapture();
+                //_device.StopCapture();
                 _device?.Close();
-                await StopMonitoring();
+                //await this.StopMonitoring();
             }
         }
 
@@ -219,6 +214,25 @@ namespace PacketsSniffer.Monitoring
 
                 // Layer 5 - Session
                 packetss.Layer5_Session_TCPState = tcpPacket.Synchronize ? "Connection establishment" : "Data transfer";
+                // SSH mybe
+                if (PacketSniffer.DetectSSH(tcpPacket))
+                {
+                    packetss.SSHdetected = true;
+                }
+                else
+                {
+                    packetss.SSHdetected = false;
+                }
+                // dns analayzer
+                var dnsAnalyzer = new DNSThreatPacketsAnalyzer();
+                dnsAnalyzer.DNSAnalyzePacket(tcpPacket);
+                
+                // http/https analayzer
+                if (tcpPacket.DestinationPort == 80 || tcpPacket.SourcePort == 443)
+                {
+                    var httpAnalyzer = new HttpPacketAnalyzer();
+                    httpAnalyzer.AnalyzePacketHTTP(tcpPacket);
+                }
             }
 
             // Layer 4 - Transport (UDP)
@@ -228,22 +242,6 @@ namespace PacketsSniffer.Monitoring
                 packetss.Layer4_Transport_UDP_SourcePort = udpPacket.SourcePort;
                 packetss.Layer4_Transport_UDP_DestinationPort = udpPacket.DestinationPort;
             }
-            // Vulnerabilities
-            if (PacketSniffer.DetectSSH(tcpPacket))
-            {
-                packetss.SSHdetected = true;
-            }
-
-            var dnsAnalyzer = new DNSThreatPacketsAnalyzer();
-            dnsAnalyzer.DNSAnalyzePacket(tcpPacket);
-
-            if (tcpPacket.DestinationPort == 80 || tcpPacket.SourcePort == 443)
-            {
-                var httpAnalyzer = new HttpPacketAnalyzer();
-                httpAnalyzer.AnalyzePacketHTTP(tcpPacket);
-            }
-
-
             // ICMP
             var icmpPacket = packet.Extract<IcmpV4Packet>();
             if (icmpPacket != null)
@@ -282,47 +280,6 @@ namespace PacketsSniffer.Monitoring
 
             return packetss;
         }
-
-        /// <summary>
-        /// make use or delete
-        /// </summary>
-        /// <param ></param>
-        /// <returns></returns>
-        private static string GetDhcpOptions(DhcpV4Packet dhcpPacket)
-        {
-            if (dhcpPacket == null) return string.Empty;
-
-            var options = dhcpPacket.GetOptions()
-                .Select(o => $"{o.OptionType}: {BitConverter.ToString(o.Data)}");
-            return string.Join("; ", options);
-        }
-
-        private static string GetAsciiPayload(byte[] bytes)
-        {
-            if (bytes == null) return string.Empty;
-
-            return new string(bytes
-                .Where(b => b >= 32 && b < 127)
-                .Select(b => (char)b)
-                .ToArray());
-        }
-
-
-        private static string GetTcpFlagDescription(TcpPacket tcpPacket)
-        {
-            if (tcpPacket == null) return string.Empty;
-
-            var flags = new List<string>();
-            if (tcpPacket.Synchronize) flags.Add("SYN");
-            if (tcpPacket.Acknowledgment) flags.Add("ACK");
-            if (tcpPacket.Push) flags.Add("PSH");
-            if (tcpPacket.Finished) flags.Add("FIN");
-            if (tcpPacket.Reset) flags.Add("RST");
-            if (tcpPacket.Urgent) flags.Add("URG");
-
-            return string.Join(", ", flags);
-        }
-
         public void Dispose()
         {
             _cancellationTokenSource?.Cancel();
@@ -330,10 +287,6 @@ namespace PacketsSniffer.Monitoring
             _httpClient?.Dispose();
             _cancellationTokenSource?.Dispose();
         }
-
-
-
-        ////////////////////////////
         public Task Execute(IJobExecutionContext context)
         {
             StartMonitoring();
