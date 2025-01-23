@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.Net.Mail;
 using Quartz;
 using System.Diagnostics;
+using static PacketsSniffer.Monitoring.PacketAnalyzer.HttpPacketAnalyzer;
 
 namespace PacketsSniffer.Monitoring
 {
@@ -225,13 +226,23 @@ namespace PacketsSniffer.Monitoring
                 }
                 // dns analayzer
                 var dnsAnalyzer = new DNSThreatPacketsAnalyzer();
-                dnsAnalyzer.DNSAnalyzePacket(tcpPacket);
-                
+                var dnsPacket = dnsAnalyzer.ParseDnsPacket(tcpPacket.PayloadData);
+                //dnsAnalyzer.DNSAnalyzePacket(tcpPacket);
+
                 // http/https analayzer
                 if (tcpPacket.DestinationPort == 80 || tcpPacket.SourcePort == 443)
                 {
+
+                    var httpPayload = System.Text.Encoding.UTF8.GetString(tcpPacket.PayloadData);
                     var httpAnalyzer = new HttpPacketAnalyzer();
                     httpAnalyzer.AnalyzePacketHTTP(tcpPacket);
+
+                    var (userAgent, path, method) = PacketExtensions.AnalyzeHttpPacket(tcpPacket.PayloadData);
+                    packetss.HTTP_UserAgent = userAgent;
+                    packetss.HTTP_Path = path;
+                    packetss.HTTP_IsPOST = method == "POST";
+                    
+
                 }
             }
 
@@ -241,6 +252,13 @@ namespace PacketsSniffer.Monitoring
             {
                 packetss.Layer4_Transport_UDP_SourcePort = udpPacket.SourcePort;
                 packetss.Layer4_Transport_UDP_DestinationPort = udpPacket.DestinationPort;
+
+                var (domainName, recordType) = PacketExtensions.ParseDnsPacket(udpPacket.PayloadData);
+                packetss.DNS_Query = domainName;
+                packetss.DNS_RecordType = recordType;
+
+                var dnsAnalyzer = new DNSThreatPacketsAnalyzer();
+                //dnsAnalyzer.
             }
             // ICMP
             var icmpPacket = packet.Extract<IcmpV4Packet>();
@@ -280,6 +298,11 @@ namespace PacketsSniffer.Monitoring
 
             return packetss;
         }
+
+
+
+
+
         public void Dispose()
         {
             _cancellationTokenSource?.Cancel();

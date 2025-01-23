@@ -36,7 +36,7 @@ namespace PacketsSniffer.Core.Detection
                 return obj?.ToLower().GetHashCode() ?? 0;
             }
         }
-        
+
 
         public void CheckUserAgent(string payload)
         {
@@ -81,71 +81,71 @@ namespace PacketsSniffer.Core.Detection
         }
 
 
-        public async void DNSAnalyzePacket(Packet packet)
-        {
-            try
-            {
-                // Check for DNS queries
-                var dnsPacket = packet.Extract<DnsPacket>();
-                if (dnsPacket != null)
-                {
-                    this.InitializeMaliciousDomains();
-                    foreach (var query in dnsPacket.Queries)
-                    {
-                        // Check request volume (DNS tunneling)
-                        CheckRequestVolume(query.Domain);
+        //public async void DNSAnalyzePacket(TcpPacket packet)
+        //{
+        //    try
+        //    {
+        //        // Check for DNS queries
+        //        var dnsPacket = ParseDnsPacket(packet.PayloadData);
+        //        if (dnsPacket != null)
+        //        {
+        //            this.InitializeMaliciousDomains();
+        //            foreach (var query in dnsPacket.Queries)
+        //            {
+        //                // Check request volume (DNS tunneling)
+        //                CheckRequestVolume(query.Domain);
 
-                        // Check for extremely long domain names
-                        if (query.Domain.Length > MAX_DOMAIN_LENGTH)
-                        {
-                            RaiseAlert($"Extremely long domain detected: {query.Domain}");
-                        }
-                        // Check for unusual record types
-                        // Convert and check for unusual record types
-                        foreach (var answer in dnsPacket.Queries)
-                        {
-                            // Convert and check for unusual record types
-                            var recordType = query.RecordType;
-                            if (IsUnusualRecordType(recordType))
-                            {
-                                RaiseAlert($"Unusual DNS record type detected: {recordType} for {query.Domain}");
-                            }
-                        }
+        //                // Check for extremely long domain names
+        //                if (query.Domain.Length > MAX_DOMAIN_LENGTH)
+        //                {
+        //                    RaiseAlert($"Extremely long domain detected: {query.Domain}");
+        //                }
+        //                // Check for unusual record types
+        //                // Convert and check for unusual record types
+        //                foreach (var answer in dnsPacket.Questions)
+        //                {
+        //                    // Convert and check for unusual record types
+        //                    var recordType = query.RecordType;
+        //                    if (IsUnusualRecordType(recordType))
+        //                    {
+        //                        RaiseAlert($"Unusual DNS record type detected: {recordType} for {query.Domain}");
+        //                    }
+        //                }
 
-                        // Check known malicious domains
-                        if (knownMaliciousDomains.Contains(query.Domain.ToLowerInvariant()))
-                        {
-                            RaiseAlert($"Suspicious DNS query detected: {query.Domain}");
-                            EmitMetrics("suspicious_dns_queries", 1);
-                            Console.ReadLine(); //for stopping the program
-                        }
-                    }
-                }
-                ///check FastFlux Domains
-                //need to be implemented automatic from the packets analyzer
-                CheckFlucDomain();
-                // Extract TCP/UDP packet
-                var tcpPacket = packet.Extract<TcpPacket>();
-                var udpPacket = packet.Extract<UdpPacket>();
+        //                // Check known malicious domains
+        //                if (knownMaliciousDomains.Contains(query.Domain.ToLowerInvariant()))
+        //                {
+        //                    RaiseAlert($"Suspicious DNS query detected: {query.Domain}");
+        //                    EmitMetrics("suspicious_dns_queries", 1);
+        //                    Console.ReadLine(); //for stopping the program
+        //                }
+        //            }
+        //        }
+        //        ///check FastFlux Domains
+        //        //need to be implemented automatic from the packets analyzer
+        //        CheckFlucDomain();
+        //        // Extract TCP/UDP packet
+        //        var tcpPacket = packet.Extract<TcpPacket>();
+        //        var udpPacket = packet.Extract<UdpPacket>();
 
-                if (tcpPacket != null)
-                {
-                    // Check payload for suspicious patterns
-                    string payload = Encoding.ASCII.GetString(tcpPacket.PayloadData);
-                    CheckUserAgent(payload);
-                    EmitMetrics("tcp_packets_analyzed", 1);
-                }
-                else if (udpPacket != null)
-                {
-                    EmitMetrics("udp_packets_analyzed", 1);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error analyzing packet: {ex.Message}");
-                EmitMetrics("packet_analysis_errors", 1);
-            }
-        }
+        //        if (tcpPacket != null)
+        //        {
+        //            // Check payload for suspicious patterns
+        //            string payload = Encoding.ASCII.GetString(tcpPacket.PayloadData);
+        //            CheckUserAgent(payload);
+        //            EmitMetrics("tcp_packets_analyzed", 1);
+        //        }
+        //        else if (udpPacket != null)
+        //        {
+        //            EmitMetrics("udp_packets_analyzed", 1);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error analyzing packet: {ex.Message}");
+        //        EmitMetrics("packet_analysis_errors", 1);
+        //    }
+        //}
         public enum DnsRecordType
         {
             A = 1,
@@ -215,6 +215,32 @@ namespace PacketsSniffer.Core.Detection
                 RaiseAlert($"Possible DNS tunneling detected: {domain}");
             }
         }
+        public DnsPacket ParseDnsPacket(byte[] payload)
+        {
+            // Parse DNS packet (example implementation depends on library)
+            // Use a DNS library like ARSoft.Tools.Net or your own parsing logic.
+
+            return new DnsPacket
+            {
+                Questions = new List<DnsQuestion>
+            {
+                new DnsQuestion { Name = "example.com", Type = "A" }
+            }
+            };
+        }
+
+
+        public class DnsPacket
+        {
+            public List<DnsQuestion> Questions { get; set; }
+        }
+
+        public class DnsQuestion
+        {
+            public string Name { get; set; }
+            public string Type { get; set; }
+        }
+       
 
 
         private readonly LookupClient _client;
@@ -286,5 +312,5 @@ namespace PacketsSniffer.Core.Detection
                 IpFrequency = ipFrequency
             };
         }
-    } 
+    }
 }

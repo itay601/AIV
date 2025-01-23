@@ -41,6 +41,11 @@ class Packet(BaseModel):
     Layer5_Session_TCPState: Optional[constr(max_length=50)] = None
     # SSH Detected
     SSHdetected : Optional[bool] = None
+    HTTP_UserAgent : Optional[str] = None
+    HTTP_Path : Optional[str] = None
+    HTTP_IsPOST : Optional[bool] = None
+    DNS_Query : Optional[str] = None
+    DNS_RecordType : Optional[str] = None
     # ICMP Details
     Layer3_ICMP_TypeCode: Optional[constr(max_length=10)] = None
 

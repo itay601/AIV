@@ -18,6 +18,39 @@ namespace PacketsSniffer.Monitoring
             // Event to notify when a suspicious packet is detected
             public event Action<string> OnSuspiciousPacketDetected;
 
+
+
+            public HttpPacket ParseHttpPacket(string payload)
+            {
+                var httpPacket = new HttpPacket();
+
+                // Example parsing logic (simplified)
+                var lines = payload.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+                if (lines.Length > 0)
+                {
+                    var requestLine = lines[0].Split(' ');
+                    httpPacket.Method = requestLine[0];
+                    httpPacket.Url = requestLine.Length > 1 ? requestLine[1] : null;
+                }
+
+                httpPacket.Headers = lines
+                    .Skip(1)
+                    .TakeWhile(line => !string.IsNullOrWhiteSpace(line))
+                    .Select(line => line.Split(new[] { ": " }, 2, StringSplitOptions.None))
+                    .Where(parts => parts.Length == 2)
+                    .ToDictionary(parts => parts[0], parts => parts[1]);
+
+                return httpPacket;
+            }
+            public class HttpPacket
+            {
+                public string Method { get; set; }
+                public string Url { get; set; }
+                public Dictionary<string, string> Headers { get; set; }
+            }
+
+
+
             // Method to analyze a packet
             public void AnalyzePacketHTTP(TcpPacket tcpPacket)
             {
