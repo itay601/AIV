@@ -18,6 +18,17 @@ namespace PacketsSniffer.Core.Database.Packets
         public long Layer4_Transport_AcknowledgementNumber { get; set; }
         public int Layer4_Transport_UDP_SourcePort { get; set; }
         public int Layer4_Transport_UDP_DestinationPort { get; set; }
+        /// <summary>
+        /// ///////////////////
+        /// </summary>
+        public string HTTP_UserAgent { get; set; }
+        public string HTTP_Path { get; set; }
+        public bool HTTP_IsPOST { get; set; }
+        public string DNS_Query { get; set; }
+        public string DNS_RecordType { get; set; }
+        /// <summary>
+        /// ///////////
+        /// </summary>
         public string Layer5_Session_TCPState { get; set; }
         public bool? SSHdetected { get; set; }
         public string Layer3_ICMP_TypeCode { get; set; }
@@ -61,6 +72,11 @@ namespace PacketsSniffer.Core.Database.Packets
             Console.WriteLine($"Layer 4 (Transport) UDP Destination Port: {this.Layer4_Transport_UDP_DestinationPort}");
             Console.WriteLine($"Layer 5 (Session) TCP State: {this.Layer5_Session_TCPState}");
             Console.WriteLine($"SSH Detected: {this.SSHdetected}");
+            Console.WriteLine($"HTTP_UserAgent: {this.HTTP_UserAgent}");
+            Console.WriteLine($"HTTP_Path: {this.HTTP_Path}");
+            Console.WriteLine($"HTTP_IsPOST: {this.HTTP_IsPOST}");
+            Console.WriteLine($"DNS_Query: {this.DNS_Query}");
+            Console.WriteLine($"DNS_RecordType: {this.DNS_RecordType}");
             Console.WriteLine($"Layer 3 (ICMP) Type Code: {this.Layer3_ICMP_TypeCode}");
             Console.WriteLine($"Layer 3 (DHCP) Operation: {this.Layer3_DHCP_Operation}");
             Console.WriteLine($"Layer 3 (DHCP) Client Address: {this.Layer3_DHCP_ClientAddress}");

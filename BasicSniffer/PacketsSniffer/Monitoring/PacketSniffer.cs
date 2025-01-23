@@ -188,7 +188,7 @@ namespace PacketsSniffer
 
                     
                     var analyzer = new DNSThreatPacketsAnalyzer();
-                    analyzer.DNSAnalyzePacket(tcpPacket);
+                    //analyzer.DNSAnalyzePacket(tcpPacket);
                     if (tcpPacket.DestinationPort == 80 || tcpPacket.SourcePort == 443)
                     {
                         var httpPacket = new HttpPacketAnalyzer();
@@ -203,7 +203,7 @@ namespace PacketsSniffer
                     packetInfo.AppendLine($"UDP Packet: {udpPacket.SourcePort} -> {udpPacket.DestinationPort}");
                     // Initialize analyzer
                     var analyzer = new DNSThreatPacketsAnalyzer();
-                    analyzer.DNSAnalyzePacket(udpPacket);
+                    //analyzer.DNSAnalyzePacket(udpPacket);
                 }
 
                 // ICMP Packet Analysis
