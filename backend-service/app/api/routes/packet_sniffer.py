@@ -34,6 +34,6 @@ async def process_packets(request: Request, packets: list[Packet]) -> PacketResp
 @router.post("/packets-service")
 async def process_packets(request: Request, packets: list[Packet]) -> PacketResponse: 
     # TODO 
-    # - need to get the list of analyzed packets and mybe take another process on Data
-    # - make CVE file of data  
+    # -[X] need to get the list of analyzed packets and mybe take another process on Data .send to 2 DL-models services 
+    # -[V] make CVE file of data  
     return await process_and_save_packets(packets)
