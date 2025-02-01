@@ -10,30 +10,17 @@ router = APIRouter(prefix="/packets")
 async def func(request: Request, input_data: Packet):
     return {"s":"s"}
 
-# Must to List Of Packets!!!
-@router.post("/packets-service1")
-async def process_packets(request: Request, packets: list[Packet]) -> PacketResponse: 
-    # TODO 
-    # - need to get the list of analyzed packets and mybe take another process on Data
-    # and send him for check to the VAE DL model service for handeling 
-
-    
-    try:
-        # Your processing logic here
-        return PacketResponse(
-            success=True,
-            message="Packets processed successfully",
-            data=packets
-        )
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
 
 
-# Must to List Of Packets!!!
 @router.post("/packets-service")
-async def process_packets(request: Request, packets: list[Packet]) -> PacketResponse: 
-    # TODO 
-    # -[X] need to get the list of analyzed packets and mybe take another process on Data .send to 2 DL-models services 
-    # -[V] make CVE file of data  
-    return await process_and_save_packets(packets)
+async def process_packets(request: Request, packets: List[Packet]) -> PacketResponse:
+    # Make a request to the backend service with the packets
+    try:
+        url = "http://backend-service.com/packets-endpoint"
+        headers = {"Content-Type": "application/json"}
+        response = requests.post(url, headers=headers, json=[packet.dict() for packet in packets])
+        response.raise_for_status()
+        return PacketResponse(packets=packets, message="Packets sent successfully")
+    except requests.exceptions.RequestException as e:
+        return PacketResponse(packets=packets, message=f"Error sending packets: {e}")
