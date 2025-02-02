@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Response, APIRouter
 
-from api.routes.packet_sniffer import router as packets_router
+from routes.packet_AE import router as packets_router
 
 
 app = FastAPI(prefix="/v1/AE")
