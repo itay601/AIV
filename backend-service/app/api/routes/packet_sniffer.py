@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException ,APIRouter, Request
 from typing import Annotated, Optional
 from models.schemas import Packet ,PacketResponse
 from api.utils import process_and_save_packets
+import httpx
+
 
 router = APIRouter(prefix="/packets")
 
@@ -14,13 +16,30 @@ async def func(request: Request, input_data: Packet):
 
 
 @router.post("/packets-service")
-async def process_packets(request: Request, packets: List[Packet]) -> PacketResponse:
-    # Make a request to the backend service with the packets
+async def process_packets(request: Request, packets: list[Packet]) -> PacketResponse:
     try:
-        url = "http://backend-service.com/packets-endpoint"
+        
+        url = "http://localhost:5001/packets-service"
         headers = {"Content-Type": "application/json"}
-        response = requests.post(url, headers=headers, json=[packet.dict() for packet in packets])
-        response.raise_for_status()
-        return PacketResponse(packets=packets, message="Packets sent successfully")
-    except requests.exceptions.RequestException as e:
-        return PacketResponse(packets=packets, message=f"Error sending packets: {e}")
+        
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                url, 
+                headers=headers, 
+                json=[packet.dict() for packet in packets]
+            )
+            response.raise_for_status()
+        response_data = response.json()
+        message = response_data.msg
+        if message !="regular packets":    
+            return PacketResponse(
+                packets=packets,
+                message="mallicios packets check another model processes",
+                success=True
+        )
+    except Exception as e:
+        return PacketResponse(
+            packets=packets,
+            message=f"Error sending packets: {e}",
+            success=False
+        )

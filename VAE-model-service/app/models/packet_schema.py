@@ -1,5 +1,5 @@
 #from typing import List
-from pydantic import BaseModel, Field, IPvAnyAddress, conint, constr
+from pydantic import BaseModel, Field, conint, constr
 from typing import Optional
 import datetime 
 
@@ -23,8 +23,8 @@ class Packet(BaseModel):
     Layer2_DataLink_EthernetType: Optional[constr(max_length=10)] = None
 
     # Layer 3: Network
-    Layer3_Network_SourceIP: Optional[IPvAnyAddress] = None
-    Layer3_Network_DestinationIP: Optional[IPvAnyAddress] = None
+    Layer3_Network_SourceIP: Optional[str] = None
+    Layer3_Network_DestinationIP: Optional[str] = None
     Layer3_Network_Protocol: Optional[constr(max_length=10)] = None
     Layer3_Network_TimeToLive: Optional[conint(ge=0, le=255)] = None  # TINYINT UNSIGNED
 
@@ -51,10 +51,10 @@ class Packet(BaseModel):
 
     # DHCP Details
     Layer3_DHCP_Operation: Optional[conint(ge=0, le=255)] = None  # TINYINT UNSIGNED
-    Layer3_DHCP_ClientAddress: Optional[IPvAnyAddress] = None
-    Layer3_DHCP_YourAddress: Optional[IPvAnyAddress] = None
-    Layer3_DHCP_ServerAddress: Optional[IPvAnyAddress] = None
-    Layer3_DHCP_GatewayAddress: Optional[IPvAnyAddress] = None
+    Layer3_DHCP_ClientAddress: Optional[str] = None
+    Layer3_DHCP_YourAddress: Optional[str] = None
+    Layer3_DHCP_ServerAddress: Optional[str] = None
+    Layer3_DHCP_GatewayAddress: Optional[str] = None
     Layer3_DHCP_MessageType: Optional[constr(max_length=50)] = None
     Layer3_DHCP_TransactionId: Optional[str] = None
     Layer3_DHCP_Options: Optional[str] = None  # TEXT
