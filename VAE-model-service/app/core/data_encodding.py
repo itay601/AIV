@@ -8,9 +8,14 @@ import torch
 from torch.serialization import safe_globals
 from gensim.models.word2vec import Word2Vec
 
+'''import logging
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)'''
 
 
-def load_model(checkpoint_path='autoencoder_checkpoint.pth'):
+def load_model(checkpoint_path='./autoencoder_checkpoint.pth'):
     """
     Load the saved AutoEncoder model
 
@@ -28,16 +33,11 @@ def load_model(checkpoint_path='autoencoder_checkpoint.pth'):
     model.eval()
     return model
 
-def load_word2vec():
-    with safe_globals([Word2Vec]):
-        model = torch.load("./word2vec_model.pth",weights_only=True)
-    return model
-
 class NetworkDataProcessor:
     def __init__(self, vector_size=100):
         self.label_encoder = LabelEncoder()
         self.min_max_scaler = MinMaxScaler()
-        self.word2vec_model = load_word2vec()
+        self.word2vec_model = Word2Vec.load('word2vec_model.model')
         self.vector_size = vector_size
         self.vectorizer = CountVectorizer(token_pattern=r'\b\w+\b')
 
@@ -80,7 +80,8 @@ class NetworkDataProcessor:
 
     def process_dataframe(self, df):
         """Process entire DataFrame"""
-        processed_df = df.copy()
+        processed_df = df
+        #processed_df = processed_df.drop(columns=["HTTP_IsPOST"])
 
         # Text columns for embedding
         text_columns = [
@@ -107,12 +108,18 @@ class NetworkDataProcessor:
             elif np.issubdtype(df[col].dtype, np.number):
                 processed_df[col] = self._scale_numeric(df[col])
 
+
         return processed_df
 
 # Usage
 def process_network_data(packets):
     df = packets.copy()
     df = PreProcessingData(df)
+    #logger.debug(f"Columns in DataFrame before dropping: {df.columns.tolist()}")  
+    
     processor = NetworkDataProcessor()
-    processed_df = processor.process_dataframe(df)
-    return processed_df
+    process_df = processor.process_dataframe(df)
+    processed_df = process_df.select_dtypes(include=[np.number])
+    #logger.debug(f"Columns in DataFrame before dropping: {processed_df.columns.tolist()}")  
+    processed_df = processed_df.drop(df.columns[18], axis=1)#HTTP_isPOST  
+    return processed_df                        
