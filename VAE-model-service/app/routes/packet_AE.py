@@ -2,9 +2,9 @@ from fastapi import FastAPI, HTTPException ,APIRouter, Request
 from typing import Annotated, Optional
 import pandas as pd
 from models.packet_schema import Packet ,PacketResponse
-from core.data_encodding import process_network_data
+from core.data_encodding import process_network_data ,load_model
 from core.ae_model import AutoEncoder , create_loader
-
+import torch
 
 router = APIRouter(prefix="")
 
@@ -17,29 +17,35 @@ async def process_packets(request: Request, packets: list[Packet]) -> PacketResp
     # -[V] make CVE file of data  
     df = pd.DataFrame(packets)
     df = process_network_data(df)
-    df = df.drop(columns=['HTTP_IsPOST'])
-    val_loader = create_loader(processedd_df,100)
-    prediction = predict(val_loader )
+    val_loader = create_loader(df,30)
+    prediction = await predict(val_loader)
     #print(packets[0])
-    return prediction
+    return {"success": True,
+    "message": {prediction}}
+
 
 
 async def predict(val_loader):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    MODEL = load_model("app/autoencoder_checkpoint.pth")
+    MODEL = load_model("./autoencoder_checkpoint.pth")
+    MODEL.to(device)  # Move the model to the same device
+    MODEL.eval()      # Set the model to evaluation mode
+    val_loss = 0.0
+
     with torch.no_grad():
         for batch in val_loader:
             inputs = batch[0].to(device, non_blocking=True)
-            output = MODEL(inputs)  
-            val_loss += nn.functional.mse_loss(outputs, inputs).item()
+            outputs = MODEL(inputs)  
+            val_loss += torch.nn.functional.mse_loss(outputs, inputs).item()
             print("Model Predictions:", (outputs > 0.5).float())
-            
-                
-    print(val_loss/len(val_loader)) ## should be like (5 - 20)
-    if val_loss < 5 | val_loss > 20:
+
+    avg_loss = val_loss / len(val_loader)
+    print(avg_loss)  # should be like (5 - 20)
+
+    # Use logical operators (and/or) instead of bitwise operators (|) for conditions
+    if avg_loss < 580 or avg_loss > 700:
         print("Malicious Packet Detected!")
-        return {"msg" : "Malicious Packet Detected! , check your computer now!!!"}
+        return "Malicious Packet Detected!"
     else:
         print("Normal Packet")
-        return {"msg" : "regular packets"}
-
+        return "regular packets"

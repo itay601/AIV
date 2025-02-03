@@ -14,9 +14,6 @@ class PacketResponse(BaseModel):
 
 
 class Packet(BaseModel):
-    # Primary Key 
-    #Id: Optional[int]  # Auto-incremented in the database, (might be miss from client)
-
     # Layer 2: Data Link
     Layer2_DataLink_SourceMAC: Optional[str] = None
     Layer2_DataLink_DestinationMAC: Optional[str] = None
@@ -41,6 +38,7 @@ class Packet(BaseModel):
     Layer5_Session_TCPState: Optional[constr(max_length=50)] = None
     # SSH Detected
     SSHdetected : Optional[bool] = None
+    
     HTTP_UserAgent : Optional[str] = None
     HTTP_Path : Optional[str] = None
     HTTP_IsPOST : Optional[bool] = None
