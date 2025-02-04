@@ -8,13 +8,6 @@ import httpx
 router = APIRouter(prefix="/packets")
 
 
-@router.post("/someEndpoint")
-async def func(request: Request, input_data: Packet):
-    return {"s":"s"}
-
-
-
-
 @router.post("/packets-service")
 async def process_packets(request: Request, packets: list[Packet]) -> PacketResponse:
     try:
@@ -30,8 +23,8 @@ async def process_packets(request: Request, packets: list[Packet]) -> PacketResp
             )
             response.raise_for_status()
         response_data = response.json()
-        message = response_data.msg
-        if message !="regular packets":    
+        message = response_data.message
+        if message != "regular packets":    
             return PacketResponse(
                 packets=packets,
                 message="mallicios packets check another model processes",

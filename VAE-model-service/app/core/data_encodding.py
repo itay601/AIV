@@ -8,11 +8,7 @@ import torch
 from torch.serialization import safe_globals
 from gensim.models.word2vec import Word2Vec
 
-'''import logging
 
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)'''
 
 
 def load_model(checkpoint_path='./autoencoder_checkpoint.pth'):
@@ -114,12 +110,10 @@ class NetworkDataProcessor:
 # Usage
 def process_network_data(packets):
     df = packets.copy()
-    df = PreProcessingData(df)
-    #logger.debug(f"Columns in DataFrame before dropping: {df.columns.tolist()}")  
+    df = PreProcessingData(df) 
     
     processor = NetworkDataProcessor()
     process_df = processor.process_dataframe(df)
-    processed_df = process_df.select_dtypes(include=[np.number])
-    #logger.debug(f"Columns in DataFrame before dropping: {processed_df.columns.tolist()}")  
+    processed_df = process_df.select_dtypes(include=[np.number])  
     processed_df = processed_df.drop(df.columns[18], axis=1)#HTTP_isPOST  
     return processed_df                        
