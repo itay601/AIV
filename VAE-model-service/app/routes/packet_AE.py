@@ -11,17 +11,13 @@ router = APIRouter(prefix="")
 
 # Must to List Of Packets!!!
 @router.post("/packets-service")
-async def process_packets(request: Request, packets: list[Packet]) -> PacketResponse: 
-    # TODO 
-    # -[X] need to get the list of analyzed packets and mybe take another process on Data .send to 2 DL-models services 
-    # -[V] make CVE file of data  
+async def process_packets(request: Request, packets: list[Packet]) -> dict : 
     df = pd.DataFrame(packets)
     df = process_network_data(df)
     val_loader = create_loader(df,30)
     prediction = await predict(val_loader)
     #print(packets[0])
-    return {"success": True,
-    "message": {prediction}}
+    return {"success": True, "message": {prediction}}
 
 
 
@@ -37,15 +33,15 @@ async def predict(val_loader):
             inputs = batch[0].to(device, non_blocking=True)
             outputs = MODEL(inputs)  
             val_loss += torch.nn.functional.mse_loss(outputs, inputs).item()
-            print("Model Predictions:", (outputs > 0.5).float())
+            #print("Model Predictions:", (outputs > 0.5).float())
 
     avg_loss = val_loss / len(val_loader)
-    print(avg_loss)  # should be like (5 - 20)
+    #print(avg_loss)  # should be like (5 - 20)
 
     # Use logical operators (and/or) instead of bitwise operators (|) for conditions
     if avg_loss < 580 or avg_loss > 700:
-        print("Malicious Packet Detected!")
+        #print("Malicious Packet Detected!")
         return "Malicious Packet Detected!"
     else:
-        print("Normal Packet")
+        #print("Normal Packet")
         return "regular packets"
