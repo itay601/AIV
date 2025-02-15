@@ -44,7 +44,7 @@
 - [ ] Heuristic Detection
   - [ ] Develop suspicious behavior identification
 - [ ] Behavioral Detection
-  - [ ] Process and network activity analysis
+  - [V] Process and network activity analysis
 
 ### 🖥️ User Interface Development
 
@@ -71,9 +71,9 @@
 - [ ] ProcessScanner
   - [ ] Running process analysis
   - [ ] Threat identification
-- [ ] NetworkMonitor
-  - [ ] Network activity tracking
-  - [ ] Suspicious connection detection
+- [V] NetworkMonitor
+  - [V] Network activity tracking
+  - [V] Suspicious connection detection
 
 ### 🧪 Testing Strategy
 
