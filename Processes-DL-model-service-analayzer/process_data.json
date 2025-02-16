@@ -1,0 +1,322 @@
+[
+  {
+    "pid": 272,
+    "name": "zsh",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:39:23",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.09,
+    "memory_rss": 7352320,
+    "memory_vms": 8888320,
+    "num_threads": 1,
+    "num_file_descriptors": 8,
+    "parent_process": "Relay(272)",
+    "open_files": [
+      "/usr/share/zsh/functions/Completion.zwc",
+      "/usr/share/zsh/functions/Zle.zwc",
+      "/usr/share/zsh/functions/Completion/Base.zwc",
+      "/usr/share/zsh/functions/Misc.zwc"
+    ],
+    "connections": []
+  },
+  {
+    "pid": 343,
+    "name": "systemd",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:39:23",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.15,
+    "memory_rss": 11796480,
+    "memory_vms": 20742144,
+    "num_threads": 1,
+    "num_file_descriptors": 30,
+    "parent_process": "systemd",
+    "open_files": [],
+    "connections": []
+  },
+  {
+    "pid": 357,
+    "name": "zsh",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:39:23",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.08,
+    "memory_rss": 6479872,
+    "memory_vms": 8151040,
+    "num_threads": 1,
+    "num_file_descriptors": 7,
+    "parent_process": "login",
+    "open_files": [
+      "/usr/share/zsh/functions/Completion.zwc",
+      "/usr/share/zsh/functions/Completion/Base.zwc",
+      "/usr/share/zsh/functions/Misc.zwc"
+    ],
+    "connections": []
+  },
+  {
+    "pid": 586,
+    "name": "sh",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:40:57",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.01,
+    "memory_rss": 1208320,
+    "memory_vms": 2867200,
+    "num_threads": 1,
+    "num_file_descriptors": 4,
+    "parent_process": "Relay(586)",
+    "open_files": [],
+    "connections": []
+  },
+  {
+    "pid": 587,
+    "name": "sh",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:40:57",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.01,
+    "memory_rss": 1077248,
+    "memory_vms": 2867200,
+    "num_threads": 1,
+    "num_file_descriptors": 5,
+    "parent_process": "sh",
+    "open_files": [
+      "/mnt/c/Users/itaym/.vscode/extensions/ms-vscode-remote.remote-wsl-0.88.5/scripts/wslServer.sh"
+    ],
+    "connections": []
+  },
+  {
+    "pid": 592,
+    "name": "sh",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:40:57",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.01,
+    "memory_rss": 1069056,
+    "memory_vms": 2867200,
+    "num_threads": 1,
+    "num_file_descriptors": 5,
+    "parent_process": "sh",
+    "open_files": [
+      "/home/itay601/.vscode-server/bin/e54c774e0add60467559eb0d1e229c6452cf8447/bin/code-server"
+    ],
+    "connections": []
+  },
+  {
+    "pid": 596,
+    "name": "node",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:40:57",
+    "cpu_percent": 0.0,
+    "memory_percent": 1.21,
+    "memory_rss": 98439168,
+    "memory_vms": 12091035648,
+    "num_threads": 11,
+    "num_file_descriptors": 30,
+    "parent_process": "sh",
+    "open_files": [
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/remoteagent.log"
+    ],
+    "connections": [
+      {
+        "family": "2",
+        "type": "1",
+        "laddr": "addr(ip='127.0.0.1', port=43433)",
+        "raddr": null,
+        "status": "LISTEN"
+      },
+      {
+        "family": "2",
+        "type": "1",
+        "laddr": "addr(ip='127.0.0.1', port=43433)",
+        "raddr": "addr(ip='127.0.0.1', port=59300)",
+        "status": "ESTABLISHED"
+      }
+    ]
+  },
+  {
+    "pid": 609,
+    "name": "node",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:40:57",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.69,
+    "memory_rss": 55799808,
+    "memory_vms": 1019445248,
+    "num_threads": 7,
+    "num_file_descriptors": 20,
+    "parent_process": "Relay(609)",
+    "open_files": [],
+    "connections": [
+      {
+        "family": "2",
+        "type": "1",
+        "laddr": "addr(ip='127.0.0.1', port=59300)",
+        "raddr": "addr(ip='127.0.0.1', port=43433)",
+        "status": "ESTABLISHED"
+      }
+    ]
+  },
+  {
+    "pid": 619,
+    "name": "node",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:40:58",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.62,
+    "memory_rss": 50638848,
+    "memory_vms": 1014890496,
+    "num_threads": 7,
+    "num_file_descriptors": 20,
+    "parent_process": "Relay(619)",
+    "open_files": [],
+    "connections": [
+      {
+        "family": "2",
+        "type": "1",
+        "laddr": "addr(ip='127.0.0.1', port=59316)",
+        "raddr": "addr(ip='127.0.0.1', port=43433)",
+        "status": "ESTABLISHED"
+      }
+    ]
+  },
+  {
+    "pid": 626,
+    "name": "node",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:40:58",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.78,
+    "memory_rss": 62894080,
+    "memory_vms": 12009381888,
+    "num_threads": 13,
+    "num_file_descriptors": 23,
+    "parent_process": "node",
+    "open_files": [
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/remoteagent.log"
+    ],
+    "connections": []
+  },
+  {
+    "pid": 665,
+    "name": "node",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:40:58",
+    "cpu_percent": 0.0,
+    "memory_percent": 1.54,
+    "memory_rss": 124776448,
+    "memory_vms": 33594736640,
+    "num_threads": 12,
+    "num_file_descriptors": 31,
+    "parent_process": "node",
+    "open_files": [
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/remoteagent.log",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/exthost1/remoteexthost.log",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/exthost1/vscode.json-language-features/JSON Language Server.log",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/exthost1/vscode.git/Git.log",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/exthost1/vscode.github/GitHub.log"
+    ],
+    "connections": [
+      {
+        "family": "2",
+        "type": "1",
+        "laddr": "addr(ip='127.0.0.1', port=43433)",
+        "raddr": "addr(ip='127.0.0.1', port=59316)",
+        "status": "ESTABLISHED"
+      }
+    ]
+  },
+  {
+    "pid": 1186,
+    "name": "node",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:43:11",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.91,
+    "memory_rss": 73912320,
+    "memory_vms": 11809030144,
+    "num_threads": 12,
+    "num_file_descriptors": 22,
+    "parent_process": "node",
+    "open_files": [
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/ptyhost.log",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/remoteagent.log"
+    ],
+    "connections": []
+  },
+  {
+    "pid": 1197,
+    "name": "zsh",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:43:11",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.09,
+    "memory_rss": 7380992,
+    "memory_vms": 8896512,
+    "num_threads": 1,
+    "num_file_descriptors": 10,
+    "parent_process": "node",
+    "open_files": [
+      "/usr/share/zsh/functions/Completion.zwc",
+      "/usr/share/zsh/functions/Completion/Base.zwc",
+      "/usr/share/zsh/functions/Zle.zwc",
+      "/usr/share/zsh/functions/Misc.zwc",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/ptyhost.log",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/remoteagent.log"
+    ],
+    "connections": []
+  },
+  {
+    "pid": 3757,
+    "name": "node",
+    "username": "itay601",
+    "status": "sleeping",
+    "created_time": "2025-02-16 14:51:15",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.73,
+    "memory_rss": 59441152,
+    "memory_vms": 1018421248,
+    "num_threads": 7,
+    "num_file_descriptors": 23,
+    "parent_process": "node",
+    "open_files": [
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/remoteagent.log",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/exthost1/remoteexthost.log",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/exthost1/vscode.git/Git.log",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/exthost1/vscode.github/GitHub.log"
+    ],
+    "connections": []
+  },
+  {
+    "pid": 6210,
+    "name": "python3",
+    "username": "itay601",
+    "status": "running",
+    "created_time": "2025-02-16 15:02:33",
+    "cpu_percent": 0.0,
+    "memory_percent": 0.18,
+    "memory_rss": 14614528,
+    "memory_vms": 19222528,
+    "num_threads": 1,
+    "num_file_descriptors": 6,
+    "parent_process": "zsh",
+    "open_files": [
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/ptyhost.log",
+      "/home/itay601/.vscode-server/data/logs/20250216T144058/remoteagent.log"
+    ],
+    "connections": []
+  }
+]
