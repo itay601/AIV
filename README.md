@@ -1,4 +1,4 @@
-# Antivirus Project - Private Repository
+# Antivirus Project
 
 ## Project Development Roadmap and Task Checklist
 
