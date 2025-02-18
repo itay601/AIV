@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PacketsSniffer.Core.Detection;
 using PacketsSniffer.Monitoring;
+using PacketsSniffer.Monitoring.Processes;
 
 namespace PacketsSniffer.UI
 {
@@ -17,12 +18,13 @@ namespace PacketsSniffer.UI
             // Start monitoring in background
             // The _ discard operator tells the compiler we intentionally aren't awaiting the task
             _ =  Task.Run(async () => await PacketExtensions.MonitoringPackets());
-            
+            //_ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
+            await ProcessExtentions.MonitoringProcesses();
 
             string choice = "-1";
             while (choice != "exit")
             {
-                Console.WriteLine("Packet Sniffer Menu:");
+                Console.WriteLine("AntiVirus Menu:");
                 Console.WriteLine("1. Packets Sniffer");
                 Console.WriteLine("2. Mallware detection");
                 Console.Write("Choose an option (1/2): ");

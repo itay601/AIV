@@ -44,17 +44,18 @@
     <Compile Include="Core\Database\SamplesSignitures\SignituresDataClasses.cs" />
     <Compile Include="Monitoring\DNS\DnsPacket.cs" />
     <Compile Include="Monitoring\PacketsHandle\HttpHttps.cs" />
-    <Compile Include="Monitoring\PacketExtensions.cs" />
+    <Compile Include="Monitoring\Packets\PacketExtensions.cs" />
     <Compile Include="Monitoring\DNS\DnsPacketsAnalayzer.cs" />
     <Compile Include="Monitoring\PacketsHandle\ICMP.cs" />
-    <Compile Include="Monitoring\PacketsProcessMonitoringSendToServer.cs" />
-    <Compile Include="Monitoring\ProcessesMonitoring.cs" />
+    <Compile Include="Monitoring\Packets\PacketsProcessMonitoringSendToServer.cs" />
+    <Compile Include="Monitoring\Processes\ProcessesMonitoring.cs" />
+    <Compile Include="Monitoring\Processes\ProcessExtentions.cs" />
     <Compile Include="UI\BackgroundMonitoringConsole.cs" />
     <Compile Include="UI\MainConsole.cs" />
     <None Include="Core\Database\sql\Dockerfile" />
     <Compile Include="Core\Detection\FileDetection.cs" />
     <Compile Include="UI\ConsoleTerminal.cs" />
-    <Compile Include="Monitoring\PacketSniffer.cs" />
+    <Compile Include="Monitoring\Packets\PacketSniffer.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
