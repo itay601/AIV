@@ -153,5 +153,50 @@ namespace PacketsSniffer.Monitoring
                 return (null, null, null);
             }
         }
+        public static (string userAgent, string path, string method) AnalyzeHttpPacketDetails(byte[] payload)
+        {
+            string userAgent = "";
+            string path = "";
+            string method = "";
+
+            try
+            {
+                // Convert payload to string
+                string httpContent = System.Text.Encoding.ASCII.GetString(payload);
+
+                // Split into lines
+                string[] lines = httpContent.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+
+                // Get request line (first line)
+                if (lines.Length > 0)
+                {
+                    string[] requestParts = lines[0].Split(' ');
+                    if (requestParts.Length >= 2)
+                    {
+                        method = requestParts[0];  // GET, POST, etc.
+                        path = requestParts[1];    // /login.php, etc.
+                    }
+                }
+
+                // Look for User-Agent header
+                foreach (string line in lines)
+                {
+                    if (line.StartsWith("User-Agent:", StringComparison.OrdinalIgnoreCase))
+                    {
+                        userAgent = line.Substring("User-Agent:".Length).Trim();
+                        break;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // Handle any parsing errors gracefully
+                userAgent = "";
+                path = "";
+                method = "";
+            }
+
+            return (userAgent, path, method);
+        }
     }
 }

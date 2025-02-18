@@ -87,7 +87,6 @@ namespace PacketsSniffer.Monitoring
                     int processId = Convert.ToInt32(process.Id);
                     string processName = Convert.ToString(process.ProcessName);
                     //ring processPath = Convert.ToString(process
-                    var process2 = Process.GetProcessById(processId);
                     AnalyzeProcess(process);
                 }
 

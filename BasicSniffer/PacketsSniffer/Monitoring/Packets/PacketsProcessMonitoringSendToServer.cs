@@ -134,16 +134,16 @@ namespace PacketsSniffer.Monitoring
                 var packet = Packet.ParsePacket(rawPacket.LinkLayerType, rawPacket.Data);
                 if (packet == null) return;
                 var packetData = CreatePacket(packet, rawPacket);
-                Console.WriteLine($"PacketArrival: {packetData}");
-                packetData.DisplayPacket();
+                //Console.WriteLine($"PacketArrival: {packetData}");
+                //packetData.DisplayPacket();
                 // If you still need to store the text representation
                 _capturedPackets.Add(packetData);
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error processing packet: {ex.Message}");
-                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                //Console.WriteLine($"Error processing packet: {ex.Message}");
+                //Console.WriteLine($"Stack trace: {ex.StackTrace}");
             }
         }
 
@@ -236,14 +236,11 @@ namespace PacketsSniffer.Monitoring
                     var httpPayload = System.Text.Encoding.UTF8.GetString(tcpPacket.PayloadData);
                     var httpAnalyzer = new HttpPacketAnalyzer();
                     httpAnalyzer.AnalyzePacketHTTP(tcpPacket);
-
-                    var (userAgent, path, method) = PacketExtensions.AnalyzeHttpPacket(tcpPacket.PayloadData);
-                    packetss.HTTP_UserAgent = userAgent;
-                    packetss.HTTP_Path = path;
-                    packetss.HTTP_IsPOST = method == "POST";
-                    
-
                 }
+                var (userAgent, path, method) = PacketExtensions.AnalyzeHttpPacket(tcpPacket.PayloadData);
+                packetss.HTTP_UserAgent = userAgent;
+                packetss.HTTP_Path = path;
+                packetss.HTTP_IsPOST = method == "POST";
             }
 
             // Layer 4 - Transport (UDP)
