@@ -56,7 +56,7 @@ namespace PacketsSniffer.Monitoring
                 _device = InitializeSniffDevice();
                 _device.Open(DeviceModes.Promiscuous);
 
-                Console.WriteLine($"Starting capture on {_device.Description}...");
+                //Console.WriteLine($"Starting capture on {_device.Description}...");
 
                 int currentPacketCount = 0;
                 var snapshotHandler = new PacketArrivalEventHandler((sender, e) =>
