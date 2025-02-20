@@ -9,21 +9,13 @@ namespace PacketsSniffer.Monitoring.Processes
 {
     class ProcessExtentions
     {
-        //public static async Task MonitoringProcesses()
-        //{
-        //    var processor = new ProcessesMonitoring();
-
-        //    Observable.Interval(TimeSpan.FromSeconds(20)).Subscribe(async x => await processor.StartMonitoring(20));
-
-
-        //}
         public static async Task MonitoringProcesses()
         {
             var processor = new ProcessesMonitoring();
 
             processor.StartMonitoring();
 
-
+            //Observable.Interval(TimeSpan.FromSeconds(20)).Subscribe(async x => await processor.StartMonitoring());
         }
     }
 }
