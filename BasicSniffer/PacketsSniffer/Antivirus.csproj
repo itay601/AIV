@@ -42,6 +42,7 @@
     <Compile Include="Core\Database\SamplesSignitures\Hashes.cs" />
     <Compile Include="Core\Database\SamplesSignitures\MallwareSignituresDatabaseMaintain.cs" />
     <Compile Include="Core\Database\SamplesSignitures\SignituresDataClasses.cs" />
+    <Compile Include="Core\Utilities\SendToBackend.cs" />
     <Compile Include="Monitoring\DNS\DnsPacket.cs" />
     <Compile Include="Monitoring\PacketsHandle\HttpHttps.cs" />
     <Compile Include="Monitoring\Packets\PacketExtensions.cs" />
@@ -166,7 +167,6 @@
     <Folder Include="AI\MachineLearning\" />
     <Folder Include="Core\Models\" />
     <Folder Include="Core\Scanners\" />
-    <Folder Include="Core\Utilities\" />
     <Folder Include="Performance\" />
     <Folder Include="Service\" />
     <Folder Include="ThreatIntelligence\" />

@@ -10,6 +10,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Net;
+using System.Runtime.InteropServices.WindowsRuntime;
+using PacketsSniffer.Core.Utilities;
+using System.Threading.Tasks;
 
 namespace PacketsSniffer.Monitoring
 {
@@ -20,6 +23,8 @@ namespace PacketsSniffer.Monitoring
         private bool isAdministrator;
         private ManagementEventWatcher processWatcher;
         private readonly object lockObject = new object();
+
+        private List<Dictionary<string, object>> ListOfProcesses =new List<Dictionary<string, object>>();
 
         public ProcessesMonitoring()
         {
@@ -66,21 +71,29 @@ namespace PacketsSniffer.Monitoring
                 "cgminer"
             };
         }
-        public void StartMonitoring()
+        public async Task StartMonitoring()
         {
             try
             {
+                var sendToBackend = new SendToBackendClass();
+
                 if (processWatcher != null)
                 {
                     Console.WriteLine("Monitoring is already active.");
                     return;
                 }
                 var processes = Process.GetProcesses();
+                var flag = 0;
                 foreach (var process in processes)
                 {
-                    //Console.WriteLine($"id : {process.Id} , name : {process.ProcessName} , machine name : {process.MachineName} ,SessionId : " +
-                    //  $"{process.SessionId}    ");
-                    ExactProcess(process);
+                    var PreProcess = ExactProcess(process);
+                    ListOfProcesses.Add(PreProcess);
+                    flag++; 
+                    //if (flag % 10 == 0)
+                    //{
+                    //     await sendToBackend.SendPacketsToBackend(ListOfProcesses);
+                    //     ListOfProcesses.Clear();
+                    //}
                 }
 
                 Console.WriteLine("Process monitoring started successfully.");
@@ -96,7 +109,7 @@ namespace PacketsSniffer.Monitoring
                 throw;
             }
         }
-        public static void ExactProcess(Process process)
+        public static Dictionary<string,object> ExactProcess(Process process)
         {
             try
             {
@@ -121,11 +134,12 @@ namespace PacketsSniffer.Monitoring
                 };
 
                 // Now send processInfo for further processing (example: for ML or logging)
-                ProcessDataForML(processInfo);
+                return processInfo;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error analyzing process {process.Id}: {ex.Message}");
+                return new Dictionary<string, object>();
             }
         }
 
