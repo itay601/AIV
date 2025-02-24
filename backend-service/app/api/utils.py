@@ -3,7 +3,7 @@ import datetime
 from fastapi import Request, HTTPException
 from typing import List
 import os
-from models.schemas import Packet ,PacketResponse
+from models.schemas import Packet ,PacketResponse ,Process
 
 
 async def process_and_save_packets(packets: List[Packet], csv_path: str = "packet_data.csv") -> PacketResponse:
@@ -43,3 +43,47 @@ async def process_and_save_packets(packets: List[Packet], csv_path: str = "packe
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to process packets: {str(e)}")
+
+
+
+
+def append_process_to_csv(process: Process, csv_filepath: str) -> None:
+    """
+    Appends a process' details to a CSV file.
+    If the CSV does not exist, it creates one and writes the header row.
+    """
+    # Convert the process data to a flat dictionary
+    process_data = process.dict()
+
+    # Convert datetime field to ISO formatted string if available
+    if process_data.get("StartTime"):
+        process_data["StartTime"] = process_data["StartTime"].isoformat()
+
+    # Define the CSV header order explicitly
+    headers = [
+        "ProcessId",
+        "ProcessName",
+        "SessionId",
+        "StartTime",
+        "CPU",
+        "MemoryUsage",
+        "ThreadCount",
+        "HandleCount",
+        "ParentProcessId",
+        "ExecutablePath",
+        "CommandLine",
+        "Owner",
+        "NetworkConnections",
+        "DllList",
+        "FileAccess",
+        "DigitalSignature",
+    ]
+
+    # Check if the file exists to decide whether to write header
+    write_header = not os.path.exists(csv_filepath)
+
+    with open(csv_filepath, mode="a", newline='', encoding="utf-8") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=headers)
+        if write_header:
+            writer.writeheader()
+        writer.writerow(process_data)        

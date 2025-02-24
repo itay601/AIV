@@ -74,3 +74,37 @@ class Packet(BaseModel):
             datetime: lambda v: v.isoformat(),
             bytes: lambda v: v.hex()
         }
+
+
+
+####    Processes   ####   
+
+
+class Process(BaseModel):
+    ProcessId: int = None
+    ProcessName: str = None
+    SessionId: int = None
+    StartTime: Optional[str] = None
+    CPU: Optional[float] = None
+    MemoryUsage: int = None
+    ThreadCount: Optional[int] = None
+    HandleCount: Optional[int] = None
+    ParentProcessId: Optional[int] = None
+    ExecutablePath: Optional[str] = None
+    CommandLine: Optional[str] = None
+    Owner: Optional[str] = None
+    NetworkConnections: Optional[list[str]] = None
+    DllList: Optional[list[str]] = None
+    FileAccess: Optional[list[str]] = None
+    DigitalSignature: Optional[str] = None
+    
+
+
+
+class ProcessResponse(BaseModel):
+    success: bool
+    message: str
+    data: Optional[list['Process']] = None
+
+    class Config:
+        from_attributes = True  # Previously known as orm_mode=True    
