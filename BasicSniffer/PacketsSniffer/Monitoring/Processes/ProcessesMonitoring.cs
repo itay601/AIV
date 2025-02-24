@@ -88,12 +88,12 @@ namespace PacketsSniffer.Monitoring
                 {
                     var PreProcess = ExactProcess(process);
                     ListOfProcesses.Add(PreProcess);
-                    flag++; 
-                    //if (flag % 10 == 0)
-                    //{
-                    //     await sendToBackend.SendPacketsToBackend(ListOfProcesses);
-                    //     ListOfProcesses.Clear();
-                    //}
+                    flag++;
+                    if (flag % 10 == 0)
+                    {
+                        await sendToBackend.SendProcessToBackend(ListOfProcesses);
+                        ListOfProcesses.Clear();
+                    }
                 }
 
                 Console.WriteLine("Process monitoring started successfully.");

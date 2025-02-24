@@ -18,7 +18,7 @@ namespace PacketsSniffer.Core.Utilities
             _httpClient = new HttpClient();
             _apiEndpoint = apiEndpoint;
         }
-        public async Task SendPacketsToBackend(List<Dictionary<string,object>> processes)
+        public async Task SendProcessToBackend(List<Dictionary<string,object>> processes)
         {
             try
             {
