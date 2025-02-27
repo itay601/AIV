@@ -6,7 +6,7 @@
 
 #### Core Infrastructure Setup
 - [V] Create initial project structure
-- [ ] Set up .gitignore for C# and sensitive files
+- [V] Set up .gitignore for C# and sensitive files
 - [V] Initialize solution and core projects
 
 ### 🛡️ Database Development Tasks
@@ -21,9 +21,6 @@
   - [ ] Static analysis utilities
 - [ ] Develop signature storage methods
   - [ ] CSV implementation
-  - [ ] SQLite database integration
-  - [ ] JSON storage option
-
 ### 🔍 Core Detection Modules
 
 #### Scanning Capabilities
