@@ -47,7 +47,7 @@ async def process_and_save_packets(packets: List[Packet], csv_path: str = "packe
 
 
 
-def append_process_to_csv(process: Process, csv_filepath: str) -> None:
+def append_process_to_csv(process: Process, csv_filepath: str ="./processes.csv") -> None:
     """
     Appends a process' details to a CSV file.
     If the CSV does not exist, it creates one and writes the header row.
@@ -57,7 +57,7 @@ def append_process_to_csv(process: Process, csv_filepath: str) -> None:
 
     # Convert datetime field to ISO formatted string if available
     if process_data.get("StartTime"):
-        process_data["StartTime"] = process_data["StartTime"].isoformat()
+        process_data["StartTime"] = process_data["StartTime"].format()
 
     # Define the CSV header order explicitly
     headers = [
