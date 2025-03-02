@@ -10,6 +10,7 @@ router = APIRouter(prefix="/process")
 
 @router.post("/process-service")
 async def process_to_csv(request: Request, processes: list[Process]) -> None: #ProcessResponse:
+    print(processes[0])
     for process in processes:
         append_process_to_csv(process)
         

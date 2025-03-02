@@ -24,7 +24,7 @@ namespace PacketsSniffer.Monitoring
         private ManagementEventWatcher processWatcher;
         private readonly object lockObject = new object();
 
-        private List<Dictionary<string, object>> ListOfProcesses =new List<Dictionary<string, object>>();
+        private List<Dictionary<string, object>> ListOfProcesses = new List<Dictionary<string, object>>();
 
         public ProcessesMonitoring()
         {
@@ -89,7 +89,7 @@ namespace PacketsSniffer.Monitoring
                     var PreProcess = ExactProcess(process);
                     ListOfProcesses.Add(PreProcess);
                     flag++;
-                    if (flag % 10 == 0)
+                    if (flag % 5 == 0)
                     {
                         await sendToBackend.SendProcessToBackend(ListOfProcesses);
                         ListOfProcesses.Clear();

@@ -1,6 +1,6 @@
 #from typing import List
 from pydantic import BaseModel, Field, conint, constr
-from typing import Optional
+from typing import Optional , Union ,List
 import datetime 
 
 
@@ -81,24 +81,22 @@ class Packet(BaseModel):
 
 
 class Process(BaseModel):
-    ProcessId: int = None
-    ProcessName: str = None
-    SessionId: int = None
+    ProcessId: Optional[int] = None
+    ProcessName: Optional[str] = None
+    SessionId: Optional[int] = None
     StartTime: Optional[str] = None
-    CPU: Optional[float] = None
-    MemoryUsage: int = None
+    CPU: Optional[Union[float, str]] = None  # Accept string or float for CPU
+    MemoryUsage: Optional[int] = None
     ThreadCount: Optional[int] = None
     HandleCount: Optional[int] = None
     ParentProcessId: Optional[int] = None
     ExecutablePath: Optional[str] = None
     CommandLine: Optional[str] = None
     Owner: Optional[str] = None
-    NetworkConnections: Optional[list[str]] = None
-    DllList: Optional[list[str]] = None
-    FileAccess: Optional[list[str]] = None
-    DigitalSignature: Optional[str] = None
-    
-
+    NetworkConnections: Optional[List[str]] = None
+    DllList: Optional[List[str]] = None
+    FileAccess: Optional[Union[str, List[str]]] = None  # Accept either string or list
+    DigitalSignature: Optional[Union[str, bool]] = None  # Accept string or boolean
 
 
 class ProcessResponse(BaseModel):
