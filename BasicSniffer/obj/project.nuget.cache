@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "hA6+BboxhOE=",
+  "dgSpecHash": "y6Upsz/Co1I=",
   "success": true,
   "projectFilePath": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\BasicSniffer.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\itaym\\.nuget\\packages\\mono.cecil\\0.11.6\\mono.cecil.0.11.6.nupkg.sha512"
+  ],
   "logs": []
 }
