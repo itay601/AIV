@@ -40,8 +40,10 @@
   <ItemGroup>
     <Compile Include="Core\Database\Packets\DataClassPackets.cs" />
     <Compile Include="Core\Database\SamplesSignitures\Hashes.cs" />
+    <Compile Include="Core\Database\SamplesSignitures\MallwareDataClass.cs" />
     <Compile Include="Core\Database\SamplesSignitures\MallwareSignituresDatabaseMaintain.cs" />
-    <Compile Include="Core\Database\SamplesSignitures\SignituresDataClasses.cs" />
+    <Compile Include="Core\Database\SamplesSignitures\FluxDNSDataClasses.cs" />
+    <Compile Include="Core\Detection\FileDetectionEMBERSchema.cs" />
     <Compile Include="Core\Scanners\Decompile.cs" />
     <Compile Include="Core\Utilities\SendToBackend.cs" />
     <Compile Include="Monitoring\DNS\DnsPacket.cs" />
@@ -55,7 +57,7 @@
     <Compile Include="UI\BackgroundMonitoringConsole.cs" />
     <Compile Include="UI\MainConsole.cs" />
     <None Include="Core\Database\sql\Dockerfile" />
-    <Compile Include="Core\Detection\FileDetection.cs" />
+    <Compile Include="Core\Detection\FileDetectionPrototype.cs" />
     <Compile Include="UI\ConsoleTerminal.cs" />
     <Compile Include="Monitoring\Packets\PacketSniffer.cs" />
     <Compile Include="Program.cs" />

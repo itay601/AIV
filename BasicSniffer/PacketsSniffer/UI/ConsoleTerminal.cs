@@ -23,7 +23,7 @@ namespace PacketsSniffer
        
         public static void MalwareDetectorSingleFile()
         {   
-            var detector = new FileDetection();
+            var detector = new FileDetectionPrototype();
             //enter file location
             string fileLocation = null;
             while (fileLocation != null) 
@@ -46,7 +46,7 @@ namespace PacketsSniffer
         }
         public static void MalwareDetectorAllFiles()
         {
-            var detector = new FileDetection();
+            var detector = new FileDetectionPrototype();
             detector.CheckAllFiles();
         }
         public static void MalwareDetectorConsole() 

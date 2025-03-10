@@ -19,10 +19,10 @@ namespace PacketsSniffer.UI
             // Start monitoring in background
             // The _ discard operator tells the compiler we intentionally aren't awaiting the task
             //_ =  Task.Run(async () => await PacketExtensions.MonitoringPackets());
-            //_ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
+            _ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
             //await ProcessExtentions.MonitoringProcesses();
 
-            Decompiler.AnalyzeAssembly(@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
+            //Decompiler.AnalyzeAssembly(@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
 
 
             string choice = "-1";
