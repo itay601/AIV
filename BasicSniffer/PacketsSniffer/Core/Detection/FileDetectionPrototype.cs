@@ -11,10 +11,10 @@ using PacketsSniffer.Core.Database.SamplesSignitures;
 
 namespace PacketsSniffer.Core.Detection
 {
-    class FileDetection
+    class FileDetectionPrototype
     {
         private readonly string _connectionString;//LOCAL IMAGE MYSQL
-        public FileDetection()
+        public FileDetectionPrototype()
         {
             _connectionString = "Server=127.0.0.1;port=3456;database=Samples;uid=root;pwd=my-secret-pw;";
         }

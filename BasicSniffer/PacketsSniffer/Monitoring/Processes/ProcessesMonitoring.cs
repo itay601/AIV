@@ -13,6 +13,7 @@ using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using PacketsSniffer.Core.Utilities;
 using System.Threading.Tasks;
+using PacketsSniffer.Core.Detection;
 
 namespace PacketsSniffer.Monitoring
 {
@@ -76,6 +77,7 @@ namespace PacketsSniffer.Monitoring
             try
             {
                 var sendToBackend = new SendToBackendClass();
+                var fileDetection = new FileDetectionEMBERSchema();
 
                 if (processWatcher != null)
                 {
@@ -88,6 +90,12 @@ namespace PacketsSniffer.Monitoring
                 {
                     var PreProcess = ExactProcess(process);
                     ListOfProcesses.Add(PreProcess);
+
+                    /////////////////////////////
+                    if (PreProcess != null)
+                        fileDetection.AnalyzeFile(PreProcess["ExecutablePath"].ToString());
+                    /////////////////////////////
+
                     flag++;
                     if (flag % 5 == 0)
                     {
