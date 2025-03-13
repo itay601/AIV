@@ -51,14 +51,14 @@ namespace PacketsSniffer.Core.Utilities
 
                 var json = System.Text.Json.JsonSerializer.Serialize(formattedProcesses, options);
                 Console.WriteLine("Sending JSON:");
-                Console.WriteLine(json);
+                //Console.WriteLine(json);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(_apiEndpoint, content);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Failed to send packets: {response.StatusCode}");
+                    Console.WriteLine($"Failed to send processes: {response.StatusCode}");
                     string responseBody = await response.Content.ReadAsStringAsync();
                     Console.WriteLine($"Response body: {responseBody}");
 

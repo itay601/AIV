@@ -17,13 +17,14 @@ namespace PacketsSniffer.UI
         {
 
             // Start monitoring in background
-            // The _ discard operator tells the compiler we intentionally aren't awaiting the task
             //_ =  Task.Run(async () => await PacketExtensions.MonitoringPackets());
-            _ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
-            //await ProcessExtentions.MonitoringProcesses();
+            // uncomment when finished analyzed aall exe/dll by ember dataset
+            //_ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
+            
 
-            //Decompiler.AnalyzeAssembly(@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
-
+            var l = new FileDetectionEMBERSchema();
+            l.AnalyzeFile($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
+            //Decompiler.AnalyzeAssembly($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
 
             string choice = "-1";
             while (choice != "exit")
@@ -31,7 +32,8 @@ namespace PacketsSniffer.UI
                 Console.WriteLine("AntiVirus Menu:");
                 Console.WriteLine("1. Packets Sniffer");
                 Console.WriteLine("2. Mallware detection");
-                Console.Write("Choose an option (1/2): ");
+                Console.WriteLine("Choose an option (1/2): ");
+                Console.WriteLine("-----------------------");
                 choice = Console.ReadLine();
 
                 switch (choice)
