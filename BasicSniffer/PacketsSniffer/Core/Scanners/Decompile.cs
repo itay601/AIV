@@ -21,17 +21,17 @@ namespace PacketsSniffer.Core.Scanners
                 // Iterate through methods in the type
                 foreach (var method in type.Methods)
                 {
-                    Console.WriteLine($"  Method: {method.Name} ({method.ReturnType})");
+                    Console.WriteLine($"  Method: {method.Name} ({method.ReturnType}) ");
 
-                    // Decompile IL code of the method
-                    if (method.HasBody)
-                    {
-                        Console.WriteLine("    IL Code:");
-                        foreach (var instruction in method.Body.Instructions)
-                        {
-                            Console.WriteLine($"      {instruction.OpCode} {instruction.Operand}");
-                        }
-                    }
+                    //// Decompile IL code of the method
+                    //if (method.HasBody)
+                    //{
+                    //    Console.WriteLine("    IL Code:");
+                    //    foreach (var instruction in method.Body.Instructions)
+                    //    {
+                    //        Console.WriteLine($"      {instruction.OpCode} {instruction.Operand}");
+                    //    }
+                    //}
                 }
             }
         }

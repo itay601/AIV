@@ -90,12 +90,27 @@ namespace PacketsSniffer.Monitoring
                 {
                     var PreProcess = ExactProcess(process);
                     ListOfProcesses.Add(PreProcess);
+                    string filepath = PreProcess["ExecutablePath"].ToString();
+                    Console.WriteLine($"{filepath}");
+                    //Console.WriteLine(s.ToString());
+                    //Console.WriteLine("dotnet assembly : {}" , s["IsDotNetAssembly"]);
+                    /////////
+                    ////here should be check of .NET framework assembly
+                    //////
+                    ///
+                    if (PreProcess != null && PEChecker.IsValidPEFile($"@{filepath}") == true)
+                    {
+                        var s = PEChecker.GetPEFileInfo($"@{filepath}");
 
-                    /////////////////////////////
-                    if (PreProcess != null)
-                        fileDetection.AnalyzeFile(PreProcess["ExecutablePath"].ToString());
-                    /////////////////////////////
-
+                        Console.WriteLine("file name: {}" ,s["FileName"]);
+                        Console.WriteLine(s["IsValidPE"]);
+                        Console.WriteLine(s["MachineType"]);
+                        Console.WriteLine(s["CompilationTime"]);
+                        Console.WriteLine(s["NumberOfSections"]);
+                        Console.WriteLine(s["FileType"]);
+                        Console.WriteLine(s["Characteristics"]);
+                        fileDetection.AnalyzeFile($"@{filepath}");
+                    }
                     flag++;
                     if (flag % 5 == 0)
                     {
