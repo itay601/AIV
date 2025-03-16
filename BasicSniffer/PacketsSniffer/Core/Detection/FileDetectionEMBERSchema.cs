@@ -30,14 +30,36 @@ namespace PacketsSniffer.Core.Detection
                         ["has_debug"] = PEUtility.IsAssemblyBuiltWithDebug(filePath),
                         ["exports"] = PEUtility.CountExports(filePath),
                         ["imports"] = PEUtility.CountImports(filePath),
-                        ["has_relocations"] = PEUtility.HasRelocation(filePath),
-                        //["has_resources"] = PEUtility.HasResources(filePath),
-                        //["has_signiture"] = PEUtility.HasSigniture(filePath),
+                        //["has_relocations"] = PEUtility.HasRelocation(filePath),
+                        ["has_resources"] = PEUtility.HasResources(filePath),
+                        ["has_signiture"] = PEUtility.HasSigniture(filePath),
                         //["has_tls"] = PEUtility.HasTLS(filePath),
                         //["symbols"] = PEUtility.Symbols(filePath),
+                    },
+                    /*"header": {
+                        "coff": {
+                        "timestamp": 1365446976,
+                        "machine": "I386",
+                        "characteristics": [ "LARGE_ADDRESS_AWARE", ..., "EXECUTABLE_IMAGE" ]
+                    },*/
+                    ["header"] = new Dictionary<string, object>
+                    {
+                        ["coff"] = new Dictionary<string, object>
+                        {
+                            //["timestamp"] = PEUtility.CountImports(filePath),
+                            //["machine"] = PEUtility.CountImports(filePath),
+                            //["characteristics"] = PEUtility.CountImports(filePath),
+                        },
+
+                        ["optional"] = new Dictionary<string, object>
+                        {
+                            //["subsystem"] = PEUtility.CountImports(filePath),
+                            //["dll_characteristics"] = PEUtility.CountImports(filePath),
+                            //["magic"] = PEUtility.CountImports(filePath),
+                        }
+                    },
 
 
-                    }
                 };
                 
                 // Now send processInfo for further processing (example: for ML or logging)
