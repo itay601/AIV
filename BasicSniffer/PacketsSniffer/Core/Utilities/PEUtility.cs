@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Configuration.Assemblies;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Mono.Cecil;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -77,7 +79,8 @@ namespace PacketsSniffer.Core.Utilities
         }
 
         /// <summary>
-        /// Checks if the specified assembly was built with debugging enabled.
+        /// indicates that symbol information (eg., from a .pdb) is available.
+        /// 
         /// </summary>
         /// <param name="assemblyPath">The path to the EXE or DLL file.</param>
         /// <returns>
@@ -100,19 +103,43 @@ namespace PacketsSniffer.Core.Utilities
             }
         }
 
-        public static bool HasRelocation(string filePath)
-        {
-          return true;
-        }
+        
 
-        internal static object HasResources(string filePath)
+        public static bool HasResources(string filePath)
         {
-            throw new NotImplementedException();
+            // Configure reading parameters to load symbols, if available.
+            var readerParams = new ReaderParameters { ReadSymbols = true };
+            try
+            {
+                // Read the assembly (module) from the given path.
+                var module = ModuleDefinition.ReadModule(filePath, readerParams);
+                bool hasResources = module.Resources.Any();
+                Console.WriteLine(hasResources);
+                return hasResources;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
-
-        internal static object HasSigniture(string filePath)
+        
+        public static object HasSigniture(string filePath)
         {
-            throw new NotImplementedException();
+            // Configure reading parameters to load symbols, if available.
+            var readerParams = new ReaderParameters { ReadSymbols = true };
+            try
+            {
+                // Read the assembly (module) from the given path.
+                var module = ModuleDefinition.ReadModule(filePath, readerParams);
+                // Check for a strong name signature by examining if the assembly has a public key.
+                bool hasSignature = module.Assembly != null && module.Assembly.Name.HasPublicKey;
+                Console.WriteLine("Has Strong Name Signature: " + hasSignature);
+                return hasSignature;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("hasSigniture func problem");
+            }
         }
 
         internal static object HasTLS(string filePath)
@@ -120,11 +147,38 @@ namespace PacketsSniffer.Core.Utilities
             throw new NotImplementedException();
         }
 
-        internal static object Symbols(string filePath)
+        public static bool HasRelocation(string filePath)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
-        
+
+        //internal static object Symbols(string filePath)
+        //{
+        //    // Configure reading parameters to load symbols, if available.
+        //    var readerParams = new ReaderParameters { ReadSymbols = true };
+        //    try
+        //    {
+        //        // Read the assembly (module) from the given path.
+        //        var module = ModuleDefinition.ReadModule(filePath, readerParams);
+        //        // Mono.Cecil does not provide a direct symbol count. If symbols are loaded, you might
+        //        // inspect parts of the debug information. Here, we count the number of unique document
+        //        // entries which can serve as a proxy.
+        //        var hasDebugInfo = PEUtility.IsAssemblyBuiltWithDebug(filePath);
+        //        int symbolCount = 0;
+        //        if (hasDebugInfo && module.SymbolReader != null)
+        //        {
+        //            // Count the documents referenced in debugging information.
+        //            symbolCount = module.SymbolReader.GetDocuments().Count();
+        //        }
+        //            return hasSignature;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("hasSigniture func problem");
+        //    }
+        //}
+
+
     }
 }

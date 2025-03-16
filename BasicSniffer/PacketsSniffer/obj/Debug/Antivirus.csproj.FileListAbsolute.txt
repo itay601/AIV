@@ -75,3 +75,7 @@ C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PeNet.Asn1.dl
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PeNet.dll
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Security.Cryptography.Pkcs.dll
 C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Security.Cryptography.Pkcs.xml
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Collections.Immutable.dll
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Reflection.Metadata.dll
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Collections.Immutable.xml
+C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\System.Reflection.Metadata.xml
