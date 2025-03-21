@@ -9,16 +9,21 @@ using System.Diagnostics;
 using System.Reflection;
 using Mono.Cecil;
 using PacketsSniffer.Core.Utilities;
+using PacketsSniffer.Core.Models;
 
 namespace PacketsSniffer.Core.Detection
 {
     class FileDetectionEMBERSchema
     {
         public Dictionary<string, object> _AnalyzedFile;
+
         public Dictionary<string, object> AnalyzeFile(string filePath)
         {
+            // Read entire file bytes.
+            byte[] fileBytes = File.ReadAllBytes(filePath);
             try
             {
+
                 _AnalyzedFile = new Dictionary<string, object>
                 {
                     ["sha256"] = ComputeSha256Hash(filePath),
@@ -35,29 +40,19 @@ namespace PacketsSniffer.Core.Detection
                         ["has_signiture"] = PEUtility.HasSigniture(filePath),
                         //["has_tls"] = PEUtility.HasTLS(filePath),
                         //["symbols"] = PEUtility.Symbols(filePath),
+
                     },
-                    /*"header": {
-                        "coff": {
-                        "timestamp": 1365446976,
-                        "machine": "I386",
-                        "characteristics": [ "LARGE_ADDRESS_AWARE", ..., "EXECUTABLE_IMAGE" ]
-                    },*/
                     ["header"] = new Dictionary<string, object>
                     {
-                        ["coff"] = new Dictionary<string, object>
-                        {
-                            //["timestamp"] = PEUtility.CountImports(filePath),
-                            //["machine"] = PEUtility.CountImports(filePath),
-                            //["characteristics"] = PEUtility.CountImports(filePath),
-                        },
-
-                        ["optional"] = new Dictionary<string, object>
-                        {
-                            //["subsystem"] = PEUtility.CountImports(filePath),
-                            //["dll_characteristics"] = PEUtility.CountImports(filePath),
-                            //["magic"] = PEUtility.CountImports(filePath),
-                        }
+                        ["coff"] = PEUtility.ReadPEHeaderCoff(filePath),
+                        ["optional"] = PEUtility.ExactHeaderOptional(filePath),
                     },
+                    ["imports"] = PEUtility.ExtractPeImports(filePath),
+                    ["exports"] = PEUtility.ExtractExports(filePath),
+                    ["section"] = SectionDataPEFile.ExtractSectionInfo(filePath),
+                    ["histogram"] = PEUtility.GetByteHistogram(fileBytes),
+                    ["byteEntropy"] = PEUtility.GetByteEntropyHistogram(fileBytes),
+                    
 
 
                 };
