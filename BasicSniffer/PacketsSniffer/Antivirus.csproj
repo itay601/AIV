@@ -44,6 +44,7 @@
     <Compile Include="Core\Database\SamplesSignitures\MallwareSignituresDatabaseMaintain.cs" />
     <Compile Include="Core\Database\SamplesSignitures\FluxDNSDataClasses.cs" />
     <Compile Include="Core\Detection\FileDetectionEMBERSchema.cs" />
+    <Compile Include="Core\Models\SectionDataPEFile.cs" />
     <Compile Include="Core\Scanners\Decompile.cs" />
     <Compile Include="Core\Utilities\PEChecker.cs" />
     <Compile Include="Core\Utilities\PEUtility.cs" />
@@ -198,7 +199,6 @@
   <ItemGroup>
     <Folder Include="AI\DataPreprocessing\" />
     <Folder Include="AI\MachineLearning\" />
-    <Folder Include="Core\Models\" />
     <Folder Include="Performance\" />
     <Folder Include="Service\" />
     <Folder Include="ThreatIntelligence\" />

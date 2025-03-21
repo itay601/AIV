@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using PacketsSniffer.Core.Detection;
+using PacketsSniffer.Core.Models;
 using PacketsSniffer.Core.Scanners;
+using PacketsSniffer.Core.Utilities;
 using PacketsSniffer.Monitoring;
 using PacketsSniffer.Monitoring.Processes;
 
@@ -20,10 +24,36 @@ namespace PacketsSniffer.UI
             //_ =  Task.Run(async () => await PacketExtensions.MonitoringPackets());
             // uncomment when finished analyzed aall exe/dll by ember dataset
             //_ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
-            
+
+            var filePath = $@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe";
 
             var l = new FileDetectionEMBERSchema();
-            l.AnalyzeFile($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
+            //l.AnalyzeFile($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
+
+            //need to be work on special imports like "KERNEL32.dll" 
+            //PEUtility.ExtractPeImports($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
+
+            //check if this working!!!
+            //PEUtility.ExtractExports($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketDotNet.dll");
+
+
+
+            // Read entire file bytes.
+            //byte[] fileBytes = File.ReadAllBytes(filePath);
+            //var byteHistogram = PEUtility.GetByteHistogram(fileBytes);
+            //var byteEntropyHistogram = PEUtility.GetByteEntropyHistogram(fileBytes);
+            ////Combine the results into an object for JSON output.
+            //var output = new
+            //    {
+            //        histogram = byteHistogram,
+            //        byteentropy = byteEntropyHistogram
+            //    };
+            //var json = JsonSerializer.Serialize(output, new JsonSerializerOptions { WriteIndented = true });
+            //Console.WriteLine(json);
+
+
+            //PEUtility.GetReferencedAssemblies($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
+
             //Decompiler.AnalyzeAssembly($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
 
             string choice = "-1";
