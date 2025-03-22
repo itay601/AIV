@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using PacketsSniffer.Core.Models;
+using System.Text;
 
 
 
@@ -704,7 +705,7 @@ namespace PacketsSniffer.Core.Utilities
                 double entropy = SectionDataPEFile.CalculateShannonEntropy(window);
                 // Expected value in range 0 to 8
                 // Quantize the entropy into 16 bins. Each bin corresponds to an entropy interval of 8/16 = 0.5.
-    
+
                 int entropyBin = (int)(entropy / 8.0 * 16);
                 if (entropyBin >= 16)
                 {
@@ -731,15 +732,110 @@ namespace PacketsSniffer.Core.Utilities
             }
             return flattened;
         }
-      
 
+        /// <summary>
+        /// Extracts string features from a binary file.
+        /// </summary>
+        /// <param name="data">The file bytes.</param>
+        /// <param name="minLength">Minimum length to consider a sequence as a valid string.</param>
+        /// <returns>
+        /// An anonymous object containing:
+        ///   - numstrings: total number of extracted strings
+        ///   - avlength: average length of the strings
+        ///   - printabledist: histogram (10 bins) of the string lengths
+        ///   - printables: total number of printable characters
+        ///   - entropy: Shannon entropy computed over concatenated strings
+        ///   - paths: count of strings that look like filesystem paths
+        ///   - urls: count of strings that look like URLs
+        ///   - registry: count of strings that appear to be Windows registry keys
+        ///   - MZ: 1 if the file begins with "MZ", 0 otherwise
+        /// </returns>
+        public static object ExtractStringFeatures(byte[] data, int minLength = 2)
+        {
+            List<string> extractedStrings = new List<string>();
+            StringBuilder current = new StringBuilder();
 
+            // Extract printable strings: we consider characters in the ASCII range 32 to 126 as printable.
+            foreach (byte b in data)
+            {
+                char c = (char)b;
+                if (c >= 32 && c <= 126)
+                {
+                    current.Append(c);
+                }
+                else
+                {
+                    if (current.Length >= minLength)
+                    {
+                        extractedStrings.Add(current.ToString());
+                    }
+                    current.Clear();
+                }
+            }
+            // Last string if the file ends in a printable region.
+            if (current.Length >= minLength)
+            {
+                extractedStrings.Add(current.ToString());
+            }
 
+            int numstrings = extractedStrings.Count;
+            double avlength = numstrings > 0 ? extractedStrings.Average(s => s.Length) : 0.0;
+            int printables = extractedStrings.Sum(s => s.Length);
 
+            // Build the printable distribution histogram over 10 bins.
+            int[] printableDist = new int[10];
+            if (extractedStrings.Count > 0)
+            {
+                // We use the minimum observed string length (at least minLength) and maximum string length.
+                int minObserved = minLength;
+                int maxObserved = extractedStrings.Max(s => s.Length);
 
+                // Compute bin width (we add 1 to include the maximum in the range)
+                double binWidth = (maxObserved - minObserved + 1) / 10.0;
+                if (binWidth < 1)
+                {
+                    binWidth = 1;
+                }
+                foreach (var s in extractedStrings)
+                {
+                    int bin = (int)((s.Length - minObserved) / binWidth);
+                    if (bin >= 10)
+                        bin = 9;
+                    printableDist[bin]++;
+                }
+            }
 
+            // Concatenate all strings and compute their overall Shannon entropy.
+            string concatted = string.Concat(extractedStrings);
+            byte[] bytes = Encoding.UTF8.GetBytes(concatted);
+            double entropy = SectionDataPEFile.CalculateShannonEntropy(bytes);
+
+            // Count strings that contain path separators.
+            int paths = extractedStrings.Count(s => s.Contains("\\") || s.Contains("/"));
+
+            // Identify strings that look like URLs.
+            int urls = extractedStrings.Count(s => s.Contains("http://")
+                                                  || s.Contains("https://")
+                                                  || s.Contains("www."));
+
+            // Count strings that look like Windows registry keys (typically containing "HKEY_").
+            int registry = extractedStrings.Count(s => s.Contains("HKEY_"));
+
+            // MZ marker: Check whether the file begins with "MZ".
+            int MZ = (data.Length >= 2 && data[0] == (byte)'M' && data[1] == (byte)'Z') ? 1 : 0;
+
+            return new
+            {
+                numstrings,
+                avlength,
+                printabledist = printableDist,
+                printables,
+                entropy,
+                paths,
+                urls,
+                registry,
+                MZ
+            };
+        }
     }
 }
-
-
-

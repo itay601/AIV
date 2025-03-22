@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,10 +62,6 @@ namespace PacketsSniffer.Core.Utilities
                     Console.WriteLine($"Failed to send processes: {response.StatusCode}");
                     string responseBody = await response.Content.ReadAsStringAsync();
                     Console.WriteLine($"Response body: {responseBody}");
-
-                    // Implement retry logic here if needed
-                    // content = new StringContent(json, Encoding.UTF8, "application/json");
-                    // response = await httpClient.PostAsync(apiEndpoint, content);
                 }
                 else
                 {
@@ -76,8 +73,44 @@ namespace PacketsSniffer.Core.Utilities
                 Console.WriteLine($"Error sending packets to backend: {ex.Message}");
             }
         }
+        public async Task SendAnalyzedPEToBackend(List<Dictionary<string, object>> PEAnalyzedEMBERDataset, string url)
+        {
+            var options = new System.Text.Json.JsonSerializerOptions
+            {
+                WriteIndented = true // Makes the JSON more readable for debugging
+            };
+            var jsonPayload = System.Text.Json.JsonSerializer.Serialize(PEAnalyzedEMBERDataset, options);
+            Console.WriteLine("Sending JSON:");
+            // Serialize the list to JSON.
 
 
+            // Create HTTP content.
+            using (var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json"))
+            {
+                try
+                {
+                    // Send POST request.
+                    HttpResponseMessage response = await _httpClient.PostAsync(url, content);
 
+                    // Check if the request was successful.
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseContent = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine("Data sent successfully. Server response:");
+                        Console.WriteLine(responseContent);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Failed to send data. Status code: {response.StatusCode}");
+                        string errorContent = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine($"Error details: {errorContent}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while sending the data: {ex.Message}");
+                }
+            }
+        }
     }
 }

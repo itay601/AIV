@@ -15,7 +15,7 @@ namespace PacketsSniffer.Monitoring.Processes
 
             processor.StartMonitoring();
 
-            //Observable.Interval(TimeSpan.FromSeconds(20)).Subscribe(async x => await processor.StartMonitoring());
+            //Observable.Interval(TimeSpan.FromSeconds(3600)).Subscribe(async x => await processor.StartMonitoring());
         }
     }
 }
