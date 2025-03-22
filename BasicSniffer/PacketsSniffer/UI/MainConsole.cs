@@ -23,12 +23,11 @@ namespace PacketsSniffer.UI
             // Start monitoring in background
             //_ =  Task.Run(async () => await PacketExtensions.MonitoringPackets());
             // uncomment when finished analyzed aall exe/dll by ember dataset
-            //_ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
+            _ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
 
             var filePath = $@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe";
 
             var l = new FileDetectionEMBERSchema();
-            //l.AnalyzeFile($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
 
             //need to be work on special imports like "KERNEL32.dll" 
             //PEUtility.ExtractPeImports($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
@@ -50,11 +49,10 @@ namespace PacketsSniffer.UI
             //    };
             //var json = JsonSerializer.Serialize(output, new JsonSerializerOptions { WriteIndented = true });
             //Console.WriteLine(json);
-
+            
 
             //PEUtility.GetReferencedAssemblies($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
 
-            //Decompiler.AnalyzeAssembly($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
 
             string choice = "-1";
             while (choice != "exit")

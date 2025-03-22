@@ -26,6 +26,7 @@ namespace PacketsSniffer.Monitoring
         private readonly object lockObject = new object();
 
         private List<Dictionary<string, object>> ListOfProcesses = new List<Dictionary<string, object>>();
+        private List<Dictionary<string, object>> ListfromProcessesToAnalyzeByEMBERDataset = new List<Dictionary<string, object>>();
 
         public ProcessesMonitoring()
         {
@@ -92,12 +93,8 @@ namespace PacketsSniffer.Monitoring
                     ListOfProcesses.Add(PreProcess);
                     string filepath = PreProcess["ExecutablePath"].ToString();
                     Console.WriteLine($"{filepath}");
-                    //Console.WriteLine(s.ToString());
-                    //Console.WriteLine("dotnet assembly : {}" , s["IsDotNetAssembly"]);
-                    /////////
-                    ////here should be check of .NET framework assembly
-                    //////
-                    ///
+                    
+                    /////// checking analyzing FOR PE FILE ////// 
                     if (PreProcess != null && PEChecker.IsValidPEFile($"@{filepath}") == true)
                     {
                         var s = PEChecker.GetPEFileInfo($"@{filepath}");
@@ -109,13 +106,15 @@ namespace PacketsSniffer.Monitoring
                         Console.WriteLine(s["NumberOfSections"]);
                         Console.WriteLine(s["FileType"]);
                         Console.WriteLine(s["Characteristics"]);
-                        fileDetection.AnalyzeFile($"@{filepath}");
+                        ListfromProcessesToAnalyzeByEMBERDataset.Add(fileDetection.AnalyzeFileForPEFile($"@{filepath}"));
                     }
                     flag++;
                     if (flag % 5 == 0)
                     {
                         await sendToBackend.SendProcessToBackend(ListOfProcesses);
                         ListOfProcesses.Clear();
+                        await sendToBackend.SendAnalyzedPEToBackend(ListfromProcessesToAnalyzeByEMBERDataset ,"http://localhost:5000/process/AnalyzedEmberEXE-DLL");
+                        ListfromProcessesToAnalyzeByEMBERDataset.Clear();
                     }
                 }
 
