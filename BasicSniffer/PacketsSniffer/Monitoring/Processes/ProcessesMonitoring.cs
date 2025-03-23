@@ -111,8 +111,8 @@ namespace PacketsSniffer.Monitoring
                     flag++;
                     if (flag % 5 == 0)
                     {
-                        await sendToBackend.SendProcessToBackend(ListOfProcesses);
-                        ListOfProcesses.Clear();
+                        //await sendToBackend.SendProcessToBackend(ListOfProcesses);
+                        //ListOfProcesses.Clear();
                         await sendToBackend.SendAnalyzedPEToBackend(ListfromProcessesToAnalyzeByEMBERDataset ,"http://localhost:5000/process/AnalyzedEmberEXE-DLL");
                         ListfromProcessesToAnalyzeByEMBERDataset.Clear();
                     }

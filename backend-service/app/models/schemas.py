@@ -76,10 +76,8 @@ class Packet(BaseModel):
         }
 
 
-
+#############################################################
 ####    Processes   ####   
-
-
 class Process(BaseModel):
     ProcessId: Optional[int] = None
     ProcessName: Optional[str] = None
@@ -106,3 +104,26 @@ class ProcessResponse(BaseModel):
 
     class Config:
         from_attributes = True  # Previously known as orm_mode=True    
+
+############################################################
+## analyzed files
+class PEFilesDeatils(BaseModel):
+    sha256: Optional[str]
+    label: Optional[int]
+    general: Optional[Dict[str, Any]]
+    header: Optional[Dict[str, Any]]
+    imports: Optional[Any]      
+    exports: Optional[Any]      
+    section: Optional[Any]      
+    histogram: Optional[Any]    
+    byteEntropy: Optional[Any]  
+    strings: Dict[Any]      
+
+class PEFilesDeatilsResponse(BaseModel):
+    success: bool
+    message: str
+    data: Optional[list['PEFilesDeatils']] = None
+
+    class Config:
+        from_attributes = True  # Previously known as orm_mode=True 
+
