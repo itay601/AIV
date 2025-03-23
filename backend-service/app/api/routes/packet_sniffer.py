@@ -11,7 +11,7 @@ router = APIRouter(prefix="/packets")
 @router.post("/packets-service")
 async def process_packets(request: Request, packets: list[Packet]) -> PacketResponse:
     try:
-        
+        #localhost NOT important for now
         url = "http://localhost:5001/packets-service"
         headers = {"Content-Type": "application/json"}
         
