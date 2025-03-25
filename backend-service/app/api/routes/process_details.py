@@ -14,13 +14,15 @@ async def process_to_csv(request: Request, processes: list[Process]) -> None:
     for process in processes:
         append_process_to_csv(process)
         
-@router.post("/process-service")
-async def Analyzed_PE_files_transformer_servive(request: Request, detailed_PE_files: list[PEFilesDeatils]) -> PEFilesDeatilsResponse:
+#@router.post("/process-service")
+#async def Analyzed_PE_files_transformer_servive(request: Request, detailed_PE_files: list[PEFilesDeatils]) -> PEFilesDeatilsResponse:
 
-@router.post("/transformer-service")
-async def Analyzed_PE_files_transformer_servive(request: Request, detailed_PE_files: list[PEFilesDeatils]) -> PEFilesDeatilsResponse: 
+@router.post("/AnalyzedEmberEXEDLL")
+async def Analyzed_PE_files_transformer_servive(request: Request, detailed_PE_files: list[PEFilesDeatils]) : 
+    response_message = f"working :\n {detailed_PE_files}"
+    return {"msg": response_message}
     #def preprocessing_data_from_cliend by
-    try:
+    '''try:
         #localhost NOT important for now
         url = "http://localhost:5001/transformer"
         headers = {"Content-Type": "application/json"}
@@ -45,4 +47,4 @@ async def Analyzed_PE_files_transformer_servive(request: Request, detailed_PE_fi
             packets=packets,
             message=f"Error sending packets: {e}",
             success=False
-        ) 
+        ) '''
