@@ -87,12 +87,24 @@ namespace PacketsSniffer.Monitoring
                 }
                 var processes = Process.GetProcesses();
                 var flag = 0;
+                Console.WriteLine(processes.Count());
+                string filepath;
                 foreach (var process in processes)
                 {
                     var PreProcess = ExactProcess(process);
                     ListOfProcesses.Add(PreProcess);
-                    string filepath = PreProcess["ExecutablePath"].ToString();
-                    Console.WriteLine($"{filepath}");
+
+                    if (PreProcess.ContainsKey("ExecutablePath"))
+                    {
+                        filepath = PreProcess["ExecutablePath"].ToString();
+                        Console.WriteLine($"{filepath}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("ExecutablePath key not found for process with ID: " + process.Id);
+                        continue; // Skip to next process or handle accordingly.
+                    }
+                    
                     
                     /////// checking analyzing FOR PE FILE ////// 
                     if (PreProcess != null && PEChecker.IsValidPEFile($"@{filepath}") == true)
@@ -113,7 +125,7 @@ namespace PacketsSniffer.Monitoring
                     {
                         //await sendToBackend.SendProcessToBackend(ListOfProcesses);
                         //ListOfProcesses.Clear();
-                        await sendToBackend.SendAnalyzedPEToBackend(ListfromProcessesToAnalyzeByEMBERDataset ,"http://localhost:5000/process/AnalyzedEmberEXE-DLL");
+                        await sendToBackend.SendAnalyzedPEToBackend(ListfromProcessesToAnalyzeByEMBERDataset ,"http://localhost:5000/process/AnalyzedEmberEXEDLL");
                         ListfromProcessesToAnalyzeByEMBERDataset.Clear();
                     }
                 }
@@ -128,7 +140,6 @@ namespace PacketsSniffer.Monitoring
                 {
                     Console.WriteLine("Please restart the application with administrator privileges.");
                 }
-                throw;
             }
         }
         public static Dictionary<string,object> ExactProcess(Process process)

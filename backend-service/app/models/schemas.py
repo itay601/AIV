@@ -1,6 +1,6 @@
 #from typing import List
 from pydantic import BaseModel, Field, conint, constr
-from typing import Optional , Union ,List
+from typing import Optional , Union ,List ,Any
 import datetime 
 
 
@@ -110,14 +110,18 @@ class ProcessResponse(BaseModel):
 class PEFilesDeatils(BaseModel):
     sha256: Optional[str]
     label: Optional[int]
-    general: Optional[Dict[str, Any]]
-    header: Optional[Dict[str, Any]]
-    imports: Optional[Any]      
-    exports: Optional[Any]      
-    section: Optional[Any]      
-    histogram: Optional[Any]    
-    byteEntropy: Optional[Any]  
-    strings: Dict[Any]      
+    general: Optional[dict[str, int]]
+    header: Optional[dict[str, dict[str, Any]]]
+    imports: Optional[dict[str, List[str]]]
+    exports: Optional[List[str]]
+    section: Optional[dict[str, Any]]
+    histogram: Optional[List[int]]
+    byteEntropy: Optional[List[int]]
+    strings: dict[str, Any]  # Ensure this is using typing.Any not the built-in any
+
+    model_config = {
+        "arbitrary_types_allowed": True,
+    }    
 
 class PEFilesDeatilsResponse(BaseModel):
     success: bool
@@ -125,5 +129,5 @@ class PEFilesDeatilsResponse(BaseModel):
     data: Optional[list['PEFilesDeatils']] = None
 
     class Config:
-        from_attributes = True  # Previously known as orm_mode=True 
+        from_attributes = True  # Previously known as orm_mode=True '''
 
