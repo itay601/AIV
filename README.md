@@ -24,23 +24,23 @@
 ### 🔍 Core Detection Modules
 
 #### Scanning Capabilities
-- [ ] Implement FileScanner
+- [] Implement FileScanner
   - [ ] Hash-based detection
   - [ ] Signature matching
-- [ ] Develop RealTimeScanner
-  - [ ] File system monitoring
+- [V] Develop RealTimeScanner
+  - [V] File system monitoring
   - [ ] Instant threat detection
-- [ ] Create SandboxAnalyzer
-  - [ ] Behavioral analysis framework
-  - [ ] Isolated execution environment
-
+- [V] Create SandboxAnalyzer
+  - [V] Behavioral analysis framework
+  - [V] Isolated execution environment
+  (only for some sample i did it (educatunal))
 #### Detection Strategies
 - [ ] Signature-based Detection
   - [ ] Implement match algorithms
   - [ ] Optimize matching performance
-- [ ] Heuristic Detection
-  - [ ] Develop suspicious behavior identification
-- [ ] Behavioral Detection
+- [V] Heuristic Detection
+  - [V] Develop suspicious behavior identification
+- [V] Behavioral Detection
   - [V] Process and network activity analysis
 
 ### 🖥️ User Interface Development
@@ -66,7 +66,7 @@
   - [ ] Continuous file system scanning
   - [ ] Low-overhead monitoring
 - [ ] ProcessScanner
-  - [ ] Running process analysis
+  - [V] Running process analysis
   - [ ] Threat identification
 - [V] NetworkMonitor
   - [V] Network activity tracking
