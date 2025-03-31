@@ -60,6 +60,16 @@
   - [ ] Update and scanning preferences
 
 ### 🔄 Background Services
+#### Transformer service 
+- [ ] Pre-Processing EMBER dataset
+- [ ] Building Transformer
+- [ ] Traning and checking Real Learning
+
+
+#### AE Packets detectore
+- [ ]
+- [ ]
+- [ ]
 
 #### Monitoring Services
 - [ ] RealTimeMonitor
