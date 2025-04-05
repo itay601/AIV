@@ -24,9 +24,9 @@
 ### 🔍 Core Detection Modules
 
 #### Scanning Capabilities
-- [] Implement FileScanner
-  - [ ] Hash-based detection
-  - [ ] Signature matching
+- [V] Implement FileScanner
+  - [ V ] Hash-based detection
+  - [ V ] Signature matching
 - [V] Develop RealTimeScanner
   - [V] File system monitoring
   - [ ] Instant threat detection
