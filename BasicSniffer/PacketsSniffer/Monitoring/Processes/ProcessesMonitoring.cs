@@ -118,13 +118,14 @@ namespace PacketsSniffer.Monitoring
                         Console.WriteLine(s["NumberOfSections"]);
                         Console.WriteLine(s["FileType"]);
                         Console.WriteLine(s["Characteristics"]);
-                        ListfromProcessesToAnalyzeByEMBERDataset.Add(fileDetection.AnalyzeFileForPEFile($"@{filepath}"));
+                        ListfromProcessesToAnalyzeByEMBERDataset.Add(fileDetection.AnalyzeFileForPEFile(filepath));
+                        //ListfromProcessesToAnalyzeByEMBERDataset.Add(fileDetection.AnalyzeFileForPEFile($"@{filepath}"));
                     }
                     flag++;
-                    if (flag % 5 == 0)
+                    if (flag % 5 == 0 )//&& ListfromProcessesToAnalyzeByEMBERDataset.Count() == 0)
                     {
-                        //await sendToBackend.SendProcessToBackend(ListOfProcesses);
-                        //ListOfProcesses.Clear();
+                        await sendToBackend.SendProcessToBackend(ListOfProcesses);
+                        ListOfProcesses.Clear();
                         await sendToBackend.SendAnalyzedPEToBackend(ListfromProcessesToAnalyzeByEMBERDataset ,"http://localhost:5000/process/AnalyzedEmberEXEDLL");
                         ListfromProcessesToAnalyzeByEMBERDataset.Clear();
                     }

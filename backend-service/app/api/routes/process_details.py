@@ -1,27 +1,25 @@
 from fastapi import FastAPI, HTTPException ,APIRouter, Request
 from typing import Annotated, Optional
 from models.schemas import Process ,ProcessResponse , PEFilesDeatils , PEFilesDeatilsResponse
-from api.utils import append_process_to_csv
+from api.utils import preprocessing_data_files
 import httpx
 
 
 router = APIRouter(prefix="/process")
 
 
-@router.post("/process_details_to_csv")
-async def process_to_csv(request: Request, processes: list[Process]) -> None: 
-    print(processes[0])
-    for process in processes:
-        append_process_to_csv(process)
+@router.post("/process-service")
+async def check_known_process_from_local_db(request: Request, processes: list[Process]) -> None: 
+    response_message = f"{processes}"
+    return {"msg": response_message}
         
-#@router.post("/process-service")
-#async def Analyzed_PE_files_transformer_servive(request: Request, detailed_PE_files: list[PEFilesDeatils]) -> PEFilesDeatilsResponse:
+
 
 @router.post("/AnalyzedEmberEXEDLL")
 async def Analyzed_PE_files_transformer_servive(request: Request, detailed_PE_files: list[PEFilesDeatils]) : 
-    response_message = f"working :\n {detailed_PE_files}"
-    return {"msg": response_message}
-    #def preprocessing_data_from_cliend by
+    response_message = f"{detailed_PE_files}"
+    #return {"msg": response_message}
+    response_data = preprocessing_data_files(detailed_PE_files)
     '''try:
         #localhost NOT important for now
         url = "http://localhost:5001/transformer"

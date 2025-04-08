@@ -30,7 +30,7 @@ namespace PacketsSniffer.Core.Detection
                     ["label"] = -1,
                     ["general"] = new Dictionary<string, object>
                     {
-                        ["file_size"] = ComputeFileSize(filePath),
+                        ["size"] = ComputeFileSize(filePath),
                         ["vsize"] = PrintSectionsVirtualSizes(filePath),
                         ["has_debug"] = PEUtility.IsAssemblyBuiltWithDebug(filePath),
                         ["exports"] = PEUtility.CountExports(filePath),
@@ -53,17 +53,17 @@ namespace PacketsSniffer.Core.Detection
                     ["histogram"] = PEUtility.GetByteHistogram(fileBytes),
                     ["byteEntropy"] = PEUtility.GetByteEntropyHistogram(fileBytes),
                     ["strings"] = PEUtility.ExtractStringFeatures(fileBytes),
-                    //strings ={    
-                    //  "numstrings": 170,
-                    //  "avlength": 8.170588235294117,
-                    //  "printabledist": [15, ... 6],
-                    //  "printables": 1389,
-                    //  "entropy": 6.259255409240723,
-                    //  "paths": 0,
-                    //  "urls": 0,
-                    //  "registry": 0,
-                    //  "MZ": 1
-                    //}
+                                                                //strings ={    
+                                                                //  "numstrings": 170,
+                                                                //  "avlength": 8.170588235294117,
+                                                                //  "printabledist": [15, ... 6],
+                                                                //  "printables": 1389,
+                                                                //  "entropy": 6.259255409240723,
+                                                                //  "paths": 0,
+                                                                //  "urls": 0,
+                                                                //  "registry": 0,
+                                                                //  "MZ": 1
+                                                                //}
                 };
                 
                 // Now send processInfo for further processing (example: for ML or logging)
