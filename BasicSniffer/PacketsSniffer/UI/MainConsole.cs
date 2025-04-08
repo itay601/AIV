@@ -25,33 +25,33 @@ namespace PacketsSniffer.UI
             // uncomment when finished analyzed aall exe/dll by ember dataset
             _ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
 
-            var filePath = $@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe";
 
-            var l = new FileDetectionEMBERSchema();
+            //var filePath = $@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe";
+            //var filepath = $@"C:\WINDOWS\System32\DriverStore\FileRepository\asussci2.inf_amd64_f57c48cf404ebc46\AsusAppService\AsusAppService.exe";
+            //var fileDetection = new FileDetectionEMBERSchema();
+            //Console.WriteLine(PEChecker.IsValidPEFile(filepath));
+            //try
+            //{
+            //    var result = fileDetection.AnalyzeFileForPEFile(filepath);
+
+            //    // Convert Dictionary to JSON
+            //    var options = new JsonSerializerOptions
+            //    {
+            //        WriteIndented = true // For pretty-printed JSON
+            //    };
+
+            //    string json = JsonSerializer.Serialize(result, options);
+            //    Console.WriteLine(json);
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"Error: {ex.Message}");
+            //}
+            
 
             //need to be work on special imports like "KERNEL32.dll" 
             //PEUtility.ExtractPeImports($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
-
-            //check if this working!!!
-            //PEUtility.ExtractExports($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketDotNet.dll");
-
-
-
-            // Read entire file bytes.
-            //byte[] fileBytes = File.ReadAllBytes(filePath);
-            //var byteHistogram = PEUtility.GetByteHistogram(fileBytes);
-            //var byteEntropyHistogram = PEUtility.GetByteEntropyHistogram(fileBytes);
-            ////Combine the results into an object for JSON output.
-            //var output = new
-            //    {
-            //        histogram = byteHistogram,
-            //        byteentropy = byteEntropyHistogram
-            //    };
-            //var json = JsonSerializer.Serialize(output, new JsonSerializerOptions { WriteIndented = true });
-            //Console.WriteLine(json);
-            
-
-            //PEUtility.GetReferencedAssemblies($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
 
 
             string choice = "-1";

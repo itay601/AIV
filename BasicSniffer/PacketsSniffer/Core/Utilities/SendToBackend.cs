@@ -80,7 +80,7 @@ namespace PacketsSniffer.Core.Utilities
                 WriteIndented = true // Makes the JSON more readable for debugging
             };
             var jsonPayload = System.Text.Json.JsonSerializer.Serialize(PEAnalyzedEMBERDataset, options);
-            Console.WriteLine("Sending JSON:");
+            Console.WriteLine($"Sending JSON:{jsonPayload}");
             // Serialize the list to JSON.
 
 
@@ -105,6 +105,11 @@ namespace PacketsSniffer.Core.Utilities
                         string errorContent = await response.Content.ReadAsStringAsync();
                         Console.WriteLine($"Error details: {errorContent}");
                     }
+                }
+                catch (BadImageFormatException badImageEx)
+                {
+                    // Handle the case where the file is not a valid managed assembly.
+                    Console.WriteLine($"File is not a managed assembly. Consider skipping analysis: {badImageEx.Message}");
                 }
                 catch (Exception ex)
                 {

@@ -3,9 +3,44 @@ import datetime
 from fastapi import Request, HTTPException
 from typing import List
 import os
-from models.schemas import Packet ,PacketResponse ,Process
+from models.schemas import Packet ,PacketResponse ,Process, PEFilesDeatils
+import pandas as pd
+
+##############logger########################
+import logging
+# Configure basic logging
+logging.basicConfig(
+    level=logging.DEBUG,  # Show all messages including DEBUG
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),  # Print to console
+        #logging.FileHandler("debug.log")  # Save to file
+    ]
+)
+######################
+
+logger = logging.getLogger(__name__)
 
 
+def preprocessing_data_files(detailed_PE_files: list[PEFilesDeatils]):
+    data_dicts = [model.dict() for model in detailed_PE_files]
+    df = pd.DataFrame(data_dicts)
+    logger.info(f"{df}")
+    logger.debug(f"{df}")
+    #df.drop(columns=['appeared', 'md5', 'avclass', 'datadirectories'], inplace=True)
+
+
+
+
+
+
+
+
+
+
+
+###########################
+#for the preprocessesing data in development stage
 
 async def process_and_save_packets(packets: List[Packet], csv_path: str = "packet_data.csv") -> PacketResponse:
     try:
