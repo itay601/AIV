@@ -19,10 +19,11 @@ async def check_known_process_from_local_db(request: Request, processes: list[Pr
 async def Analyzed_PE_files_transformer_servive(request: Request, detailed_PE_files: list[PEFilesDeatils]) : 
     response_message = f"{detailed_PE_files}"
     #return {"msg": response_message}
-    response_data = preprocessing_data_files(detailed_PE_files)
-    '''try:
+    #response_data = preprocessing_data_files(detailed_PE_files)
+    return {"msg": response_message}
+    try:
         #localhost NOT important for now
-        url = "http://localhost:5001/transformer"
+        url = "http://localhost:5002/transformer/exe-dll-files"
         headers = {"Content-Type": "application/json"}
         
         async with httpx.AsyncClient() as client:
