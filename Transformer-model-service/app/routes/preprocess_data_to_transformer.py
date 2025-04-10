@@ -1,13 +1,21 @@
-from fastapi import FastAPI, Response, APIRouter 
+from fastapi import FastAPI, Response, APIRouter ,Request
 from preprocessing.exact_features import preprocessing_data_files
+from models.ember_structure import PEFilesDeatils
+from models.transformer_models import initialize_model ,setup_optimizer
+from utils.load_model import load_model
+from utils.evaluation import eval_model
+
+import torch
+import torch.nn as nn
 
 
 router = APIRouter(prefix="")
 
 
-@router.post("/packets-service")
+@router.post("/transformer-service")
 async def process_packets(request: Request, files: list[PEFilesDeatils]) -> dict : 
-    data_loader = preprocessing_data_files(detailed_PE_files)
+    d_model = 128
+    data_loader = preprocessing_data_files(files)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model = initialize_model(
         d_model=d_model,
@@ -31,7 +39,7 @@ async def process_packets(request: Request, files: list[PEFilesDeatils]) -> dict
     # Run evaluation
     avg_loss = eval_model(
         model=model,
-        eval_loader=eval_loader,
+        eval_loader=data_loader,
         criterion=criterion,
         device=device
     )    

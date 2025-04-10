@@ -27,6 +27,9 @@ class PositionalEncoding(nn.Module):
         """
         x: Tensor, shape (batch_size, seq_length, d_model)
         """
+        # Convert list to tensor if x is a list
+        if isinstance(x, list):
+            x = torch.tensor(x, dtype=torch.float32)
         x = x + self.pe[:, :x.size(1)]
         return self.dropout(x)
 

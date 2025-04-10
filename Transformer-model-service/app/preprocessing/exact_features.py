@@ -4,15 +4,15 @@ import numpy as np
 import torch
 import pandas as pd
 from torch.utils.data import Dataset, DataLoader
-
+from models.ember_structure import PEFilesDeatils
 ### pre-processing ready ember structure data exacting features make them Dataloader tensor:
 ##
 #
 def preprocessing_data_files(detailed_PE_files: list[PEFilesDeatils]):
     data_dicts = [model.dict() for model in detailed_PE_files]
     df = pd.DataFrame(data_dicts)
-    seq_length = 100
-    d_model = 128
+    seq_length = 128
+    d_model = 512
     batch_size = 64
     eval_loader = create_dataloader(df, seq_length, d_model, batch_size) 
     return eval_loader   
@@ -98,7 +98,7 @@ def extract_features(row, seq_length=256, d_model=512):
 
     # 3. Extract string features
     try:
-        string_data = ast.literal_eval(row['strings'].replace("'", '"'))
+        string_data = ast.literal_eval(row['strings'])
         string_features = []
         string_features.append(string_data.get('numstrings', 0) / 10000)
         string_features.append(string_data.get('avlength', 0) / 100)
@@ -130,11 +130,15 @@ def extract_features(row, seq_length=256, d_model=512):
 
     # 4. Extract section information
     try:
+        section_data = None
         try:
             section_data = ast.literal_eval(row['section'].replace("'", '"'))
         except Exception as e:
-            # Stop further processing if the section JSON is malformed.
+            # If section parsing fails, add zeros and skip the rest of this section
             features.append(torch.zeros(seq_length, dtype=torch.float32))
+            return features  # or use "continue" if this is inside a loop
+            
+        # Only proceed if section_data was successfully parsed
         section_features = []
         entry_section = section_data.get('entry', '')
         common_sections = ['.text', '.data', '.rdata', '.rsrc', '.rsro', '.reloc','UPX0','CODE','rmnet','UPX1']
@@ -167,7 +171,7 @@ def extract_features(row, seq_length=256, d_model=512):
             section_features = section_features[:seq_length]
 
         features.append(torch.tensor(section_features, dtype=torch.float32))
-    except (ValueError, KeyError, TypeError):
+    except (ValueError, KeyError, TypeError) as e:
         features.append(torch.zeros(seq_length, dtype=torch.float32))
 
     # 5. Extract import information
