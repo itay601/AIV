@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import pandas as pd
-from logging import error
+from logging import error, info
 
 # =============================
 # Evaluation Function
@@ -18,12 +18,11 @@ def eval_model(
     eval_loss = 0.0
 
     # Disable gradient computation during evaluation
-    with torch.no_grad():
+    with torch.no_grad():            
         for batch_idx, (batch_features, batch_labels) in enumerate(eval_loader):
-            # Move data to the device
-            batch_features = batch_features.to(device)
-            batch_labels = batch_labels.to(device)
-
+            batch_features = [tensor.to(device) for tensor in batch_features]
+            batch_labels = [tensor.to(device) for tensor in batch_labels] 
+            
             outputs = model(batch_features)
             loss = criterion(outputs, batch_labels)
 
