@@ -37,12 +37,16 @@ async def process_packets(request: Request, files: list[PEFilesDeatils]) -> dict
     model = model.to(device)
 
     # Run evaluation
-    avg_loss = eval_model(
+    avg_loss , accuracy , malware_count = eval_model(
         model=model,
         eval_loader=data_loader,
         criterion=criterion,
         device=device
-    )    
+    )
+    # If any malware predictions are found, notify the backend service
+    if malware_count > 0:
+        return {"msg": "Malware instances detected in evaluation."}
+    return {"msg": f"avg loss: {avg_loss} \n accuracy: {accuracy}% \n malware count: {malware_count}"}   
 #####################################
    
 

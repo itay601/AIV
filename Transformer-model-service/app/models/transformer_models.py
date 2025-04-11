@@ -8,6 +8,36 @@ import json
 
 
 # 1.1 Positional Encoding (Sinusoidal)
+'''class PositionalEncoding(nn.Module):
+    def __init__(self, d_model, max_len=5000, dropout=0.1):
+        super(PositionalEncoding, self).__init__()
+        self.dropout = nn.Dropout(p=dropout)
+        self.pe = torch.zeros(max_len, d_model)
+        position = torch.arange(0, max_len, dtype=torch.float32).unsqueeze(1)
+        div_term = torch.exp(torch.arange(0, d_model, 2).float() * -(math.log(10000.0) / d_model))
+        self.pe[:, 0::2] = torch.sin(position * div_term)
+        if d_model % 2 == 1:
+            self.pe[:, 1::2] = torch.cos(position * div_term[: (d_model // 2)])
+        else:
+            self.pe[:, 1::2] = torch.cos(position * div_term)
+        self.pe = self.pe.unsqueeze(0)  # shape: (1, max_len, d_model)
+        #self.register_buffer('pe', self.pe)
+
+    def forward(self, x):
+        """
+        x: Tensor, shape (batch_size, seq_length, d_model)
+        """
+        # Ensure x has the correct dimensions.
+        #if x.dim() == 2:  # shape (seq_length, d_model)
+        #    x = x.unsqueeze(0)  # now (1, seq_length, d_model)
+            
+        # Make sure the positional encoding is on the same device and has the same dtype
+        #self.pe = self.self.pe.to(x.device).type_as(x)
+            
+        # Use x.size(1) to get the sequence length, and slice accordingly.
+        x = x + self.pe[:, :x.size(1)]
+        return self.dropout(x)'''
+
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model, max_len=5000, dropout=0.1):
         super(PositionalEncoding, self).__init__()
@@ -27,9 +57,6 @@ class PositionalEncoding(nn.Module):
         """
         x: Tensor, shape (batch_size, seq_length, d_model)
         """
-        # Convert list to tensor if x is a list
-        if isinstance(x, list):
-            x = torch.tensor(x, dtype=torch.float32)
         x = x + self.pe[:, :x.size(1)]
         return self.dropout(x)
 
@@ -117,6 +144,7 @@ class MoE(nn.Module):
         weights = weights.unsqueeze(1)  # (batch_size, 1, num_experts)
         out = torch.bmm(expert_outputs, weights.transpose(1, 2)).squeeze(-1)
         return out
+
 
 # 1.5 Enhanced MalwareClassifier Putting Everything Together
 class MalwareClassifier(nn.Module):
