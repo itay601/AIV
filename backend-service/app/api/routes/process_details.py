@@ -35,7 +35,10 @@ async def Analyzed_PE_files_transformer_servive(request: Request, detailed_PE_fi
             response.raise_for_status()
         response_data = response.json()
         message = response_data.message
-        if message != "non malicious":    
+        #
+        #need to make more work here 
+        # Malware mybe detected what now ?
+        if message == "Malware instances detected in evaluation":    
             return PEFilesDeatilsResponse(
                 data=detailed_PE_files,
                 message="mallicios files!! check another model processes",
