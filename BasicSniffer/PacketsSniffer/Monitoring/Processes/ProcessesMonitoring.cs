@@ -14,6 +14,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using PacketsSniffer.Core.Utilities;
 using System.Threading.Tasks;
 using PacketsSniffer.Core.Detection;
+using System.Threading;
 
 namespace PacketsSniffer.Monitoring
 {
@@ -86,61 +87,70 @@ namespace PacketsSniffer.Monitoring
                     return;
                 }
                 var processes = Process.GetProcesses();
-                var flag = 0;
-                Console.WriteLine(processes.Count());
+                //Console.WriteLine(processes.Count());
                 string filepath;
                 foreach (var process in processes)
                 {
                     var PreProcess = ExactProcess(process);
-                    ListOfProcesses.Add(PreProcess);
-
+                    if (PreProcess != null)
+                    {
+                        ListOfProcesses.Add(PreProcess);
+                    }
                     if (PreProcess.ContainsKey("ExecutablePath"))
                     {
                         filepath = PreProcess["ExecutablePath"].ToString();
-                        Console.WriteLine($"{filepath}");
+                        //Console.WriteLine($"{filepath}");
                     }
                     else
                     {
-                        Console.WriteLine("ExecutablePath key not found for process with ID: " + process.Id);
+                        //Console.WriteLine("ExecutablePath key not found for process with ID: " + process.Id);
                         continue; // Skip to next process or handle accordingly.
                     }
-                    
-                    
+
+
                     /////// checking analyzing FOR PE FILE ////// 
                     if (PreProcess != null && PEChecker.IsValidPEFile($"@{filepath}") == true)
                     {
                         var s = PEChecker.GetPEFileInfo($"@{filepath}");
 
-                        Console.WriteLine("file name: {}" ,s["FileName"]);
-                        Console.WriteLine(s["IsValidPE"]);
-                        Console.WriteLine(s["MachineType"]);
-                        Console.WriteLine(s["CompilationTime"]);
-                        Console.WriteLine(s["NumberOfSections"]);
-                        Console.WriteLine(s["FileType"]);
-                        Console.WriteLine(s["Characteristics"]);
-                        ListfromProcessesToAnalyzeByEMBERDataset.Add(fileDetection.AnalyzeFileForPEFile(filepath));
-                        //ListfromProcessesToAnalyzeByEMBERDataset.Add(fileDetection.AnalyzeFileForPEFile($"@{filepath}"));
+                        //Console.WriteLine("file name: {}", s["FileName"]);
+                        //Console.WriteLine(s["IsValidPE"]);
+                        //Console.WriteLine(s["MachineType"]);
+                        //Console.WriteLine(s["CompilationTime"]);
+                        //Console.WriteLine(s["NumberOfSections"]);
+                        //Console.WriteLine(s["FileType"]);
+                        //Console.WriteLine(s["Characteristics"]);
+                        var PEfileDetails = fileDetection.AnalyzeFileForPEFile(filepath);
+                        if (PEfileDetails != null)
+                        {
+                            ListfromProcessesToAnalyzeByEMBERDataset.Add(PEfileDetails);
+                        }
+
                     }
-                    flag++;
-                    if (flag % 5 == 0 )//&& ListfromProcessesToAnalyzeByEMBERDataset.Count() == 0)
+                    if (ListOfProcesses.Count() == 8 )//&& 
                     {
                         await sendToBackend.SendProcessToBackend(ListOfProcesses);
                         ListOfProcesses.Clear();
-                        await sendToBackend.SendAnalyzedPEToBackend(ListfromProcessesToAnalyzeByEMBERDataset ,"http://localhost:5000/process/AnalyzedEmberEXEDLL");
+                    }
+                    if (ListfromProcessesToAnalyzeByEMBERDataset.Count() == 8)
+                    {
+                        await sendToBackend.SendAnalyzedPEToBackend(ListfromProcessesToAnalyzeByEMBERDataset, "http://localhost:5000/process/AnalyzedEmberEXEDLL");
                         ListfromProcessesToAnalyzeByEMBERDataset.Clear();
                     }
+                    //await Task.Delay(TimeSpan.FromHours(0.08));
                 }
-
-                Console.WriteLine("Process monitoring started successfully.");
-                Console.WriteLine("Monitoring for suspicious activities...");
+                await Task.Delay(TimeSpan.FromHours(1));
+                //Console.WriteLine("Process monitoring started successfully.");
+                //Console.WriteLine("Monitoring for suspicious activities...");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error starting monitoring: {ex.Message}");
+                //Console.WriteLine($"Error starting monitoring: {ex.Message}");
                 if (!isAdministrator)
                 {
                     Console.WriteLine("Please restart the application with administrator privileges.");
                 }
+                await Task.Delay(TimeSpan.FromHours(1));
             }
         }
         public static Dictionary<string,object> ExactProcess(Process process)
@@ -172,8 +182,8 @@ namespace PacketsSniffer.Monitoring
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error analyzing process {process.Id}: {ex.Message}");
-                return new Dictionary<string, object>();
+                //Console.WriteLine($"Error analyzing process {process.Id}: {ex.Message}");
+                return null;//new Dictionary<string, object>();
             }
         }
 

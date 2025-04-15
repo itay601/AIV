@@ -21,37 +21,8 @@ namespace PacketsSniffer.UI
         {
 
             // Start monitoring in background
-            //_ =  Task.Run(async () => await PacketExtensions.MonitoringPackets());
-            // uncomment when finished analyzed aall exe/dll by ember dataset
+            _ =  Task.Run(async () => await PacketExtensions.MonitoringPackets());
             _ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
-
-
-            //var filePath = $@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe";
-            //var filepath = $@"C:\WINDOWS\System32\DriverStore\FileRepository\asussci2.inf_amd64_f57c48cf404ebc46\AsusAppService\AsusAppService.exe";
-            //var fileDetection = new FileDetectionEMBERSchema();
-            //Console.WriteLine(PEChecker.IsValidPEFile(filepath));
-            //try
-            //{
-            //    var result = fileDetection.AnalyzeFileForPEFile(filepath);
-
-            //    // Convert Dictionary to JSON
-            //    var options = new JsonSerializerOptions
-            //    {
-            //        WriteIndented = true // For pretty-printed JSON
-            //    };
-
-            //    string json = JsonSerializer.Serialize(result, options);
-            //    Console.WriteLine(json);
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine($"Error: {ex.Message}");
-            //}
-            
-
-            //need to be work on special imports like "KERNEL32.dll" 
-            //PEUtility.ExtractPeImports($@"C:\MyProjects\Packet-Sniffer\BasicSniffer\PacketsSniffer\bin\Debug\PacketsSniffer.exe");
 
 
             string choice = "-1";

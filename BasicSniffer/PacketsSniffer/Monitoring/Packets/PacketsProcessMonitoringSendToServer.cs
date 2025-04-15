@@ -21,7 +21,7 @@ using static PacketsSniffer.Monitoring.PacketAnalyzer.HttpPacketAnalyzer;
 
 namespace PacketsSniffer.Monitoring
 {
-    public class PacketProcessor : IDisposable , IJob
+    public class PacketProcessor : IDisposable 
     {
         private static List<Packetss> _capturedPackets = new List<Packetss>();
         private readonly HttpClient _httpClient;
@@ -88,13 +88,14 @@ namespace PacketsSniffer.Monitoring
 
                     // Flush captured packets
                     await FlushPackets();
+                    await Task.Delay(TimeSpan.FromSeconds(intervalSeconds));
                 }
                 finally
                 {
                     // Always remove the handler before the next iteration
                     _device.OnPacketArrival -= snapshotHandler;
-                }
 
+                }
             }
             catch (OperationCanceledException)
             {
@@ -112,7 +113,6 @@ namespace PacketsSniffer.Monitoring
                 //await this.StopMonitoring();
             }
         }
-
         public async Task StopMonitoring()
         {
             _isMonitoring = false;
@@ -123,7 +123,6 @@ namespace PacketsSniffer.Monitoring
                 _device.Close();
             }
         }
-
         private void PacketArrivalEventHandler(object sender, PacketCapture e)
         {
             try
@@ -146,7 +145,6 @@ namespace PacketsSniffer.Monitoring
                 //Console.WriteLine($"Stack trace: {ex.StackTrace}");
             }
         }
-
         private async Task FlushPackets()
         {
             if (_capturedPackets.Any())
@@ -295,11 +293,6 @@ namespace PacketsSniffer.Monitoring
 
             return packetss;
         }
-
-
-
-
-
         public void Dispose()
         {
             _cancellationTokenSource?.Cancel();
@@ -307,11 +300,6 @@ namespace PacketsSniffer.Monitoring
             _httpClient?.Dispose();
             _cancellationTokenSource?.Dispose();
         }
-        public Task Execute(IJobExecutionContext context)
-        {
-            StartMonitoring();
-            Console.WriteLine("Task executed at: " + DateTime.Now);
-            return Task.CompletedTask;
-        }
+        
     }
 }

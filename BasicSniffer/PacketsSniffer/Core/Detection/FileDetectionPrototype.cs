@@ -19,7 +19,7 @@ namespace PacketsSniffer.Core.Detection
             _connectionString = "Server=127.0.0.1;port=3456;database=Samples;uid=root;pwd=my-secret-pw;";
         }
 
-        // Fetch malware hashes from the database
+        //Fetch malware hashes from the database
         private List<string> FetchMalwareHashes()
         {
             var hashes = new List<string>();
@@ -41,10 +41,6 @@ namespace PacketsSniffer.Core.Detection
 
             return hashes;
         }
-        private void InsertMalwareHashes()
-        {
-
-        }
 
         // Calculate the SHA-256 hash of a file
         private string ComputeSha256Hash(string filePath)
@@ -60,7 +56,7 @@ namespace PacketsSniffer.Core.Detection
         }
 
         // Check a single file against malware hashes
-        public bool CheckFile(string filePath)
+        public bool CheckFileIfHashISOFMalware(string filePath)
         {
             try
             {

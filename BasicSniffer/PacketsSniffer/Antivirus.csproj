@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="Core\Database\Packets\DataClassPackets.cs" />
     <Compile Include="Core\Database\SamplesSignitures\Hashes.cs" />
-    <Compile Include="Core\Database\SamplesSignitures\MallwareDataClass.cs" />
     <Compile Include="Core\Database\SamplesSignitures\MallwareSignituresDatabaseMaintain.cs" />
     <Compile Include="Core\Database\SamplesSignitures\FluxDNSDataClasses.cs" />
     <Compile Include="Core\Detection\FileDetectionEMBERSchema.cs" />
@@ -59,7 +58,6 @@
     <Compile Include="Monitoring\Processes\ProcessExtentions.cs" />
     <Compile Include="UI\BackgroundMonitoringConsole.cs" />
     <Compile Include="UI\MainConsole.cs" />
-    <None Include="Core\Database\sql\Dockerfile" />
     <Compile Include="Core\Detection\FileDetectionPrototype.cs" />
     <Compile Include="UI\ConsoleTerminal.cs" />
     <Compile Include="Monitoring\Packets\PacketSniffer.cs" />
@@ -197,14 +195,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AI\DataPreprocessing\" />
-    <Folder Include="AI\MachineLearning\" />
     <Folder Include="Performance\" />
     <Folder Include="Service\" />
     <Folder Include="ThreatIntelligence\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Core\Database\sql\DB.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

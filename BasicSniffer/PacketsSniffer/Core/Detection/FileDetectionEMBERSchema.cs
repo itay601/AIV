@@ -53,17 +53,6 @@ namespace PacketsSniffer.Core.Detection
                     ["histogram"] = PEUtility.GetByteHistogram(fileBytes),
                     ["byteEntropy"] = PEUtility.GetByteEntropyHistogram(fileBytes),
                     ["strings"] = PEUtility.ExtractStringFeatures(fileBytes),
-                                                                //strings ={    
-                                                                //  "numstrings": 170,
-                                                                //  "avlength": 8.170588235294117,
-                                                                //  "printabledist": [15, ... 6],
-                                                                //  "printables": 1389,
-                                                                //  "entropy": 6.259255409240723,
-                                                                //  "paths": 0,
-                                                                //  "urls": 0,
-                                                                //  "registry": 0,
-                                                                //  "MZ": 1
-                                                                //}
                 };
                 
                 // Now send processInfo for further processing (example: for ML or logging)
@@ -71,8 +60,8 @@ namespace PacketsSniffer.Core.Detection
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error analyzing process {filePath}: {ex.Message}");
-                return new Dictionary<string, object>();
+                //Console.WriteLine($"Error analyzing process {filePath}: {ex.Message}");
+                return null;//new Dictionary<string, object>();
             }
         }
         private string ComputeSha256Hash(string filePath)
@@ -82,7 +71,7 @@ namespace PacketsSniffer.Core.Detection
                 using (var stream = File.OpenRead(filePath))
                 {
                     var hashBytes = sha256.ComputeHash(stream);
-                    Console.WriteLine(BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant());
+                    //Console.WriteLine(BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant());
                     return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
                 }
             }

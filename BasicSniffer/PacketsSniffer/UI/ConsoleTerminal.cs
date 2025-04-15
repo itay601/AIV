@@ -32,7 +32,7 @@ namespace PacketsSniffer
                 fileLocation = Console.ReadLine();
             }
             string filePath = "C:\\MyProjects\\a.exe";
-            if (detector.CheckFile(filePath))
+            if (detector.CheckFileIfHashISOFMalware(filePath))
             {
                 Console.WriteLine("Malware detected!");
             }
