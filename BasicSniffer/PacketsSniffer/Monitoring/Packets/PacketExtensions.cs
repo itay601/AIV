@@ -28,8 +28,7 @@ namespace PacketsSniffer.Monitoring
         {
             var processor = new PacketProcessor();
 
-            Observable.Interval(TimeSpan.FromSeconds(20)).Subscribe(async x => await processor.StartMonitoring(20));
-
+            Observable.Interval(TimeSpan.FromSeconds(10)).Take(1).Subscribe(async x => await processor.StartMonitoring(60));
             // To stop monitoring
             //await processor.StopMonitoring();
         }

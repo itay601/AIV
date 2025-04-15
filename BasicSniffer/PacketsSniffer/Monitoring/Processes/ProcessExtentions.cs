@@ -12,8 +12,6 @@ namespace PacketsSniffer.Monitoring.Processes
         public static async Task MonitoringProcesses()
         {
             var processor = new ProcessesMonitoring();
-
-            //Observable.Interval(TimeSpan.FromHours(1)).Subscribe(async x => await processor.StartMonitoring());
             Observable.Interval(TimeSpan.FromSeconds(5)).Subscribe(async x => await processor.StartMonitoring());
         }
     }

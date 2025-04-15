@@ -51,7 +51,7 @@ namespace PacketsSniffer.Core.Utilities
                 };
 
                 var json = System.Text.Json.JsonSerializer.Serialize(formattedProcesses, options);
-                Console.WriteLine("Sending JSON:");
+                //Console.WriteLine("Sending JSON:");
                 //Console.WriteLine(json);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -59,18 +59,18 @@ namespace PacketsSniffer.Core.Utilities
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Failed to send processes: {response.StatusCode}");
+                   // Console.WriteLine($"Failed to send processes: {response.StatusCode}");
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Response body: {responseBody}");
+                    //Console.WriteLine($"Response body: {responseBody}");
                 }
                 else
                 {
-                    Console.WriteLine("sc: 200");
+                    //Console.WriteLine("sc: 200");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error sending packets to backend: {ex.Message}");
+                Console.WriteLine($"Error sending Process-Details to backend: {ex.Message}");
             }
         }
         public async Task SendAnalyzedPEToBackend(List<Dictionary<string, object>> PEAnalyzedEMBERDataset, string url)
@@ -80,7 +80,7 @@ namespace PacketsSniffer.Core.Utilities
                 WriteIndented = true // Makes the JSON more readable for debugging
             };
             var jsonPayload = System.Text.Json.JsonSerializer.Serialize(PEAnalyzedEMBERDataset, options);
-            Console.WriteLine($"Sending JSON:{jsonPayload}");
+            //Console.WriteLine($"Sending JSON:{jsonPayload}");
             // Serialize the list to JSON.
 
 
@@ -96,8 +96,8 @@ namespace PacketsSniffer.Core.Utilities
                     if (response.IsSuccessStatusCode)
                     {
                         string responseContent = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine("Data sent successfully. Server response:");
-                        Console.WriteLine(responseContent);
+                        //Console.WriteLine("Data sent successfully. Server response:");
+                        //Console.WriteLine(responseContent);
                     }
                     else
                     {
@@ -113,7 +113,7 @@ namespace PacketsSniffer.Core.Utilities
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An error occurred while sending the data: {ex.Message}");
+                    Console.WriteLine($"An error occurred while sending the data . (processes-PE-details-by-EMBER-structure): {ex.Message}");
                 }
             }
         }

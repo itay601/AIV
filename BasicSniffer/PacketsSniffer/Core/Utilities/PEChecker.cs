@@ -63,7 +63,7 @@ namespace PacketsSniffer.Core.Utilities
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error checking PE format: {ex.Message}");
+                //Console.WriteLine($"Error checking PE format: {ex.Message}");
                 return false;
             }
         }
