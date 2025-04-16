@@ -12,17 +12,19 @@ using PacketsSniffer.Core.Scanners;
 using PacketsSniffer.Core.Utilities;
 using PacketsSniffer.Monitoring;
 using PacketsSniffer.Monitoring.Processes;
+using Ex02.ConsoleUtils;
+using System.Reflection;
+
 
 namespace PacketsSniffer.UI
 {
     internal class MainConsole
     {
         public static async void MainConsoleDisplay()
-        {
-
+        { 
             // Start monitoring in background
-            _ =  Task.Run(async () => await PacketExtensions.MonitoringPackets());
-            _ =  Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
+            _ = Task.Run(async () => await PacketExtensions.MonitoringPackets());
+            _ = Task.Run(async () => await ProcessExtentions.MonitoringProcesses());
 
 
             string choice = "-1";

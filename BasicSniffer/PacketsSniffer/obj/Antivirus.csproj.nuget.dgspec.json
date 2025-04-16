@@ -1,0 +1,118 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Antivirus.csproj": {}
+  },
+  "projects": {
+    "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Antivirus.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Antivirus.csproj",
+        "projectName": "PacketsSniffer",
+        "projectPath": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Antivirus.csproj",
+        "packagesPath": "C:\\Users\\itaym\\.nuget\\packages\\",
+        "outputPath": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "UsingMicrosoftNETSdk": false,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\itaym\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "projectReferences": {}
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "dependencies": {
+            "DnsClient": {
+              "target": "Package",
+              "version": "[1.8.0, )"
+            },
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "Mono.Cecil": {
+              "target": "Package",
+              "version": "[0.11.6, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[9.1.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "PacketDotNet": {
+              "target": "Package",
+              "version": "[1.4.8-pre20, )"
+            },
+            "PeNet": {
+              "target": "Package",
+              "version": "[4.1.1, )"
+            },
+            "Quartz": {
+              "target": "Package",
+              "version": "[3.13.1, )"
+            },
+            "SharpPcap": {
+              "target": "Package",
+              "version": "[6.3.0, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.9.0, )"
+            },
+            "System.Reactive": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "System.Reflection.Metadata": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-arm64": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

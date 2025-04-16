@@ -28,6 +28,10 @@ namespace PacketsSniffer.Core.Detection
         {
             public bool Equals(string x, string y)
             {
+                if (x == null|| y == null)
+                {
+                    return false;
+                }
                 return string.Equals(x, y, StringComparison.OrdinalIgnoreCase);
             }
 
