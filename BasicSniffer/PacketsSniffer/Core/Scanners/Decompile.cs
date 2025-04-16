@@ -5,7 +5,7 @@ using Mono.Cecil.Cil;
 
 namespace PacketsSniffer.Core.Scanners
 {
-  
+
     //public class Decompiler
     //{
     //    public static void AnalyzeAssembly(string assemblyPath)

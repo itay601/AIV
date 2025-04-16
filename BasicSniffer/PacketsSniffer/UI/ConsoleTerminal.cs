@@ -10,6 +10,8 @@ using MySql.Data.MySqlClient;
 using PacketsSniffer.Core.Detection;
 using PacketsSniffer.Monitoring;
 using PacketsSniffer.UI;
+using Ex02.ConsoleUtils;
+
 
 
 namespace PacketsSniffer

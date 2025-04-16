@@ -10,7 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Net;
-using System.Runtime.InteropServices.WindowsRuntime;
+//using System.Runtime.InteropServices.WindowsRuntime;
 using PacketsSniffer.Core.Utilities;
 using System.Threading.Tasks;
 using PacketsSniffer.Core.Detection;
@@ -149,8 +149,8 @@ namespace PacketsSniffer.Monitoring
                 if (!isAdministrator)
                 {
                     Console.WriteLine("Please restart the application with administrator privileges.");
+                    await Task.Delay(TimeSpan.FromHours(1));
                 }
-                await Task.Delay(TimeSpan.FromHours(1));
             }
         }
         public static Dictionary<string,object> ExactProcess(Process process)
