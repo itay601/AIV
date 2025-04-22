@@ -12,15 +12,15 @@
 ### 🛡️ Database Development Tasks
 
 #### Signature Database Creation
-- [ ] Research and identify safe malware sample sources
+- [V] Research and identify safe malware sample sources . (EMBER dataset)
 - [ ] Design database schema
   - [ ] Define signature storage structure
   - [ ] Create data models for threat signatures
 - [ ] Implement signature extraction mechanisms
   - [ ] Hash generation module
-  - [ ] Static analysis utilities
+  - [V] Static analysis utilities(only for .NET EXE/DLL binary files)
 - [ ] Develop signature storage methods
-  - [ ] CSV implementation
+  - [V] CSV implementation
 ### 🔍 Core Detection Modules
 
 #### Scanning Capabilities
@@ -61,19 +61,20 @@
 
 ### 🔄 Background Services
 #### Transformer service 
-- [ ] Pre-Processing EMBER dataset
-- [ ] Building Transformer
-- [ ] Traning and checking Real Learning
+- [V] Pre-Processing EMBER dataset
+- [V] Building Transformer
+- [V] Traning and checking Real Learning (ACC: 60%)
 
 
 #### AE Packets detectore
-- [ ]
+- [V] -AutoEncoder model
 - [ ]
 - [ ]
 
 #### Monitoring Services
-- [ ] RealTimeMonitor
+- [V] RealTimeMonitor (NOT Effisient)
   - [ ] Continuous file system scanning
+  - [V] Continuous processes scanning
   - [ ] Low-overhead monitoring
 - [ ] ProcessScanner
   - [V] Running process analysis
@@ -85,16 +86,16 @@
 ### 🧪 Testing Strategy
 
 #### Test Coverage
-- [ ] Unit Tests
+- [V] Unit Tests (the important mechanism)
   - [ ] FileScanner tests
   - [ ] Detection logic verification
   - [ ] Database functionality tests
 - [ ] Integration Tests
   - [ ] End-to-end scanning scenarios
   - [ ] Performance benchmarks
-- [ ] Create test malware sample set
-  - [ ] EICAR standard test files
-  - [ ] Sanitized research samples
+- [V] Create test malware sample set
+  - [V] EICAR standard test files
+  - [V] Sanitized research samples
 
 ### 🔒 Security Considerations
 
