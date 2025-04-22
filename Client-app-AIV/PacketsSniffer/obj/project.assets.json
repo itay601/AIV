@@ -4164,11 +4164,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Antivirus.csproj",
+      "projectUniqueName": "C:\\MyProjects\\Packet-Sniffer\\Client-app-AIV\\PacketsSniffer\\Antivirus.csproj",
       "projectName": "PacketsSniffer",
-      "projectPath": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Antivirus.csproj",
+      "projectPath": "C:\\MyProjects\\Packet-Sniffer\\Client-app-AIV\\PacketsSniffer\\Antivirus.csproj",
       "packagesPath": "C:\\Users\\itaym\\.nuget\\packages\\",
-      "outputPath": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\obj\\",
+      "outputPath": "C:\\MyProjects\\Packet-Sniffer\\Client-app-AIV\\PacketsSniffer\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "UsingMicrosoftNETSdk": false,

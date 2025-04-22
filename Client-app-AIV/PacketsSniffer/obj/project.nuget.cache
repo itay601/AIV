@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "F3MBfY34tv0=",
+  "dgSpecHash": "AOBJU3TA1Lw=",
   "success": true,
-  "projectFilePath": "C:\\MyProjects\\Packet-Sniffer\\BasicSniffer\\PacketsSniffer\\Antivirus.csproj",
+  "projectFilePath": "C:\\MyProjects\\Packet-Sniffer\\Client-app-AIV\\PacketsSniffer\\Antivirus.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\itaym\\.nuget\\packages\\bouncycastle.cryptography\\2.3.1\\bouncycastle.cryptography.2.3.1.nupkg.sha512",
     "C:\\Users\\itaym\\.nuget\\packages\\dnsclient\\1.8.0\\dnsclient.1.8.0.nupkg.sha512",

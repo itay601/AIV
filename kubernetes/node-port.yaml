@@ -5,8 +5,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 80              # Service port (inside the cluster)
-    targetPort: 5000      # Port your application is listening on (in the pod)
-    nodePort: 30080       # Port exposed on your instance (must be in range 30000-32767)
+  - port: 80              
+    targetPort: 5000
+    nodePort: 30080       
   selector:
-    run: backend-server   # Should match the labels on your pod
+    run: server   
