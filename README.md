@@ -1,158 +1,197 @@
 # Antivirus Project
 
-## Project Development Roadmap and Task Checklist
+## AIV: Advanced Intrusion Visualization & Analysis
+- Welcome to AIV, a sophisticated system for packet analysis, process scanning, and static analysis of Portable Executable (PE) files. This project integrates a Windows client console application developed in C# with multiple microservices built using FastAPI, providing functionality similar to Wireshark alongside advanced machine learning analysis for security monitoring.
 
-### 🚀 Project Initialization Phase
+----------------------------------------------------------------------------------------------------------------------
+### Table of Contents 
+- [Project Overview ](https://github.com/itay601/AIV/edit/main/README.md#project-overview)
+- [Components](https://github.com/itay601/AIV/edit/main/README.md#components)
+  - [Client Application (C#)](https://github.com/itay601/AIV/edit/main/README.md#client-application-c)) 
+  [** Microservices **](https://github.com/itay601/AIV/edit/main/README.md#microservices)
+    -[ Autoencoder Service](https://github.com/itay601/AIV/edit/main/README.md#autoencoder-service)
+    -[ Transformer Service](https://github.com/itay601/AIV/edit/main/README.md#transformer-service)
+    -[ Backend Routing Service](https://github.com/itay601/AIV/edit/main/README.md#backend-routing-service)
+  - [Database (MySQL)](https://github.com/itay601/AIV/edit/main/README.md#database)
+- [Features](https://github.com/itay601/AIV/edit/main/README.md#features)
+- [Setup & Installation](https://github.com/itay601/AIV/edit/main/README.md#components)
+  - [Download the Client App](https://github.com/itay601/AIV/edit/main/README.md#components)
+  - [Local Setup with Docker](https://github.com/itay601/AIV/edit/main/README.md#components)
+- [Usage](https://github.com/itay601/AIV/edit/main/README.md#usage)
+- [Structure Details](https://github.com/itay601/AIV/edit/main/README.md#structure-details)
+- [License](https://github.com/itay601/AIV/edit/main/README.md#license)
 
-#### Core Infrastructure Setup
-- [V] Create initial project structure
-- [V] Set up .gitignore for C# and sensitive files
-- [V] Initialize solution and core projects
+----------------------------------------------------------------------------------------------------------------------
 
-### 🛡️ Database Development Tasks
+### Project Overview
+##### AIV is designed to serve as a comprehensive packet analysis and security monitoring tool with the following objectives:
 
-#### Signature Database Creation
-- [V] Research and identify safe malware sample sources . (EMBER dataset)
-- [ ] Design database schema
-  - [ ] Define signature storage structure
-  - [ ] Create data models for threat signatures
-- [ ] Implement signature extraction mechanisms
-  - [ ] Hash generation module
-  - [V] Static analysis utilities(only for .NET EXE/DLL binary files)
-- [ ] Develop signature storage methods
-  - [V] CSV implementation
-### 🔍 Core Detection Modules
+* Packet Analysis & Presentation: A client console application written in C# that captures, analyzes, and displays network packets (similar to Wireshark) in real time.
 
-#### Scanning Capabilities
-- [V] Implement FileScanner
-  - [ V ] Hash-based detection
-  - [ V ] Signature matching
-- [V] Develop RealTimeScanner
-  - [V] File system monitoring
-  - [ ] Instant threat detection
-- [V] Create SandboxAnalyzer
-  - [V] Behavioral analysis framework
-  - [V] Isolated execution environment
-  (only for some sample i did it (educatunal))
-#### Detection Strategies
-- [ ] Signature-based Detection
-  - [ ] Implement match algorithms
-  - [ ] Optimize matching performance
-- [V] Heuristic Detection
-  - [V] Develop suspicious behavior identification
-- [V] Behavioral Detection
-  - [V] Process and network activity analysis
+* Process Scanning: It scans all running processes using the executable along with machine learning techniques to detect unusual process behaviors.
 
-### 🖥️ User Interface Development
+* Static PE Analysis: Performs static analysis on .NET binaries by extracting detailed information from executable (EXE) and dynamic link library (DLL) files. It leverages the EMBER dataset for in-depth static analysis.
 
-#### UI Components
-- [ ] Design MainForm
-  - [ ] Scan initiation
-  - [ ] Status reporting
-- [ ] Create ScanResultForm
-  - [ ] Detailed threat information
-  - [ ] Actionable quarantine options
-- [ ] Develop QuarantineView
-  - [ ] Threat management
-  - [ ] Restoration capabilities
-- [ ] Build SettingsForm
-  - [ ] Customization options
-  - [ ] Update and scanning preferences
+### Machine Learning Microservices:
+- Autoencoder for Packet Analysis: A custom autoencoder model to identify anomalous packets.
+- Transformer Encoder for Classification: A FastAPI microservice that uses a transformer encoder architecture to classify unusual packets.
+- Backend Service: A FastAPI-based backend routes client requests to the appropriate microservices.
+- Database: A simple MySQL microservice is prepared for storing and managing project-specific data, with custom table schemas (currently in development/standalone).
 
-### 🔄 Background Services
-#### Transformer service 
-- [V] Pre-Processing EMBER dataset
-- [V] Building Transformer
-- [V] Traning and checking Real Learning (ACC: 60%)
+----------------------------------------------------------------------------------------------------------------------
+### Components
+##### Client Application (C#)
+
+Developed as a Windows console application.
+
+Responsibilities:
+
+Capture and analyze network packets.
+
+Present data in a user-friendly format.
+
+Scan running processes to identify suspicious activities.
+
+Extract details from EXE and DLL files using the EMBER dataset.
+
+----------------------------------------------------------------------------------------------------------------------
+#### Microservices
+##### The project utilizes Docker to deploy and manage microservices which are built with FastAPI:
+
+##### Autoencoder Service
+
+Purpose: Detect unusual network packets using your custom autoencoder model.
+
+Deployment: Available as a Docker image (itay601/itay601-images:autoencoder-v1.0).
+
+##### Transformer Service
+
+Purpose: Classify packets for security analysis.
+
+Deployment: Available as a Docker image (itay601/itay601-images:transformer-v1.0).
+
+##### Backend Routing Service
+
+Purpose: Acts as the central hub that routes requests between the client and other microservices.
+
+Deployment: Available as a Docker image (itay601/itay601-images:v1.0).
+
+##### Database (MySQL)
+
+A basic MySQL microservice has been set up to handle data storage.
+
+Status: The database includes foundational table structures and schema design, with integration to the other components currently in progress.
+
+----------------------------------------------------------------------------------------------------------------------
+#### Features
+
+Real-Time Packet Analysis: Monitor live network traffic similar to Wireshark.
+
+Process and Static PE Analysis: Comprehensive scanning and analysis of running processes and .NET binaries.
+
+Anomaly Detection with Autoencoder: Automated detection of unusual network activity.
+
+Classification with Transformer Encoder: High-performance classification of abnormal packets.
+
+Microservice Deployment: All major services are containerized with Docker for scalability and ease of deployment.
+
+Modular Architecture: Easily extendable and maintainable structure to support future enhancements.
+
+----------------------------------------------------------------------------------------------------------------------
+#### Setup & Installation
+
+Download the Client App
+Download the AV Client Application for Windows:
+
+##### 👉 [Click here to download AV Client App (.exe)](https://github.com/itay601/Packet-Sniffer/blob/main/BasicSniffer/Antivirus-setup/Release/Antivirus-setup.msi)
+
+Local Setup with Docker
+Prerequisites
+Docker: Ensure you have Docker installed on your local machine. You can download it from Docker's official website.
+Pull the Microservices
+Open your terminal and pull the required Docker images using the following commands:
+
+docker pull itay601/itay601-images:autoencoder-v1.0
+docker pull itay601/itay601-images:transformer-v1.0
+docker pull itay601/itay601-images:v1.0  # (Backend Routing Service)
+
+----------------------------------------------------------------------------------------------------------------------
+#### Usage
+Run the Microservices:
+Start each image using Docker:
+
+bash
+
+Copy
+docker run -d -p 5000:5000 itay601/itay601-images:autoencoder-v1.0
+docker run -d -p 5001:5001 itay601/itay601-images:transformer-v1.0
+docker run -d -p 5002:5002 itay601/itay601-images:v1.0
 
 
-#### AE Packets detectore
-- [V] -AutoEncoder model
-- [ ]
-- [ ]
+Start the Client:
 
-#### Monitoring Services
-- [V] RealTimeMonitor (NOT Effisient)
-  - [ ] Continuous file system scanning
-  - [V] Continuous processes scanning
-  - [ ] Low-overhead monitoring
-- [ ] ProcessScanner
-  - [V] Running process analysis
-  - [ ] Threat identification
-- [V] NetworkMonitor
-  - [V] Network activity tracking
-  - [V] Suspicious connection detection
+Launch the downloaded Windows client application. Ensure that the microservices are accessible from the client by configuring the correct endpoint URIs if necessary.
 
-### 🧪 Testing Strategy
+Monitor & Analyze:
 
-#### Test Coverage
-- [V] Unit Tests (the important mechanism)
-  - [ ] FileScanner tests
-  - [ ] Detection logic verification
-  - [ ] Database functionality tests
-- [ ] Integration Tests
-  - [ ] End-to-end scanning scenarios
-  - [ ] Performance benchmarks
-- [V] Create test malware sample set
-  - [V] EICAR standard test files
-  - [V] Sanitized research samples
+Utilize the client to capture network packets, scan running processes, and perform static analysis on .NET binaries.
 
-### 🔒 Security Considerations
+----------------------------------------------------------------------------------------------------------------------
+#### Structure Details
 
-#### Private Repo Security Measures
-- [ ] Implement secure credential management
-- [ ] Set up GitHub/Azure DevOps access controls
-- [ ] Configure branch protection
-- [ ] Enable two-factor authentication
-- [ ] Regular security audits of codebase
+##### Client Console Application
 
-### 📦 Deployment Preparation
+- Implementation: C# application that integrates:
+- Packet Capture and Presentation: Real-time network data analysis similar to Wireshark.
+- Process Analysis: Scanning of all running processes, leveraging machine learning for anomaly detection.
+- Static Analysis: Detailed parsing of PE files (EXE, DLL) using data from the EMBER dataset.
+##### Microservices
+##### FastAPI Autoencoder Service:
+Implements a custom autoencoder algorithm to flag unusual packets.
+##### FastAPI Transformer Service:
+Utilizes an encoder-only transformer model for packet classification.
+##### FastAPI Backend Service:
+Routes client requests and orchestrates communication between services.
+##### Database
+- MySQL Setup:
 
-#### Update Mechanism
-- [ ] Design signature update protocol
-- [ ] Implement UpdateManager
-- [ ] Create secure update server infrastructure
-- [ ] Define update frequency and validation
+A simple MySQL microservice configured for data persistence.
 
-### 📈 Performance Optimization
+Contains preliminary schema definitions, with plans for further integration.
 
-- [ ] Profiling and performance testing
-- [ ] Optimize scanning algorithms
-- [ ] Minimize resource consumption
-- [ ] Implement efficient caching mechanisms
+----------------------------------------------------------------------------------------------------------------------
+#### License
+### MIT License
 
-## Recommended Tools and Resources
+Copyright (c) [2025] [Itay Marlinsly]
 
-### Development
-- Visual Studio 2022
-- .NET 6.0+ SDK
-- ReSharper (optional)
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-### Security Resources
-- MITRE ATT&CK Framework
-- VirusTotal (for research)
-- OWASP guidelines
+1. **Attribution and Third-Party Licenses:**  
+   - This project incorporates the **EMBER dataset** for machine learning and deep learning processes. Use of the EMBER dataset is subject to the terms and conditions provided by its original authors. By using this project, you agree to comply with the EMBER dataset license and acknowledge that any models or analysis results derived from it are subject to those terms.
+   - This project employs **MonoCIL LIB** to perform manual static analysis on Portable Executable (PE) files. Use of MonoCIL LIB is governed by its own license, and you must comply with all applicable terms and conditions as specified in the MonoCIL LIB documentation and license file.
 
-### Malware Research
-- MalwareBazaar
-- VirusShare (with proper access)
-- Academic malware repositories
+2. **Redistribution:**  
+   Redistributions of source code must retain the above copyright
+   notice, this list of conditions, and the following disclaimer.
 
-## Ethical and Legal Guidelines
+3. **Disclaimer:**  
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+   THE SOFTWARE.
 
-1. Use samples only for research
-2. Obtain proper authorizations
-3. Comply with local cybersecurity regulations
-4. Maintain strict confidentiality
+4. **Third-Party Components:**  
+   - **EMBER Dataset:** Usage of the EMBER dataset must strictly adhere to the terms of its license. Redistribution of the dataset or derivative works based on the dataset (without explicit permission) is prohibited.
+   - **MonoCIL LIB:** All usage of MonoCIL LIB within this project is in compliance with its license. Any modifications or distributions involving MonoCIL LIB must reflect the original license and attribution as required by its maintainers.
 
-## Next Immediate Actions
+By using or distributing this software, you acknowledge that you have read and understood these terms.
 
-1. Clone the repository
-2. Set up development environment
-3. Begin with database design
-4. Implement core scanning infrastructure
-5. Develop initial detection mechanisms
-
----
-
-**CONFIDENTIAL:** This project and all associated materials are strictly private and confidential.
