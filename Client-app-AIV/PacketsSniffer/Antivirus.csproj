@@ -63,6 +63,7 @@
     <Compile Include="UI\ConsoleTerminal.cs" />
     <Compile Include="Monitoring\Packets\PacketSniffer.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Utills\aa.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Ex02.ConsoleUtils">
